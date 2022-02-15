@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum, auto
-from typing import Union, Any
+from typing import Any, Union
 
 import attrs
 
@@ -155,7 +155,7 @@ class Email(CommunicationWay):
 
         if self.parent:
             self.parent.email = self
-    
+
     def delete(self, client: Client):
         super().delete(client)
 

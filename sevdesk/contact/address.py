@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Union, Any
+from typing import Any, Union
 
 import attrs
 
@@ -121,7 +121,7 @@ class InvoiceAddress(Address):
 
         if self.parent:
             self.parent.invoice_address = self
-        
+
     def delete(self, client: Client):
         super().delete(client)
 
@@ -142,7 +142,7 @@ class DeliveryAddress(Address):
 
         if self.parent:
             self.parent.delivery_address = self
-    
+
     def delete(self, client: Client):
         super().delete(client)
 
