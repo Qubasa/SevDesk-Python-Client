@@ -116,7 +116,7 @@ class Contact:
         pass
 
     @classmethod
-    def get_by_customer_nummer(
+    def get_by_customer_number(
         cls, client: Client, customer_number: str
     ) -> Union[Unset, Contact]:
         """

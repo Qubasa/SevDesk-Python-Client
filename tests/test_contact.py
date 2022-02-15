@@ -12,7 +12,7 @@ def test_get_customer_by_id():
     client = Client(base_url="https://my.sevdesk.de/api/v1", token=token)
 
     # A Test-Customer should already exist in SevDesk
-    customer = Customer.get_by_customer_nummer(client, "1000")
+    customer = Customer.get_by_customer_number(client, "1000")
 
     assert not isinstance(customer, Unset)
 
@@ -55,7 +55,7 @@ def test_customer():
     )
 
     customer.update(client)
-    cloud = Customer.get_by_customer_nummer(client, "1001")
+    cloud = Customer.get_by_customer_number(client, "1001")
 
     assert not isinstance(cloud, Unset)
     assert customer.surename == cloud.surename
