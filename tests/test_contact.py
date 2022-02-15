@@ -13,8 +13,7 @@ def test_get_customer_by_id():
 
     # A Test-Customer should already exist in SevDesk
     customer = Customer.get_by_customer_number(client, "1000")
-
-    assert not isinstance(customer, Unset)
+    assert customer is not None
 
 
 def test_customer():
