@@ -1,9 +1,9 @@
 cwd="$PWD"
 cmd=""
 
-cd ./src/contact/
+cd ./sevdesk/contact/
 
-if [ -d "contact-client" ]; then
+if [ -d "client" ]; then
     cmd="update"
 else 
     cmd="generate"

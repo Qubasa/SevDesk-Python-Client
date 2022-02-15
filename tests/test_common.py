@@ -1,10 +1,8 @@
 import os
-from sevdesk import __version__
-from sevdesk.common import UNSET
-from sevdesk.common import ApiObjectCache, ApiObjectType
-from sevdesk import Client
+from enum import Enum
 
-from enum import Enum, auto
+from sevdesk import Client, __version__
+from sevdesk.common import UNSET, ApiObjectCache, ApiObjectType
 
 
 class AddressType(str, Enum):

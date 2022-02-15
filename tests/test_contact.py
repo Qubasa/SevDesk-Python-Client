@@ -1,8 +1,8 @@
 import os
 
 from sevdesk import Client
-from sevdesk.contact import Customer, Email, Phone, DeliveryAddress, InvoiceAddress
 from sevdesk.common import Unset
+from sevdesk.contact import Customer, DeliveryAddress, Email, InvoiceAddress, Phone
 from sevdesk.contact.communicationway import CommunicationWayKey
 
 
@@ -63,5 +63,8 @@ def test_customer():
     assert customer.email.value == cloud.email.value
     assert customer.phone.value == cloud.phone.value
 
-    # TODO: Test Delete
-    # TODO: Test Update/Delete
+    # TODO: Test only delete a specific property of a contact
+
+    customer.delete(client)
+    cloud = Customer.get_by_customer_number(client, "1001")
+    assert cloud is None

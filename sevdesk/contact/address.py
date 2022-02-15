@@ -1,26 +1,23 @@
-# Typing
 from __future__ import annotations
-from audioop import add
-from typing import Union
+
 from enum import Enum
+from typing import Union
+
 import attrs
 
 from .. import Client
-from ..common import ApiObject, ApiObjectCache, ApiObjectType, SevDesk, UNSET, Unset
-
-from .client.models import (
-    ContactAddress,
-    ContactAddressCategory,
-    ContactAddressCountry,
-    ContactAddressContact,
-    ContactAddAddressJsonBody,
-)
+from ..common import UNSET, ApiObject, ApiObjectCache, ApiObjectType, SevDesk, Unset
 from .client.api.contact_address import (
     create_contact_address,
     delete_contact_address,
     update_contact_address,
 )
-from sevdesk.contact.client.api import contact_address
+from .client.models import (
+    ContactAddress,
+    ContactAddressCategory,
+    ContactAddressContact,
+    ContactAddressCountry,
+)
 
 
 class AddressCategory(str, Enum):

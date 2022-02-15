@@ -1,28 +1,23 @@
 from __future__ import annotations
 
-import logging
-from enum import Enum
-from typing import Dict, Union
-from unicodedata import category
+from typing import Union
 
 import attrs
-from cattr import UnstructureStrategy
 from sevdesk.contact.address import AddressCategory
-
 from sevdesk.contact.client.models.communication_way_model_type import (
     CommunicationWayModelType,
 )
 
-
-#
-# OpenAPI SevDesk Client
-
 from .. import Client
-from ..common import ApiObject, ApiObjectCache, ApiObjectType, SevDesk, UNSET, Unset
-from . import DeliveryAddress, InvoiceAddress, Email, Phone, CommunicationWayKey
-
-from .client.models import ContactModelCategory, GetContactsDepth, ContactModel
-from .client.api.contact import get_contacts, create_contact, update_contact
+from ..common import UNSET, ApiObjectCache, ApiObjectType, SevDesk, Unset
+from . import CommunicationWayKey, DeliveryAddress, Email, InvoiceAddress, Phone
+from .client.api.contact import (
+    create_contact,
+    delete_contact,
+    get_contacts,
+    update_contact,
+)
+from .client.models import ContactModel, ContactModelCategory, GetContactsDepth
 
 
 @attrs.define()
@@ -113,12 +108,31 @@ class Contact:
             self.phone.update(client)
 
     def delete(self, client: Client):
-        pass
+        """
+        Delete contact and its properties
+        """
+        if self.invoice_address:
+            self.invoice_address.delete(client)
+
+        if self.delivery_address:
+            self.delivery_address.delete(client)
+
+        if self.email:
+            self.email.delete(client)
+
+        if self.phone:
+            self.phone.delete(client)
+
+        response = delete_contact.sync_detailed(contact_id=self.id, client=client)
+
+        SevDesk.raise_for_status(
+            response, f"deleting contact {self.surename} {self.familyname}"
+        )
 
     @classmethod
     def get_by_customer_number(
         cls, client: Client, customer_number: str
-    ) -> Union[Unset, Contact]:
+    ) -> Union[None, Contact]:
         """
         This API Abstraction makes using customer numbers mandatory.
         For example, Shopify-Customers can be mapped to SevDesk Contacts by using their Shopify (Legacy) ID
@@ -135,7 +149,7 @@ class Contact:
         )
 
         if not response.parsed.objects:
-            return UNSET
+            return None
 
         cache = ApiObjectCache(client=client)
         object = response.parsed.objects[0]
@@ -227,213 +241,6 @@ class Contact:
             delivery_address=delivery_address,
             invoice_address=invoice_address,
         )
-
-
-# A convinent class to access the SevDesk contact API
-# The class implies some limitations to make updating/handling of contacts easier
-# - A contact can only have one invoice address, shipping address, E-Mail and Phone-Number
-# - The API exposes methods to conviniently use Shopify Webhooks (update and create)
-class ContactApi:
-    def __init__(self, client) -> None:
-        self._client = client
-
-        # Some Resources needed when working with the API, fetched once
-        self.sevdesk = SevDesk(client=self._client)
-        self.countries = self.sevdesk.countries()
-        self.address_categories = self.sevdesk.contact_address_categories()
-        self.communication_ways = self.sevdesk.communication_way_keys()
-
-    def get_contact_by_customer_number(self, customer_number):
-        # Get a contact including some additional information supported by this API client (addresses, communication-ways)
-        response = get_contacts.sync_detailed(
-            client=self._client,
-            depth=GetContactsDepth.VALUE_1,
-            customer_number=customer_number,
-            embed=["addresses,adresses.country,communicationWays,parent"],
-        )
-
-        SevDesk.raise_for_status(
-            response, f"get contact for customer number {customer_number}"
-        )
-
-        return response.parsed.objects[0]
-
-    def add_address_to_contact(self, contact_id, address: Address):
-        response = contact_add_address.sync_detailed(
-            contact_id=contact_id,
-            client=self._client,
-            json_body=address.to_contact_add_address_json_body(
-                countries=self.countries, address_categories=self.address_categories
-            ),
-        )
-
-        return response
-
-    def update_address(self, other, address: Address):
-        response = update_contact_address.sync_detailed(
-            client=self._client,
-            contact_address_id=address.id,
-            json_body=address.to_contact_address_from_other(
-                countries=self.countries, other=other
-            ),
-        )
-        return response
-
-    def delete_address(self, address: Address):
-        response = delete_contact_address.sync_detailed(
-            client=self._client, contact_address_id=address.id
-        )
-        return response
-
-    def create_customer(self, customer: Customer):
-        response = create_contact.sync_detailed(
-            client=self._client, json_body=customer.to_contact_model()
-        )
-
-        SevDesk.raise_for_status(
-            response, f"creating contact for {customer.surename} {customer.familyname}"
-        )
-
-        # The newly created/existing contact object in SevDesk
-        contact = response.parsed.objects
-
-        # Create Adresses if given
-        if not isinstance(customer.invoice_address, Unset):
-            response = self.add_address_to_contact(contact.id, customer.invoice_address)
-            SevDesk.raise_for_status(
-                response,
-                f"adding address for {customer.surename} {customer.familyname}",
-            )
-
-        if not isinstance(customer.delivery_address, Unset):
-            response = self.add_address_to_contact(
-                contact.id, customer.delivery_address
-            )
-            SevDesk.raise_for_status(
-                response,
-                f"adding address for {customer.surename} {customer.familyname}",
-            )
-
-        # TODO: Create communication objects if given
-
-        if not isinstance(customer.email, Unset):
-            create_communication_way.sync_detailed(
-                client=self._client,
-                json_body=customer.email.get_api_model(
-                    contact.id, self.communication_ways
-                ),
-            )
-            SevDesk.raise_for_status(
-                response, f"adding email to {customer.surename} {customer.familyname}"
-            )
-
-        if not isinstance(customer.phone, Unset):
-            create_communication_way.sync_detailed(
-                client=self._client,
-                json_body=customer.phone.get_api_model(
-                    contact.id, self.communication_ways
-                ),
-            )
-            SevDesk.raise_for_status(
-                response, f"adding phone to {customer.surename} {customer.familyname}"
-            )
-
-        return contact
-
-    def get_customer(self, customer: Customer):
-        try:
-            return self.get_contact_by_customer_number(customer.customer_number)
-        except:
-            return None
-
-    def cpd_contact(self):
-        cpd = Customer(
-            surename="Shopify", familyname="Customer", customer_number="CPDCustomer"
-        )
-
-        response = self.get_customer(cpd)
-        if response is None:
-            response = self.create_customer(cpd)
-
-        return response
-
-    def update(self, customer: Customer, create: bool = True) -> Customer:
-        # Check if customer exists within SevDesk
-        contact = self.get_customer(customer)
-
-        if contact is None and create:
-            # Customer does not exist, create and return the customer object with added ID
-            contact = self.create_customer(customer)
-
-            customer.id = contact.id
-            return contact
-
-        elif contact is None:
-            raise IOError(f"A customer with given id {customer.id} does not exist.")
-
-        # Force-Update the actual contact
-        response = update_contact.sync_detailed(
-            client=self._client,
-            contact_id=contact.id,
-            json_body=customer.to_contact_model(),
-        )
-
-        SevDesk.raise_for_status(
-            response, f"creating contact for {customer.surename} {customer.familyname}"
-        )
-
-        # Get Addresses to update and check update logic (only one invoice and one delivery address per contact)
-        invoice_address = None
-        delivery_address = None
-        invoice_id = AddressType.get_id_for_address_type(
-            self.address_categories, AddressType.CATEGORY_INVOICE_ADDRESS
-        )
-        delivery_id = AddressType.get_id_for_address_type(
-            self.address_categories, AddressType.CATEGORY_DELIVERY_ADDRESS
-        )
-
-        for address in contact.addresses:
-            if address.category.id == invoice_id:
-                if invoice_address is None:
-                    invoice_address = address
-                else:
-                    raise ValueError(
-                        f"Only one Invoice Address per contact is supported. Failure in updating SevDesk customer with customer id {customer.customer_number}"
-                    )
-            elif address.category.id == delivery_id:
-                if delivery_address is None:
-                    delivery_address = address
-                else:
-                    raise ValueError(
-                        f"Only one Invoice Address per contact is supported. Failure in updating SevDesk customer with customer id {customer.customer_number}"
-                    )
-
-        # create address
-        if invoice_address is None and not isinstance(customer.invoice_address, Unset):
-            response = self.add_address_to_contact(contact.id, customer.invoice_address)
-            SevDesk.raise_for_status(
-                response,
-                f"adding address for {customer.surename} {customer.familyname}",
-            )
-
-        # Update
-        elif invoice_address is not None and not isinstance(
-            customer.invoice_address, Unset
-        ):
-            self.update_address(invoice_address, customer.invoice_address)
-            SevDesk.raise_for_status(
-                response,
-                f"adding address for {customer.surename} {customer.familyname}",
-            )
-
-        # Delete
-        elif invoice_address is not None and isinstance(
-            customer.invoice_address, Unset
-        ):
-            self.delete_address(invoice_address)
-
-        # Fetch latest version and return
-        return self.get_customer(customer)
 
 
 @attrs.define()

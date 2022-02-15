@@ -1,8 +1,8 @@
-from .address import InvoiceAddress, DeliveryAddress
+from .address import DeliveryAddress, InvoiceAddress
 from .communicationway import (
     CommuncationWayType,
-    CommunicationWayKey,
     CommunicationWay,
+    CommunicationWayKey,
     Email,
     Phone,
 )

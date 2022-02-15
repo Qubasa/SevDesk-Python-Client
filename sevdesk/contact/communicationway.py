@@ -1,9 +1,11 @@
 from __future__ import annotations
-from typing import Union
+
 from enum import Enum, auto
+from typing import Union
+
 import attrs
 
-from ..common import ApiObject, ApiObjectCache, ApiObjectType, SevDesk, UNSET, Unset
+from ..common import UNSET, ApiObject, ApiObjectCache, ApiObjectType, SevDesk, Unset
 from .client import AuthenticatedClient as Client
 from .client.api.communication_way import (
     create_communication_way,

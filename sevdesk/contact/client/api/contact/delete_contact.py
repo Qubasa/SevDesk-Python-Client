@@ -7,13 +7,11 @@ from ...types import Response
 
 
 def _get_kwargs(
-    communication_way_id: int,
+    contact_id: int,
     *,
     client: Client,
 ) -> Dict[str, Any]:
-    url = "{}/CommunicationWay/{communicationWayId}".format(
-        client.base_url, communicationWayId=communication_way_id
-    )
+    url = "{}/Contact/{contactId}/delete".format(client.base_url, contactId=contact_id)
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
@@ -37,21 +35,23 @@ def _build_response(*, response: httpx.Response) -> Response[Any]:
 
 
 def sync_detailed(
-    communication_way_id: int,
+    contact_id: int,
     *,
     client: Client,
 ) -> Response[Any]:
-    """Deletes a communication way
+    """Delete a contact
+
+     Delete a contact by given contact-id.
 
     Args:
-        communication_way_id (int):
+        contact_id (int):
 
     Returns:
         Response[Any]
     """
 
     kwargs = _get_kwargs(
-        communication_way_id=communication_way_id,
+        contact_id=contact_id,
         client=client,
     )
 
@@ -64,21 +64,23 @@ def sync_detailed(
 
 
 async def asyncio_detailed(
-    communication_way_id: int,
+    contact_id: int,
     *,
     client: Client,
 ) -> Response[Any]:
-    """Deletes a communication way
+    """Delete a contact
+
+     Delete a contact by given contact-id.
 
     Args:
-        communication_way_id (int):
+        contact_id (int):
 
     Returns:
         Response[Any]
     """
 
     kwargs = _get_kwargs(
-        communication_way_id=communication_way_id,
+        contact_id=contact_id,
         client=client,
     )
 

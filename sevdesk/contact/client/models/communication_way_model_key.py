@@ -13,11 +13,12 @@ class CommunicationWayModelKey:
 
         Attributes:
             id (int): Unique identifier of the key
-            object_name (str): Model name, which is 'CommunicationWayKey' Example: CommunicationWayKey.
+            object_name (str): Model name, which is 'CommunicationWayKey' Default: 'CommunicationWayKey'. Example:
+                CommunicationWayKey.
     """
 
     id: int
-    object_name: str
+    object_name: str = "CommunicationWayKey"
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:

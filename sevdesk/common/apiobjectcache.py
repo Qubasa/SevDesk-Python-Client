@@ -1,16 +1,16 @@
 from __future__ import annotations
+
+from collections import UserDict, namedtuple
+from enum import Enum
 from typing import Dict, Union
 
 import attrs
 import cattrs
-from enum import Enum
-from collections import namedtuple, UserDict
 import requests
 
-from .borg import Borg
-from .types import Unset, UNSET
 from .. import Client
-
+from .borg import Borg
+from .types import UNSET, Unset
 
 ApiObjectTypeHelper = namedtuple("ApiObjectType", ["url", "object_type", "key"])
 
