@@ -59,19 +59,19 @@ class Contact:
         self.id = contact.id
 
         if self.invoice_address:
-            self.invoice_address.contact_id = self.id
+            self.invoice_address.parent = self
             self.invoice_address.create(client)
 
         if self.delivery_address:
-            self.delivery_address.contact_id = self.id
+            self.delivery_address.parent = self
             self.delivery_address.create(client)
 
         if self.email:
-            self.email.contact_id = self.id
+            self.email.parent = self
             self.email.create(client)
 
         if self.phone:
-            self.phone.contact_id = self.id
+            self.phone.parent = self
             self.phone.create(client)
 
     def update(self, client: Client, create: bool = True):
@@ -92,19 +92,19 @@ class Contact:
         )
 
         if self.invoice_address:
-            self.invoice_address.contact_id = self.id
+            self.invoice_address.parent = self
             self.invoice_address.update(client)
 
         if self.delivery_address:
-            self.delivery_address.contact_id = self.id
+            self.delivery_address.parent = self
             self.delivery_address.update(client)
 
         if self.email:
-            self.email.contact_id = self.id
+            self.email.parent = self
             self.email.update(client)
 
         if self.phone:
-            self.phone.contact_id = self.id
+            self.phone.parent = self
             self.phone.update(client)
 
     def delete(self, client: Client):
@@ -153,6 +153,13 @@ class Contact:
 
         cache = ApiObjectCache(client=client)
         object = response.parsed.objects[0]
+        self = cls(
+            surename=object.surename,
+            familyname=object.familyname,
+            customer_number=object.customer_number,
+            category=object.category,
+            id=object.id,
+        )
 
         # Addresses
         delivery_address = UNSET
@@ -170,7 +177,7 @@ class Contact:
                         zip_=address.zip_,
                         city=address.city,
                         id=address.id,
-                        contact_id=object.id,
+                        parent=self,
                         country_code=code,
                     )
                 else:
@@ -185,7 +192,7 @@ class Contact:
                         zip_=address.zip_,
                         city=address.city,
                         id=address.id,
-                        contact_id=object.id,
+                        parent=self,
                         country_code=code,
                     )
                 else:
@@ -203,7 +210,7 @@ class Contact:
                     email = Email(
                         value=communication_way.value,
                         id=communication_way.id,
-                        contact_id=object.id,
+                        parent=self,
                         key=CommunicationWayKey.get_by_id(
                             client, communication_way.key.id
                         ),
@@ -219,7 +226,7 @@ class Contact:
                     phone = Phone(
                         value=communication_way.value,
                         id=communication_way.id,
-                        contact_id=object.id,
+                        parent=self,
                         key=CommunicationWayKey.get_by_id(
                             client, communication_way.key.id
                         ),
@@ -230,17 +237,12 @@ class Contact:
                         "This Contact has more than one Phone-Number, unsupported behaviour."
                     )
 
-        return cls(
-            surename=object.surename,
-            familyname=object.familyname,
-            customer_number=object.customer_number,
-            category=object.category,
-            id=object.id,
-            email=email,
-            phone=phone,
-            delivery_address=delivery_address,
-            invoice_address=invoice_address,
-        )
+        self.email = email
+        self.phone = phone
+        self.delivery_address = delivery_address
+        self.invoice_address = invoice_address
+
+        return self
 
 
 @attrs.define()

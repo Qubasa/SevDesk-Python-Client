@@ -19,7 +19,6 @@ def test_get_customer_by_id():
 
 def test_customer():
     token = os.environ["SEVDESKTOKEN"]
-
     client = Client(base_url="https://my.sevdesk.de/api/v1", token=token)
     customer = Customer(
         surename="Slim",
@@ -63,8 +62,25 @@ def test_customer():
     assert customer.email.value == cloud.email.value
     assert customer.phone.value == cloud.phone.value
 
-    # TODO: Test only delete a specific property of a contact
+    # Test updating a property directly
+    customer.email.value = "changed2"
+    customer.email.update(client)
+    cloud = Customer.get_by_customer_number(client, "1001")
 
+    assert customer.email.value == "changed2"
+    assert customer.email.value == cloud.email.value
+
+    # Delete a specific property
+    customer.email.delete(client)
+    customer.invoice_address.delete(client)
+    assert isinstance(customer.email, Unset)
+    assert isinstance(customer.invoice_address, Unset)
+
+    cloud = Customer.get_by_customer_number(client, "1001")
+    assert isinstance(cloud.email, Unset)
+    assert isinstance(cloud.invoice_address, Unset)
+
+    # Delete customer
     customer.delete(client)
     cloud = Customer.get_by_customer_number(client, "1001")
     assert cloud is None

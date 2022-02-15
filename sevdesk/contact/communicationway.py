@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum, auto
-from typing import Union
+from typing import Union, Any
 
 import attrs
 
@@ -82,8 +82,8 @@ class CommunicationWay:
     value: str
     type_: CommuncationWayType
     key: CommunicationWayKey = CommunicationWayKey.COMM_WAY_KEY_WORK
+    parent: Union[Unset, Any] = UNSET
     id: Union[Unset, str] = UNSET
-    contact_id: Union[Unset, str] = UNSET
 
     def get_api_model(self, client: Client) -> CommunicationWayModel:
         """
@@ -93,15 +93,15 @@ class CommunicationWay:
             type=self.type_.get_api_model(client),
             value=self.value,
             key=self.key.get_api_model(client),
-            contact=CommunicationWayModelContact(id=self.contact_id),
+            contact=CommunicationWayModelContact(id=self.parent.id),
         )
 
     def create(self, client: Client):
         """
         Create the communication way by appending it to the given client
         """
-        if not self.contact_id:
-            raise ValueError("Cannt create Communication Way without a contact-id.")
+        if not self.parent:
+            raise ValueError("Cannt create Communication Way without a parent.")
 
         response = create_communication_way.sync_detailed(
             client=client, json_body=self.get_api_model(client)
@@ -150,6 +150,18 @@ class Email(CommunicationWay):
 
     type_: CommuncationWayType = CommuncationWayType.EMAIL
 
+    def update(self, client: Client, create: bool = True):
+        super().update(client, create)
+
+        if self.parent:
+            self.parent.email = self
+    
+    def delete(self, client: Client):
+        super().delete(client)
+
+        if self.parent:
+            self.parent.email = UNSET
+
 
 @attrs.define()
 class Phone(CommunicationWay):
@@ -158,3 +170,15 @@ class Phone(CommunicationWay):
     """
 
     type_: CommuncationWayType = CommuncationWayType.PHONE
+
+    def update(self, client: Client, create: bool = True):
+        super().update(client, create)
+
+        if self.parent:
+            self.parent.phone = self
+
+    def delete(self, client: Client):
+        super().delete(client)
+
+        if self.parent:
+            self.parent.phone = UNSET

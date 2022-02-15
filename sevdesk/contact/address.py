@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Union
+from typing import Union, Any
 
 import attrs
 
@@ -47,15 +47,15 @@ class Address:
     city: str
     country_code: str
     category: AddressCategory
+    parent: Union[Unset, Any] = UNSET
     id: Union[Unset, str] = UNSET
-    contact_id: Union[Unset, str] = UNSET
 
     def get_api_model(self, client: Client) -> ContactAddress:
         cache = ApiObjectCache(client=client)
         country: ApiObject = cache.get(ApiObjectType.COUNTRY)[self.country_code.lower()]
 
         address = ContactAddress(
-            contact=ContactAddressContact(self.contact_id),
+            contact=ContactAddressContact(self.parent.id),
             country=ContactAddressCountry(id=country.id),
             zip_=self.zip_,
             city=self.city,
@@ -72,8 +72,8 @@ class Address:
         """
         Create the address by appending it to the given client
         """
-        if not self.contact_id:
-            raise ValueError("Cannt create Address without a contact-id.")
+        if not self.parent:
+            raise ValueError("Cannt create Address without a parent.")
 
         response = create_contact_address.sync_detailed(
             client=client, json_body=self.get_api_model(client)
@@ -110,13 +110,41 @@ class Address:
 
 @attrs.define()
 class InvoiceAddress(Address):
-    category: AddressCategory = attrs.field(
-        default=AddressCategory.CATEGORY_INVOICE_ADDRESS
-    )
+    """
+    Invoice Address
+    """
+
+    category: AddressCategory = AddressCategory.CATEGORY_INVOICE_ADDRESS
+
+    def update(self, client: Client, create: bool = True):
+        super().update(client, create)
+
+        if self.parent:
+            self.parent.invoice_address = self
+        
+    def delete(self, client: Client):
+        super().delete(client)
+
+        if self.parent:
+            self.parent.invoice_address = UNSET
 
 
 @attrs.define()
 class DeliveryAddress(Address):
-    category: AddressCategory = attrs.field(
-        default=AddressCategory.CATEGORY_DELIVERY_ADDRESS
-    )
+    """
+    Delivery Address
+    """
+
+    category: AddressCategory = AddressCategory.CATEGORY_DELIVERY_ADDRESS
+
+    def update(self, client: Client, create: bool = True):
+        super().update(client, create)
+
+        if self.parent:
+            self.parent.delivery_address = self
+    
+    def delete(self, client: Client):
+        super().delete(client)
+
+        if self.parent:
+            self.parent.delivery_address = UNSET
