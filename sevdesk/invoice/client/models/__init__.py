@@ -37,6 +37,7 @@ from .get_invoices_status import GetInvoicesStatus
 from .get_is_invoice_partially_paid_response_200 import (
     GetIsInvoicePartiallyPaidResponse200,
 )
+from .get_next_invoice_number_response_200 import GetNextInvoiceNumberResponse200
 from .invoice_get_pdf_response_200 import InvoiceGetPdfResponse200
 from .invoice_model import InvoiceModel
 from .invoice_model_address_contact_ref import InvoiceModelAddressContactRef

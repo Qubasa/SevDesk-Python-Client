@@ -28,6 +28,61 @@
         }
     ],
     "paths": {
+        "/Invoice/Factory/getNextInvoiceNumber": {
+            "get": {
+                "tags": [
+                    "Invoice"
+                ],
+                "summary": "Get the next invoice number",
+                "operationId": "getNextInvoiceNumber",
+                "parameters": [
+                    {
+                        "name": "invoiceType",
+                        "in": "query",
+                        "description": "Specifies the invoice type for which you want to get the next invoice number.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "useNextNumber",
+                        "in": "query",
+                        "description": "Specifies if the number sequence should be increased by one.",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns net invoice number",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "objects": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "401": {
+                        "description": "Authentication required"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
         "/Invoice/Factory/saveInvoice": {
             "post": {
                 "tags": [
@@ -1442,6 +1497,7 @@
                     "invoiceDate": {
                         "description": "Needs to be provided as timestamp or dd.mm.yyyy",
                         "type": "string",
+                        "format": "date-time",
                         "example": "01.01.20",
                         "nullable": false
                     },
@@ -2095,7 +2151,6 @@
                 "title": "Invoice position model",
                 "description": "Invoice position model",
                 "required": [
-                    "invoice",
                     "unity",
                     "taxRate"
                 ],
@@ -2243,11 +2298,16 @@
                         "default": null,
                         "nullable": true
                     },
-                    "discount": {
+                    "discountedValue": {
                         "description": "An optional discount of the position.",
                         "type": "number",
                         "format": "float",
                         "default": null,
+                        "nullable": true
+                    },
+                    "isPercentage": {
+                        "description": "Specifiy if the given discount is in percent.",
+                        "type": "boolean",
                         "nullable": true
                     },
                     "taxRate": {

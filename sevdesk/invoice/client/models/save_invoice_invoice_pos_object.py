@@ -17,7 +17,6 @@ T = TypeVar("T", bound="SaveInvoiceInvoicePosObject")
 class SaveInvoiceInvoicePosObject:
     """
     Attributes:
-        invoice (InvoicePositionModelInvoice): The invoice to which the position belongs.
         unity (InvoicePositionModelUnity): The unit in which the positions part is measured
         tax_rate (float): Tax rate of the position. Example: 19.
         map_all (bool):  Default: True.
@@ -25,6 +24,7 @@ class SaveInvoiceInvoicePosObject:
         object_name (Union[Unset, str]): The invoice position object name Default: 'InvoicePos'.
         create (Union[Unset, datetime.datetime]): Date of invoice position creation
         update (Union[Unset, datetime.datetime]): Date of last invoice position update
+        invoice (Union[Unset, InvoicePositionModelInvoice]): The invoice to which the position belongs.
         part (Union[Unset, InvoicePositionModelPart]): Part from your inventory which is used in the position.
         quantity (Union[Unset, None, float]): Quantity of the article/part Example: 1.
         price (Union[Unset, None, float]): Price of the article/part. Is either gross or net, depending on the sevDesk
@@ -36,7 +36,8 @@ class SaveInvoiceInvoicePosObject:
         position_number (Union[Unset, None, int]): Position number of your position. Can be used to order multiple
             positions.
         text (Union[Unset, None, str]): A text describing your position.
-        discount (Union[Unset, None, float]): An optional discount of the position.
+        discounted_value (Union[Unset, None, float]): An optional discount of the position.
+        is_percentage (Union[Unset, None, bool]): Specifiy if the given discount is in percent.
         temporary (Union[Unset, None, bool]): Defines if the position is temporary
         sum_net (Union[Unset, None, float]): Net sum of the position
         sum_gross (Union[Unset, None, float]): Gross sum of the position
@@ -50,7 +51,6 @@ class SaveInvoiceInvoicePosObject:
         price_tax (Union[Unset, None, float]): Tax on the price of the part
     """
 
-    invoice: InvoicePositionModelInvoice
     unity: InvoicePositionModelUnity
     tax_rate: float
     map_all: bool = True
@@ -58,6 +58,7 @@ class SaveInvoiceInvoicePosObject:
     object_name: Union[Unset, str] = "InvoicePos"
     create: Union[Unset, datetime.datetime] = UNSET
     update: Union[Unset, datetime.datetime] = UNSET
+    invoice: Union[Unset, InvoicePositionModelInvoice] = UNSET
     part: Union[Unset, InvoicePositionModelPart] = UNSET
     quantity: Union[Unset, None, float] = UNSET
     price: Union[Unset, None, float] = UNSET
@@ -66,7 +67,8 @@ class SaveInvoiceInvoicePosObject:
     sev_client: Union[Unset, InvoicePositionModelSevClient] = UNSET
     position_number: Union[Unset, None, int] = UNSET
     text: Union[Unset, None, str] = UNSET
-    discount: Union[Unset, None, float] = UNSET
+    discounted_value: Union[Unset, None, float] = UNSET
+    is_percentage: Union[Unset, None, bool] = UNSET
     temporary: Union[Unset, None, bool] = UNSET
     sum_net: Union[Unset, None, float] = UNSET
     sum_gross: Union[Unset, None, float] = UNSET
@@ -81,8 +83,6 @@ class SaveInvoiceInvoicePosObject:
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        invoice = self.invoice.to_dict()
-
         unity = self.unity.to_dict()
 
         tax_rate = self.tax_rate
@@ -96,6 +96,10 @@ class SaveInvoiceInvoicePosObject:
         update: Union[Unset, str] = UNSET
         if not isinstance(self.update, Unset):
             update = self.update.isoformat()
+
+        invoice: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.invoice, Unset):
+            invoice = self.invoice.to_dict()
 
         part: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.part, Unset):
@@ -111,7 +115,8 @@ class SaveInvoiceInvoicePosObject:
 
         position_number = self.position_number
         text = self.text
-        discount = self.discount
+        discounted_value = self.discounted_value
+        is_percentage = self.is_percentage
         temporary = self.temporary
         sum_net = self.sum_net
         sum_gross = self.sum_gross
@@ -128,7 +133,6 @@ class SaveInvoiceInvoicePosObject:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "invoice": invoice,
                 "unity": unity,
                 "taxRate": tax_rate,
                 "mapAll": map_all,
@@ -142,6 +146,8 @@ class SaveInvoiceInvoicePosObject:
             field_dict["create"] = create
         if update is not UNSET:
             field_dict["update"] = update
+        if invoice is not UNSET:
+            field_dict["invoice"] = invoice
         if part is not UNSET:
             field_dict["part"] = part
         if quantity is not UNSET:
@@ -158,8 +164,10 @@ class SaveInvoiceInvoicePosObject:
             field_dict["positionNumber"] = position_number
         if text is not UNSET:
             field_dict["text"] = text
-        if discount is not UNSET:
-            field_dict["discount"] = discount
+        if discounted_value is not UNSET:
+            field_dict["discountedValue"] = discounted_value
+        if is_percentage is not UNSET:
+            field_dict["isPercentage"] = is_percentage
         if temporary is not UNSET:
             field_dict["temporary"] = temporary
         if sum_net is not UNSET:
@@ -188,8 +196,6 @@ class SaveInvoiceInvoicePosObject:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        invoice = InvoicePositionModelInvoice.from_dict(d.pop("invoice"))
-
         unity = InvoicePositionModelUnity.from_dict(d.pop("unity"))
 
         tax_rate = d.pop("taxRate")
@@ -213,6 +219,13 @@ class SaveInvoiceInvoicePosObject:
             update = UNSET
         else:
             update = isoparse(_update)
+
+        _invoice = d.pop("invoice", UNSET)
+        invoice: Union[Unset, InvoicePositionModelInvoice]
+        if isinstance(_invoice, Unset):
+            invoice = UNSET
+        else:
+            invoice = InvoicePositionModelInvoice.from_dict(_invoice)
 
         _part = d.pop("part", UNSET)
         part: Union[Unset, InvoicePositionModelPart]
@@ -240,7 +253,9 @@ class SaveInvoiceInvoicePosObject:
 
         text = d.pop("text", UNSET)
 
-        discount = d.pop("discount", UNSET)
+        discounted_value = d.pop("discountedValue", UNSET)
+
+        is_percentage = d.pop("isPercentage", UNSET)
 
         temporary = d.pop("temporary", UNSET)
 
@@ -265,7 +280,6 @@ class SaveInvoiceInvoicePosObject:
         price_tax = d.pop("priceTax", UNSET)
 
         save_invoice_invoice_pos_object = cls(
-            invoice=invoice,
             unity=unity,
             tax_rate=tax_rate,
             map_all=map_all,
@@ -273,6 +287,7 @@ class SaveInvoiceInvoicePosObject:
             object_name=object_name,
             create=create,
             update=update,
+            invoice=invoice,
             part=part,
             quantity=quantity,
             price=price,
@@ -281,7 +296,8 @@ class SaveInvoiceInvoicePosObject:
             sev_client=sev_client,
             position_number=position_number,
             text=text,
-            discount=discount,
+            discounted_value=discounted_value,
+            is_percentage=is_percentage,
             temporary=temporary,
             sum_net=sum_net,
             sum_gross=sum_gross,

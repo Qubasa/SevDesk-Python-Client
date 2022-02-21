@@ -30,7 +30,7 @@ class SaveInvoiceInvoiceObject:
     """
     Attributes:
         contact (InvoiceModelContact): The contact used in the invoice
-        invoice_date (str): Needs to be provided as timestamp or dd.mm.yyyy Example: 01.01.20.
+        invoice_date (datetime.datetime): Needs to be provided as timestamp or dd.mm.yyyy Example: 01.01.20.
         discount (int): If you want to give a discount, define the percentage here. Otherwise provide zero as value
         delivery_date (datetime.datetime): Timestamp. This can also be a date range if you also use the attribute
             deliveryDateUntil Example: 01.01.20.
@@ -133,7 +133,7 @@ class SaveInvoiceInvoiceObject:
     """
 
     contact: InvoiceModelContact
-    invoice_date: str
+    invoice_date: datetime.datetime
     delivery_date: datetime.datetime
     status: InvoiceModelStatus
     small_settlement: bool
@@ -208,7 +208,8 @@ class SaveInvoiceInvoiceObject:
     def to_dict(self) -> Dict[str, Any]:
         contact = self.contact.to_dict()
 
-        invoice_date = self.invoice_date
+        invoice_date = self.invoice_date.isoformat()
+
         discount = self.discount
         delivery_date = self.delivery_date.isoformat()
 
@@ -487,7 +488,7 @@ class SaveInvoiceInvoiceObject:
         d = src_dict.copy()
         contact = InvoiceModelContact.from_dict(d.pop("contact"))
 
-        invoice_date = d.pop("invoiceDate")
+        invoice_date = isoparse(d.pop("invoiceDate"))
 
         discount = d.pop("discount")
 
