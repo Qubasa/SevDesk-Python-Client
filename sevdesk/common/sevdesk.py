@@ -1,27 +1,34 @@
+from __future__ import annotations
+
 import requests
+import attrs
+import cattrs
 
 from .. import Client
 
 
+@attrs.define()
 class SevUser:
-    def __init__(self, user) -> None:
-        self._user = user
+    id: str
 
-    @property
-    def id(self):
-        return self._user["id"]
+    @staticmethod
+    def from_json(data) -> SevUser:
+        return cattrs.structure(data, SevUser)
 
 
 class SevDesk:
     @staticmethod
-    def user(client: Client):
+    def user(client: Client) -> SevUser:
+        """
+        Get the current SevUser for the given Token
+        """
         url = f"{client.base_url}/SevUser"
 
         request = requests.get(url=url, headers=client.get_headers())
         request.raise_for_status()
 
-        user = request.json()["objects"]
-        return SevUser(user[0])
+        objects = request.json()["objects"][0]
+        return SevUser.from_json(objects)
 
     @staticmethod
     def raise_for_status(response, operation: str):

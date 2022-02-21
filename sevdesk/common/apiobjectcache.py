@@ -28,6 +28,7 @@ class ApiObjectType(Enum):
     COMMUNICATION_WAY_KEY = ApiObjectTypeHelper(
         "CommunicationWayKey", UNSET, "translationCode"
     )
+    UNITY = ApiObjectTypeHelper("Unity", UNSET, "translationCode")
 
 
 @attrs.define()

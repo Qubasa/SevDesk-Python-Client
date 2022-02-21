@@ -8,7 +8,6 @@ from sevdesk.contact.communicationway import CommunicationWayKey
 
 def test_get_customer_by_id():
     token = os.environ["SEVDESKTOKEN"]
-
     client = Client(base_url="https://my.sevdesk.de/api/v1", token=token)
 
     # A Test-Customer should already exist in SevDesk
