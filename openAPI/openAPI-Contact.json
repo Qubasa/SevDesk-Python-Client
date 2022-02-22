@@ -255,6 +255,17 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "embed",
+                        "in": "query",
+                        "description": "Get some additional information. Embed can handle multiple values, they must be separated by comma. Default ``.",
+                        "required": false,
+                        "style": "form",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {

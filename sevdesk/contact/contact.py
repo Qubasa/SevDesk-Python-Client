@@ -14,6 +14,7 @@ from . import CommunicationWayKey, DeliveryAddress, Email, InvoiceAddress, Phone
 from .client.api.contact import (
     create_contact,
     delete_contact,
+    get_contact_by_id,
     get_contacts,
     update_contact,
 )
@@ -130,35 +131,17 @@ class Contact:
         )
 
     @classmethod
-    def get_by_customer_number(
-        cls, client: Client, customer_number: str
-    ) -> Union[None, Contact]:
-        """
-        This Client makes using customer numbers mandatory.
-        For example, Shopify-Customers can be mapped to SevDesk Contacts by using their Shopify (Legacy) ID
-        """
-        response = get_contacts.sync_detailed(
-            client=client,
-            depth=GetContactsDepth.VALUE_1,
-            customer_number=customer_number,
-            embed=["addresses,adresses.country,communicationWays,parent"],
-        )
-
-        SevDesk.raise_for_status(
-            response, f"get contact for customer number {customer_number}"
-        )
-
-        if not response.parsed.objects:
-            return None
-
+    def _from_contact_model(
+        cls, client: Client, contact_model: ContactModel
+    ) -> Contact:
         cache = ApiObjectCache(client=client)
-        object = response.parsed.objects[0]
+
         self = cls(
-            surename=object.surename,
-            familyname=object.familyname,
-            customer_number=object.customer_number,
-            category=object.category,
-            id=object.id,
+            surename=contact_model.surename,
+            familyname=contact_model.familyname,
+            customer_number=contact_model.customer_number,
+            category=contact_model.category,
+            id=contact_model.id,
         )
 
         # Addresses
@@ -166,7 +149,7 @@ class Contact:
         invoice_address = UNSET
         countries = cache.get(ApiObjectType.COUNTRY).sort_by_id()
 
-        for address in object.addresses:
+        for address in contact_model.addresses:
             category = AddressCategory.get_by_id(client, address.category.id)
             code = countries[address.country.id].code
 
@@ -204,7 +187,7 @@ class Contact:
         email = UNSET
         phone = UNSET
 
-        for communication_way in object.communication_ways:
+        for communication_way in contact_model.communication_ways:
             if communication_way.type == CommunicationWayModelType.EMAIL:
                 if not email:
                     email = Email(
@@ -243,6 +226,49 @@ class Contact:
         self.invoice_address = invoice_address
 
         return self
+
+    @classmethod
+    def get_by_id(cls, client: Client, id: int) -> Union[None, Contact]:
+        """
+        Use the SevDesk ID to get a specific contact
+        """
+        response = get_contact_by_id.sync_detailed(
+            contact_id=id,
+            client=client,
+            embed=["addresses,adresses.country,communicationWays,parent"],
+        )
+
+        SevDesk.raise_for_status(response, "getting contact by ID")
+        if not response.parsed.objects:
+            return None
+
+        contact_model = response.parsed.objects[0]
+        return Contact._from_contact_model(client, contact_model)
+
+    @classmethod
+    def get_by_customer_number(
+        cls, client: Client, customer_number: str
+    ) -> Union[None, Contact]:
+        """
+        This Client makes using customer numbers mandatory.
+        For example, Shopify-Customers can be mapped to SevDesk Contacts by using their Shopify (Legacy) ID
+        """
+        response = get_contacts.sync_detailed(
+            client=client,
+            depth=GetContactsDepth.VALUE_1,
+            customer_number=customer_number,
+            embed=["addresses,adresses.country,communicationWays,parent"],
+        )
+
+        SevDesk.raise_for_status(
+            response, f"get contact for customer number {customer_number}"
+        )
+
+        if not response.parsed.objects:
+            return None
+
+        contact_model = response.parsed.objects[0]
+        return Contact._from_contact_model(client, contact_model)
 
 
 @attrs.define()

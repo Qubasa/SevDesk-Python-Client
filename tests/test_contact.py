@@ -68,6 +68,12 @@ def test_customer():
     assert customer.email.value == "changed2"
     assert customer.email.value == cloud.email.value
 
+    # Get by ID
+    cloud = Customer.get_by_id(client, customer.id)
+
+    assert customer.email.value == "changed2"
+    assert customer.email.value == cloud.email.value
+
     # Delete a specific property
     customer.email.delete(client)
     customer.invoice_address.delete(client)

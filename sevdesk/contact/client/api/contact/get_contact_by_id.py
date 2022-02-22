@@ -4,18 +4,24 @@ import httpx
 
 from ...client import Client
 from ...models.get_contact_by_id_response_200 import GetContactByIdResponse200
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     contact_id: int,
     *,
     client: Client,
+    embed: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/Contact/{contactId}".format(client.base_url, contactId=contact_id)
 
     headers: Dict[str, str] = client.get_headers()
     cookies: Dict[str, Any] = client.get_cookies()
+
+    params: Dict[str, Any] = {}
+    params["embed"] = embed
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     return {
         "method": "get",
@@ -23,6 +29,7 @@ def _get_kwargs(
         "headers": headers,
         "cookies": cookies,
         "timeout": client.get_timeout(),
+        "params": params,
     }
 
 
@@ -60,6 +67,7 @@ def sync_detailed(
     contact_id: int,
     *,
     client: Client,
+    embed: Union[Unset, None, str] = UNSET,
 ) -> Response[Union[Any, GetContactByIdResponse200]]:
     """Find contact by ID
 
@@ -67,6 +75,7 @@ def sync_detailed(
 
     Args:
         contact_id (int):
+        embed (Union[Unset, None, str]):
 
     Returns:
         Response[Union[Any, GetContactByIdResponse200]]
@@ -75,6 +84,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         contact_id=contact_id,
         client=client,
+        embed=embed,
     )
 
     response = httpx.request(
@@ -89,6 +99,7 @@ def sync(
     contact_id: int,
     *,
     client: Client,
+    embed: Union[Unset, None, str] = UNSET,
 ) -> Optional[Union[Any, GetContactByIdResponse200]]:
     """Find contact by ID
 
@@ -96,6 +107,7 @@ def sync(
 
     Args:
         contact_id (int):
+        embed (Union[Unset, None, str]):
 
     Returns:
         Response[Union[Any, GetContactByIdResponse200]]
@@ -104,6 +116,7 @@ def sync(
     return sync_detailed(
         contact_id=contact_id,
         client=client,
+        embed=embed,
     ).parsed
 
 
@@ -111,6 +124,7 @@ async def asyncio_detailed(
     contact_id: int,
     *,
     client: Client,
+    embed: Union[Unset, None, str] = UNSET,
 ) -> Response[Union[Any, GetContactByIdResponse200]]:
     """Find contact by ID
 
@@ -118,6 +132,7 @@ async def asyncio_detailed(
 
     Args:
         contact_id (int):
+        embed (Union[Unset, None, str]):
 
     Returns:
         Response[Union[Any, GetContactByIdResponse200]]
@@ -126,6 +141,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         contact_id=contact_id,
         client=client,
+        embed=embed,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -138,6 +154,7 @@ async def asyncio(
     contact_id: int,
     *,
     client: Client,
+    embed: Union[Unset, None, str] = UNSET,
 ) -> Optional[Union[Any, GetContactByIdResponse200]]:
     """Find contact by ID
 
@@ -145,6 +162,7 @@ async def asyncio(
 
     Args:
         contact_id (int):
+        embed (Union[Unset, None, str]):
 
     Returns:
         Response[Union[Any, GetContactByIdResponse200]]
@@ -154,5 +172,6 @@ async def asyncio(
         await asyncio_detailed(
             contact_id=contact_id,
             client=client,
+            embed=embed,
         )
     ).parsed
