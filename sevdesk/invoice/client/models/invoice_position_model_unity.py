@@ -1,6 +1,8 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import Any, Dict, List, Type, TypeVar, Union
 
 import attr
+
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="InvoicePositionModelUnity")
 
@@ -12,15 +14,18 @@ class InvoicePositionModelUnity:
     Attributes:
         id (int): Unique identifier of the unit Example: 1.
         object_name (str): Model name, which is 'Unity' Default: 'Unity'.
+        translation_code (Union[Unset, str]): Translation Code
     """
 
     id: int
     object_name: str = "Unity"
+    translation_code: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         id = self.id
         object_name = self.object_name
+        translation_code = self.translation_code
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -30,6 +35,8 @@ class InvoicePositionModelUnity:
                 "objectName": object_name,
             }
         )
+        if translation_code is not UNSET:
+            field_dict["translationCode"] = translation_code
 
         return field_dict
 
@@ -40,9 +47,12 @@ class InvoicePositionModelUnity:
 
         object_name = d.pop("objectName")
 
+        translation_code = d.pop("translationCode", UNSET)
+
         invoice_position_model_unity = cls(
             id=id,
             object_name=object_name,
+            translation_code=translation_code,
         )
 
         invoice_position_model_unity.additional_properties = d

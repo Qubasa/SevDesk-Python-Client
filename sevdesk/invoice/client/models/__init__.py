@@ -31,7 +31,9 @@ from .deprecated_book_invoice_response_200_objects_item import (
 from .email_model import EmailModel
 from .email_model_object import EmailModelObject
 from .email_model_sev_client import EmailModelSevClient
+from .get_discounts_by_id_response_200 import GetDiscountsByIdResponse200
 from .get_invoice_by_id_response_200 import GetInvoiceByIdResponse200
+from .get_invoice_pos_response_200 import GetInvoicePosResponse200
 from .get_invoices_response_200 import GetInvoicesResponse200
 from .get_invoices_status import GetInvoicesStatus
 from .get_is_invoice_partially_paid_response_200 import (
