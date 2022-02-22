@@ -19,12 +19,14 @@ from .client.api.invoice import (
     get_invoices,
     get_next_invoice_number,
 )
+from .client.api.invoice_discounts import get_discounts_by_id
+from .client.api.invoice_pos import get_invoice_pos
 from .client.models import (
     CreateInvoiceByFactoryJsonBody,
+    InvoiceModel,
     InvoiceModelContact,
     InvoiceModelContactPerson,
     InvoiceModelStatus,
-    SaveInvoiceDiscountSave,
     SaveInvoiceInvoiceObject,
 )
 from .discount import Discount
@@ -46,16 +48,18 @@ class Invoice:
     """
     A simplified helper to create invoices in SevDesk.
     The class is optimised for Shopify, but covers the most common use-cases.
-    To simplify book-keeping all transaction gateways (e.g. a customer pays with partly with credit card and cash or uses a voucher)
-    are shown on the Invoice. When creating the invoice, it will be marked as sent but not as payed.
+
+    To simplify book-keeping all transaction gateways are shown on the Invoice.
+    When creating the invoice, it will be marked as sent but not as payed.
     """
 
-    customer: Contact
+    customer: Contact = attrs.field(on_setattr=attrs.setters.frozen)
     "The customer the invoice belongs to. After the invoice is created, make sure to not change the customer anymore."
-    ordercode: str
-    "The ordercode is used to generate a meaningful invoice header"
-    reference: Union[Unset, str] = UNSET
-    "The reference allows the API to filter for a specific invoice. A Shopify Client could use the reference to store the Shopify API ID. If not set, the reference will be equal to the ordercode"
+    header: str
+    "The invoice header, e.g. 'Rechnung zu Auftrag #1000'"
+    reference: Union[Unset, str] = attrs.field(on_setattr=attrs.setters.frozen)
+    "The reference allows the API to filter for a specific invoice."
+    "A Shopify Client could use the reference to store the Shopify API ID"
     status: InvoiceStatus = InvoiceStatus.DRAFT
     "Invoice-Status"
     items: Union[Unset, List[LineItem]] = UNSET
@@ -85,19 +89,18 @@ class Invoice:
     # TODO Make this an environment-variable parameter
     overall_discount: Union[Unset, Discount] = UNSET
     "Apply an optional overall discount"
+    _foot_text: Union[Unset, str] = UNSET
+    "Internal cache of the foot text when caching invoice from SevDesk"
 
     def __attrs_post_init__(self):
         if not self.tax_text:
             self.tax_text = f"Mehrwertssteuer {self.tax_rate}%"
 
         if not self.invoice_date:
-            self.invoice_date = datetime.now()
+            self.invoice_date = datetime.today().replace(microsecond=0)
 
         if not self.delivery_date:
             self.delivery_date = self.invoice_date
-
-        if not self.reference:
-            self.reference = self.ordercode
 
     def get_api_model(self, client: Client) -> CreateInvoiceByFactoryJsonBody:
         if not self.contact_person:
@@ -112,21 +115,21 @@ class Invoice:
 
             self.invoice_number = response.parsed.objects
 
-        header = f"Rechnung zu Auftrag {self.ordercode}"
-
-        foot_text = ""
         if self.transactions:
-            foot_text += "Zahlungsgateways:"
-            foot_text += "<ul>"
+            self._foot_text = ""
+            self._foot_text += "Zahlungsgateways:"
+            self._foot_text += "<ul>"
             for transaction in self.transactions:
-                foot_text += f"<li>{transaction.gateway}: {transaction.amount} EUR</li>"
-            foot_text += "</ul>"
+                self._foot_text += (
+                    f"<li>{transaction.gateway}: {transaction.amount} EUR</li>"
+                )
+            self._foot_text += "</ul>"
 
         invoice_model_contact = InvoiceModelContact(self.customer.id)
         invoice_object = SaveInvoiceInvoiceObject(
             id=self.id,
-            header=header,
-            foot_text=foot_text,
+            header=self.header,
+            foot_text=self._foot_text,
             invoice_number=self.invoice_number,
             contact=invoice_model_contact,
             status=self.status.get_api_model(client),
@@ -156,37 +159,20 @@ class Invoice:
             discount_delete=None,
         )
 
-    @classmethod
-    def get_by_reference(cls, client: Client, reference: str) -> Invoice:
-        """
-        This Client makes using references (customer_interal_note) mandatory.
-        For example, Shopify-Orders can be mapped to SevDesk Invoices by using the Shopify (Legacy) ID
-
-        Make sure to not manipulate the invoice manually as this client implies some
-        restrictions (e.g. overall discount, ordercode and reference)
-        """
-        response = get_invoices.sync_detailed(
-            client=client, customer_internal_note=reference
-        )
-        SevDesk.raise_for_status(
-            response, "getting invoice by reference (customer_internal_note)"
-        )
-        return response
-
     def _update_ids(self, response: CreateInvoiceByFactoryResponse201):
         # Update IDs
         response = response.parsed.objects
-        self.id = response.invoice.id
+        self.id = int(response.invoice.id)
 
         if self.items:
             for local, cloud in zip(self.items, response.invoice_pos):
                 if local.name != cloud.name:
                     raise RuntimeError("Order of lineitems does not match.")
-                local.id = cloud.id
+                local.id = int(cloud.id)
 
         if self.overall_discount:
             overall_discount = response.discount[0]
-            self.overall_discount.id = overall_discount.id
+            self.overall_discount.id = int(overall_discount.id)
 
     def update(self, client: Client):
         if not self.id:
@@ -200,6 +186,9 @@ class Invoice:
         self._update_ids(response)
 
     def create(self, client: Client):
+        if self.id:
+            RuntimeError("Cannot create an already known invoice - update instead?")
+
         response = create_invoice_by_factory.sync_detailed(
             client=client, json_body=self.get_api_model(client)
         )
@@ -212,3 +201,73 @@ class Invoice:
 
         response = delete_invoice.sync_detailed(invoice_id=self.id, client=client)
         SevDesk.raise_for_status(response, "deleting an invoice")
+
+    @classmethod
+    def _from_model(cls, client: Client, model: InvoiceModel) -> Invoice:
+        # Query customer
+        customer = Contact.get_by_id(client, model.contact.id)
+
+        # Query Invoice Positions
+        response = get_invoice_pos.sync_detailed(
+            client=client,
+            invoiceobject_name="Invoice",
+            invoiceid=model.id,
+            limit=9999,
+            embed="part,part.unity,unity",
+        )
+        SevDesk.raise_for_status(response, "getting invoice positions")
+
+        items = []
+        for line in response.parsed.objects:
+            items.append(LineItem._from_model(client, line))
+
+        # Query Overall Discount
+        response = get_discounts_by_id.sync_detailed(client=client, invoice_id=model.id)
+        SevDesk.raise_for_status(response, "getting invoice discounts")
+
+        overall_discount = UNSET
+        if response.parsed.objects:
+            overall_discount = Discount._from_model(client, response.parsed.objects[0])
+
+        return cls(
+            customer=customer,
+            header=model.header,
+            reference=model.customer_internal_note,
+            status=InvoiceStatus(model.status),
+            id=int(model.id),
+            invoice_date=model.invoice_date,
+            delivery_date=model.delivery_date,
+            tax_rate=float(model.tax_rate),
+            tax_text=model.tax_text,
+            contact_person=SevUser(id=model.contact_person.id),
+            invoice_number=model.invoice_number,
+            gross=not bool(int(model.show_net)),
+            foot_text=model.foot_text,
+            items=items if items else UNSET,
+            overall_discount=overall_discount,
+        )
+
+    @classmethod
+    def get_by_reference(cls, client: Client, reference: str) -> Union[None, Invoice]:
+        """
+        This Client makes using references (customer_interal_note) mandatory.
+        For example, Shopify-Orders can be mapped to SevDesk Invoices by using the Shopify (Legacy) ID.
+        This allows to query invoices by their reference.
+
+        Be aware: Fetching data from SevDesk will not fully restore the invoice in python.
+        The Transactions will be missing!
+
+        However, you can still set new transactions to update an invoice.
+        """
+        response = get_invoices.sync_detailed(
+            client=client, customer_internal_note=reference
+        )
+        SevDesk.raise_for_status(
+            response, "getting invoice by reference (customer_internal_note)"
+        )
+
+        if not response.parsed.objects:
+            return None
+
+        invoice_model = response.parsed.objects[0]
+        return Invoice._from_model(client, invoice_model)

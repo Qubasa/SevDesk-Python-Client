@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 from typing import Union
 
 import attrs
 
 from .. import Client
 from ..common import UNSET, Unset
-from .client.models import SaveInvoiceInvoicePosObject
+from .client.models import InvoicePositionModel, SaveInvoiceInvoicePosObject
 from .discount import Discount
 from .unity import Unity
 
@@ -23,7 +25,7 @@ class LineItem:
     "The unity of the item"
     discount: Union[Unset, Discount] = UNSET
     "An optional discount"
-    text: str = ""
+    text: Union[Unset, str] = UNSET
     "An optional text descriping the item"
     id: Union[Unset, int] = UNSET
     "The SevDesk internal id"
@@ -38,4 +40,23 @@ class LineItem:
             discounted_value=self.discount.value if self.discount else UNSET,
             unity=self.unity.get_api_model(client),
             is_percentage=self.discount.percentage if self.discount else UNSET,
+            text=self.text,
+        )
+
+    @classmethod
+    def _from_model(cls, client: Client, model: InvoicePositionModel) -> LineItem:
+        return cls(
+            name=model.name,
+            quantity=float(model.quantity),
+            price=float(model.price),
+            tax=float(model.tax_rate),
+            unity=Unity(model.unity.translation_code),
+            discount=Discount(
+                value=float(model.discounted_value),
+                percentage=bool(int(model.is_percentage)),
+            )
+            if model.discounted_value is not None
+            else UNSET,
+            text=model.text if model.text is not None else UNSET,
+            id=int(model.id),
         )

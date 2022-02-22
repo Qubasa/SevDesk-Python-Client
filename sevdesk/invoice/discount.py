@@ -1,10 +1,10 @@
+from __future__ import annotations
 from typing import Union
-
 import attrs
 
 from .. import Client
 from ..common import UNSET, Unset
-from .client.models import SaveInvoiceDiscountSave
+from .client.models import SaveInvoiceDiscountSave, InvoiceDiscountPositionModel
 
 
 @attrs.define()
@@ -25,4 +25,15 @@ class Discount:
             text=self.text,
             percentage=self.percentage,
             value=self.value,
+        )
+
+    @classmethod
+    def _from_model(
+        cls, client: Client, model: InvoiceDiscountPositionModel
+    ) -> Discount:
+        return cls(
+            id=int(model.id),
+            text=model.text,
+            percentage=bool(model.percentage),
+            value=float(model.value),
         )
