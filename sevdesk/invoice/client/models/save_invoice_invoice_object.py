@@ -54,7 +54,7 @@ class SaveInvoiceInvoiceObject:
                  our API-Overview Default: InvoiceModelInvoiceType.RE.
         currency (str): Currency used in the invoice. Needs to be currency code according to ISO-4217 Default: 'EUR'.
         map_all (bool):  Default: True.
-        id (Union[Unset, int]): The invoice id
+        id (Union[Unset, None, int]): The invoice id
         object_name (Union[Unset, str]): The invoice object name Default: 'Invoice'.
         invoice_number (Union[Unset, None, str]): The invoice number Example: RE-1000.
         create (Union[Unset, datetime.datetime]): Date of invoice creation
@@ -145,7 +145,7 @@ class SaveInvoiceInvoiceObject:
     invoice_type: InvoiceModelInvoiceType = InvoiceModelInvoiceType.RE
     currency: str = "EUR"
     map_all: bool = True
-    id: Union[Unset, int] = UNSET
+    id: Union[Unset, None, int] = UNSET
     object_name: Union[Unset, str] = "Invoice"
     invoice_number: Union[Unset, None, str] = UNSET
     create: Union[Unset, datetime.datetime] = UNSET

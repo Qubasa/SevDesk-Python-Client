@@ -22,8 +22,8 @@ class SaveInvoiceInvoicePosObject:
         map_all (bool):  Default: True.
         id (Union[Unset, int]): The invoice position id
         object_name (Union[Unset, str]): The invoice position object name Default: 'InvoicePos'.
-        create (Union[Unset, datetime.datetime]): Date of invoice position creation
-        update (Union[Unset, datetime.datetime]): Date of last invoice position update
+        create (Union[Unset, None, datetime.datetime]): Date of invoice position creation
+        update (Union[Unset, None, datetime.datetime]): Date of last invoice position update
         invoice (Union[Unset, InvoicePositionModelInvoice]): The invoice to which the position belongs.
         part (Union[Unset, InvoicePositionModelPart]): Part from your inventory which is used in the position.
         quantity (Union[Unset, None, float]): Quantity of the article/part Example: 1.
@@ -56,8 +56,8 @@ class SaveInvoiceInvoicePosObject:
     map_all: bool = True
     id: Union[Unset, int] = UNSET
     object_name: Union[Unset, str] = "InvoicePos"
-    create: Union[Unset, datetime.datetime] = UNSET
-    update: Union[Unset, datetime.datetime] = UNSET
+    create: Union[Unset, None, datetime.datetime] = UNSET
+    update: Union[Unset, None, datetime.datetime] = UNSET
     invoice: Union[Unset, InvoicePositionModelInvoice] = UNSET
     part: Union[Unset, InvoicePositionModelPart] = UNSET
     quantity: Union[Unset, None, float] = UNSET
@@ -89,13 +89,13 @@ class SaveInvoiceInvoicePosObject:
         map_all = self.map_all
         id = self.id
         object_name = self.object_name
-        create: Union[Unset, str] = UNSET
+        create: Union[Unset, None, str] = UNSET
         if not isinstance(self.create, Unset):
-            create = self.create.isoformat()
+            create = self.create.isoformat() if self.create else None
 
-        update: Union[Unset, str] = UNSET
+        update: Union[Unset, None, str] = UNSET
         if not isinstance(self.update, Unset):
-            update = self.update.isoformat()
+            update = self.update.isoformat() if self.update else None
 
         invoice: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.invoice, Unset):
@@ -207,15 +207,19 @@ class SaveInvoiceInvoicePosObject:
         object_name = d.pop("objectName", UNSET)
 
         _create = d.pop("create", UNSET)
-        create: Union[Unset, datetime.datetime]
-        if isinstance(_create, Unset):
+        create: Union[Unset, None, datetime.datetime]
+        if _create is None:
+            create = None
+        elif isinstance(_create, Unset):
             create = UNSET
         else:
             create = isoparse(_create)
 
         _update = d.pop("update", UNSET)
-        update: Union[Unset, datetime.datetime]
-        if isinstance(_update, Unset):
+        update: Union[Unset, None, datetime.datetime]
+        if _update is None:
+            update = None
+        elif isinstance(_update, Unset):
             update = UNSET
         else:
             update = isoparse(_update)

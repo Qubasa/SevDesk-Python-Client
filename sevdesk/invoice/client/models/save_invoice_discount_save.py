@@ -1,6 +1,8 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import Any, Dict, List, Type, TypeVar, Union
 
 import attr
+
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="SaveInvoiceDiscountSave")
 
@@ -15,6 +17,7 @@ class SaveInvoiceDiscountSave:
         value (float): Value of the discount
         object_name (str): Object name of the discount Default: 'Discounts'.
         map_all (bool): Internal param Default: True.
+        id (Union[Unset, None, int]): The invoice position id
     """
 
     discount: bool
@@ -23,6 +26,7 @@ class SaveInvoiceDiscountSave:
     value: float
     object_name: str = "Discounts"
     map_all: bool = True
+    id: Union[Unset, None, int] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -32,6 +36,7 @@ class SaveInvoiceDiscountSave:
         value = self.value
         object_name = self.object_name
         map_all = self.map_all
+        id = self.id
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -45,6 +50,8 @@ class SaveInvoiceDiscountSave:
                 "mapAll": map_all,
             }
         )
+        if id is not UNSET:
+            field_dict["id"] = id
 
         return field_dict
 
@@ -63,6 +70,8 @@ class SaveInvoiceDiscountSave:
 
         map_all = d.pop("mapAll")
 
+        id = d.pop("id", UNSET)
+
         save_invoice_discount_save = cls(
             discount=discount,
             text=text,
@@ -70,6 +79,7 @@ class SaveInvoiceDiscountSave:
             value=value,
             object_name=object_name,
             map_all=map_all,
+            id=id,
         )
 
         save_invoice_discount_save.additional_properties = d

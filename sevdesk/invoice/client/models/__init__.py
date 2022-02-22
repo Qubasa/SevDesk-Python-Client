@@ -11,8 +11,8 @@ from .book_invoice_response_200_objects_item import BookInvoiceResponse200Object
 from .cancel_invoice_response_201 import CancelInvoiceResponse201
 from .create_invoice_by_factory_json_body import CreateInvoiceByFactoryJsonBody
 from .create_invoice_by_factory_response_201 import CreateInvoiceByFactoryResponse201
-from .create_invoice_by_factory_response_201_objects_item import (
-    CreateInvoiceByFactoryResponse201ObjectsItem,
+from .create_invoice_by_factory_response_201_objects import (
+    CreateInvoiceByFactoryResponse201Objects,
 )
 from .create_invoice_pos_response_201 import CreateInvoicePosResponse201
 from .create_invoice_response_201 import CreateInvoiceResponse201
@@ -38,6 +38,7 @@ from .get_is_invoice_partially_paid_response_200 import (
     GetIsInvoicePartiallyPaidResponse200,
 )
 from .get_next_invoice_number_response_200 import GetNextInvoiceNumberResponse200
+from .invoice_discount_position_model import InvoiceDiscountPositionModel
 from .invoice_get_pdf_response_200 import InvoiceGetPdfResponse200
 from .invoice_model import InvoiceModel
 from .invoice_model_address_contact_ref import InvoiceModelAddressContactRef

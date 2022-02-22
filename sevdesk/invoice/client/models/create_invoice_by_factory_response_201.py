@@ -2,8 +2,8 @@ from typing import Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.create_invoice_by_factory_response_201_objects_item import (
-    CreateInvoiceByFactoryResponse201ObjectsItem,
+from ..models.create_invoice_by_factory_response_201_objects import (
+    CreateInvoiceByFactoryResponse201Objects,
 )
 from ..types import UNSET, Unset
 
@@ -14,20 +14,16 @@ T = TypeVar("T", bound="CreateInvoiceByFactoryResponse201")
 class CreateInvoiceByFactoryResponse201:
     """
     Attributes:
-        objects (Union[Unset, List[CreateInvoiceByFactoryResponse201ObjectsItem]]):
+        objects (Union[Unset, CreateInvoiceByFactoryResponse201Objects]):
     """
 
-    objects: Union[Unset, List[CreateInvoiceByFactoryResponse201ObjectsItem]] = UNSET
+    objects: Union[Unset, CreateInvoiceByFactoryResponse201Objects] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        objects: Union[Unset, List[Dict[str, Any]]] = UNSET
+        objects: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.objects, Unset):
-            objects = []
-            for objects_item_data in self.objects:
-                objects_item = objects_item_data.to_dict()
-
-                objects.append(objects_item)
+            objects = self.objects.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -40,14 +36,12 @@ class CreateInvoiceByFactoryResponse201:
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        objects = []
         _objects = d.pop("objects", UNSET)
-        for objects_item_data in _objects or []:
-            objects_item = CreateInvoiceByFactoryResponse201ObjectsItem.from_dict(
-                objects_item_data
-            )
-
-            objects.append(objects_item)
+        objects: Union[Unset, CreateInvoiceByFactoryResponse201Objects]
+        if isinstance(_objects, Unset):
+            objects = UNSET
+        else:
+            objects = CreateInvoiceByFactoryResponse201Objects.from_dict(_objects)
 
         create_invoice_by_factory_response_201 = cls(
             objects=objects,

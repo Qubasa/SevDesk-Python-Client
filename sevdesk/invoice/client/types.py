@@ -3,13 +3,12 @@ from typing import BinaryIO, Generic, MutableMapping, Optional, Tuple, TypeVar
 
 import attr
 
+# Instead of declaring a new Unset-Type, use a common version so that isinstance works properly
+from ...common import types
 
-class Unset:
-    def __bool__(self) -> bool:
-        return False
+Unset = types.Unset
+UNSET = types.UNSET
 
-
-UNSET: Unset = Unset()
 
 FileJsonType = Tuple[Optional[str], BinaryIO, Optional[str]]
 

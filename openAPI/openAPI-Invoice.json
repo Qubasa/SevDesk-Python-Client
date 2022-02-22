@@ -161,30 +161,35 @@
                         "content": {
                             "application/json": {
                                 "schema": {
+                                    "type": "object",
                                     "properties": {
                                         "objects": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "invoice": {
-                                                        "description": "The created invoice",
-                                                        "type": "object",
-                                                        "$ref": "#/components/schemas/Model_Invoice"
-                                                    },
-                                                    "invoicePos": {
-                                                        "description": "The created invoice positions",
-                                                        "type": "array",
-                                                        "items": {
-                                                            "$ref": "#/components/schemas/Model_InvoicePos"
-                                                        },
-                                                        "nullable": true
-                                                    }
+                                            "type": "object",
+                                            "properties": {
+                                                "invoice": {
+                                                    "description": "The created invoice",
+                                                    "type": "object",
+                                                    "$ref": "#/components/schemas/Model_Invoice"
                                                 },
-                                                "type": "object"
+                                                "invoicePos": {
+                                                    "description": "The created invoice positions",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Model_InvoicePos"
+                                                    },
+                                                    "nullable": true
+                                                },
+                                                "discount": {
+                                                    "description": "The created invoice discounts",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Model_DiscountPos"
+                                                    },
+                                                    "nullable": true
+                                                }
                                             }
                                         }
-                                    },
-                                    "type": "object"
+                                    }
                                 }
                             }
                         }
@@ -269,6 +274,16 @@
                         "name": "contact[objectName]",
                         "in": "query",
                         "description": "Only required if contact[id] was provided. 'Contact' should be used as value.",
+                        "required": false,
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "customerInternalNote",
+                        "in": "query",
+                        "description": "Retrieve an invoice with the given customer internal note.",
                         "required": false,
                         "explode": false,
                         "schema": {
@@ -1357,6 +1372,12 @@
                     "mapAll"
                 ],
                 "properties": {
+                    "id": {
+                        "description": "The invoice position id",
+                        "type": "integer",
+                        "readOnly": true,
+                        "nullable": true
+                    },
                     "discount": {
                         "description": "Defines if this is a discount or a surcharge",
                         "type": "boolean",
@@ -1427,7 +1448,7 @@
                         "description": "The invoice id",
                         "type": "integer",
                         "readOnly": true,
-                        "nullable": false
+                        "nullable": true
                     },
                     "objectName": {
                         "description": "The invoice object name",
@@ -2147,6 +2168,31 @@
                 },
                 "type": "object"
             },
+            "Model_DiscountPos": {
+                "title": "Invoice discount position model",
+                "description": "Invoice discount model",
+                "properties": {
+                    "id": {
+                        "description": "The invoice discount id",
+                        "type": "integer",
+                        "readOnly": true,
+                        "nullable": false
+                    },
+                    "text": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "percentage": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "value": {
+                        "type": "number",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
             "Model_InvoicePos": {
                 "title": "Invoice position model",
                 "description": "Invoice position model",
@@ -2172,13 +2218,15 @@
                         "description": "Date of invoice position creation",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": true
+                        "readOnly": true,
+                        "nullable": true
                     },
                     "update": {
                         "description": "Date of last invoice position update",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": true
+                        "readOnly": true,
+                        "nullable": true
                     },
                     "invoice": {
                         "description": "The invoice to which the position belongs.",

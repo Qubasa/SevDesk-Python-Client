@@ -2,23 +2,26 @@ from typing import Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
+from ..models.invoice_discount_position_model import InvoiceDiscountPositionModel
 from ..models.invoice_model import InvoiceModel
 from ..models.invoice_position_model import InvoicePositionModel
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="CreateInvoiceByFactoryResponse201ObjectsItem")
+T = TypeVar("T", bound="CreateInvoiceByFactoryResponse201Objects")
 
 
 @attr.s(auto_attribs=True)
-class CreateInvoiceByFactoryResponse201ObjectsItem:
+class CreateInvoiceByFactoryResponse201Objects:
     """
     Attributes:
         invoice (Union[Unset, InvoiceModel]): Invoice model
         invoice_pos (Union[Unset, None, List[InvoicePositionModel]]): The created invoice positions
+        discount (Union[Unset, None, List[InvoiceDiscountPositionModel]]): The created invoice discounts
     """
 
     invoice: Union[Unset, InvoiceModel] = UNSET
     invoice_pos: Union[Unset, None, List[InvoicePositionModel]] = UNSET
+    discount: Union[Unset, None, List[InvoiceDiscountPositionModel]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -37,6 +40,17 @@ class CreateInvoiceByFactoryResponse201ObjectsItem:
 
                     invoice_pos.append(invoice_pos_item)
 
+        discount: Union[Unset, None, List[Dict[str, Any]]] = UNSET
+        if not isinstance(self.discount, Unset):
+            if self.discount is None:
+                discount = None
+            else:
+                discount = []
+                for discount_item_data in self.discount:
+                    discount_item = discount_item_data.to_dict()
+
+                    discount.append(discount_item)
+
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -44,6 +58,8 @@ class CreateInvoiceByFactoryResponse201ObjectsItem:
             field_dict["invoice"] = invoice
         if invoice_pos is not UNSET:
             field_dict["invoicePos"] = invoice_pos
+        if discount is not UNSET:
+            field_dict["discount"] = discount
 
         return field_dict
 
@@ -64,13 +80,21 @@ class CreateInvoiceByFactoryResponse201ObjectsItem:
 
             invoice_pos.append(invoice_pos_item)
 
-        create_invoice_by_factory_response_201_objects_item = cls(
+        discount = []
+        _discount = d.pop("discount", UNSET)
+        for discount_item_data in _discount or []:
+            discount_item = InvoiceDiscountPositionModel.from_dict(discount_item_data)
+
+            discount.append(discount_item)
+
+        create_invoice_by_factory_response_201_objects = cls(
             invoice=invoice,
             invoice_pos=invoice_pos,
+            discount=discount,
         )
 
-        create_invoice_by_factory_response_201_objects_item.additional_properties = d
-        return create_invoice_by_factory_response_201_objects_item
+        create_invoice_by_factory_response_201_objects.additional_properties = d
+        return create_invoice_by_factory_response_201_objects
 
     @property
     def additional_keys(self) -> List[str]:

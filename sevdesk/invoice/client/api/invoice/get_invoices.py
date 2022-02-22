@@ -17,6 +17,7 @@ def _get_kwargs(
     end_date: Union[Unset, None, int] = UNSET,
     contactid: Union[Unset, None, int] = UNSET,
     contactobject_name: Union[Unset, None, str] = UNSET,
+    customer_internal_note: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/Invoice".format(client.base_url)
 
@@ -39,6 +40,8 @@ def _get_kwargs(
     params["contact[id]"] = contactid
 
     params["contact[objectName]"] = contactobject_name
+
+    params["customerInternalNote"] = customer_internal_note
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -91,6 +94,7 @@ def sync_detailed(
     end_date: Union[Unset, None, int] = UNSET,
     contactid: Union[Unset, None, int] = UNSET,
     contactobject_name: Union[Unset, None, str] = UNSET,
+    customer_internal_note: Union[Unset, None, str] = UNSET,
 ) -> Response[Union[Any, GetInvoicesResponse200]]:
     """Retrieve invoices
 
@@ -105,6 +109,7 @@ def sync_detailed(
         end_date (Union[Unset, None, int]):
         contactid (Union[Unset, None, int]):
         contactobject_name (Union[Unset, None, str]):
+        customer_internal_note (Union[Unset, None, str]):
 
     Returns:
         Response[Union[Any, GetInvoicesResponse200]]
@@ -118,6 +123,7 @@ def sync_detailed(
         end_date=end_date,
         contactid=contactid,
         contactobject_name=contactobject_name,
+        customer_internal_note=customer_internal_note,
     )
 
     response = httpx.request(
@@ -137,6 +143,7 @@ def sync(
     end_date: Union[Unset, None, int] = UNSET,
     contactid: Union[Unset, None, int] = UNSET,
     contactobject_name: Union[Unset, None, str] = UNSET,
+    customer_internal_note: Union[Unset, None, str] = UNSET,
 ) -> Optional[Union[Any, GetInvoicesResponse200]]:
     """Retrieve invoices
 
@@ -151,6 +158,7 @@ def sync(
         end_date (Union[Unset, None, int]):
         contactid (Union[Unset, None, int]):
         contactobject_name (Union[Unset, None, str]):
+        customer_internal_note (Union[Unset, None, str]):
 
     Returns:
         Response[Union[Any, GetInvoicesResponse200]]
@@ -164,6 +172,7 @@ def sync(
         end_date=end_date,
         contactid=contactid,
         contactobject_name=contactobject_name,
+        customer_internal_note=customer_internal_note,
     ).parsed
 
 
@@ -176,6 +185,7 @@ async def asyncio_detailed(
     end_date: Union[Unset, None, int] = UNSET,
     contactid: Union[Unset, None, int] = UNSET,
     contactobject_name: Union[Unset, None, str] = UNSET,
+    customer_internal_note: Union[Unset, None, str] = UNSET,
 ) -> Response[Union[Any, GetInvoicesResponse200]]:
     """Retrieve invoices
 
@@ -190,6 +200,7 @@ async def asyncio_detailed(
         end_date (Union[Unset, None, int]):
         contactid (Union[Unset, None, int]):
         contactobject_name (Union[Unset, None, str]):
+        customer_internal_note (Union[Unset, None, str]):
 
     Returns:
         Response[Union[Any, GetInvoicesResponse200]]
@@ -203,6 +214,7 @@ async def asyncio_detailed(
         end_date=end_date,
         contactid=contactid,
         contactobject_name=contactobject_name,
+        customer_internal_note=customer_internal_note,
     )
 
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
@@ -220,6 +232,7 @@ async def asyncio(
     end_date: Union[Unset, None, int] = UNSET,
     contactid: Union[Unset, None, int] = UNSET,
     contactobject_name: Union[Unset, None, str] = UNSET,
+    customer_internal_note: Union[Unset, None, str] = UNSET,
 ) -> Optional[Union[Any, GetInvoicesResponse200]]:
     """Retrieve invoices
 
@@ -234,6 +247,7 @@ async def asyncio(
         end_date (Union[Unset, None, int]):
         contactid (Union[Unset, None, int]):
         contactobject_name (Union[Unset, None, str]):
+        customer_internal_note (Union[Unset, None, str]):
 
     Returns:
         Response[Union[Any, GetInvoicesResponse200]]
@@ -248,5 +262,6 @@ async def asyncio(
             end_date=end_date,
             contactid=contactid,
             contactobject_name=contactobject_name,
+            customer_internal_note=customer_internal_note,
         )
     ).parsed
