@@ -5,8 +5,8 @@ import attrs
 from .. import Client
 from ..common import UNSET, Unset
 from .client.models import SaveInvoiceInvoicePosObject
-from .unity import Unity
 from .discount import Discount
+from .unity import Unity
 
 
 @attrs.define()
@@ -25,9 +25,12 @@ class LineItem:
     "An optional discount"
     text: str = ""
     "An optional text descriping the item"
+    id: Union[Unset, int] = UNSET
+    "The SevDesk internal id"
 
     def get_api_model(self, client: Client) -> SaveInvoiceInvoicePosObject:
         return SaveInvoiceInvoicePosObject(
+            id=self.id,
             name=self.name,
             quantity=self.quantity,
             tax_rate=self.tax,

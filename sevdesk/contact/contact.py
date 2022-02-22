@@ -134,7 +134,7 @@ class Contact:
         cls, client: Client, customer_number: str
     ) -> Union[None, Contact]:
         """
-        This API Abstraction makes using customer numbers mandatory.
+        This Client makes using customer numbers mandatory.
         For example, Shopify-Customers can be mapped to SevDesk Contacts by using their Shopify (Legacy) ID
         """
         response = get_contacts.sync_detailed(

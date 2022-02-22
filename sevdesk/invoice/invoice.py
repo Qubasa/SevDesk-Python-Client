@@ -1,20 +1,31 @@
+from __future__ import annotations
+
 from datetime import datetime
 from enum import Enum
 from typing import List, Union
+
 import attrs
+from sevdesk.invoice.client.models.create_invoice_by_factory_response_201 import (
+    CreateInvoiceByFactoryResponse201,
+)
 
 from .. import Client
 from ..common import UNSET, SevUser, Unset
 from ..common.sevdesk import SevDesk
 from ..contact import Contact
-from .client.api.invoice import create_invoice_by_factory, get_next_invoice_number
+from .client.api.invoice import (
+    create_invoice_by_factory,
+    delete_invoice,
+    get_invoices,
+    get_next_invoice_number,
+)
 from .client.models import (
     CreateInvoiceByFactoryJsonBody,
     InvoiceModelContact,
-    InvoiceModelStatus,
-    SaveInvoiceInvoiceObject,
     InvoiceModelContactPerson,
+    InvoiceModelStatus,
     SaveInvoiceDiscountSave,
+    SaveInvoiceInvoiceObject,
 )
 from .discount import Discount
 from .lineitem import LineItem
@@ -39,8 +50,8 @@ class Invoice:
     are shown on the Invoice. When creating the invoice, it will be marked as sent but not as payed.
     """
 
-    contact: Contact
-    "The contact the invoice belongs to."
+    customer: Contact
+    "The customer the invoice belongs to. After the invoice is created, make sure to not change the customer anymore."
     ordercode: str
     "The ordercode is used to generate a meaningful invoice header"
     reference: Union[Unset, str] = UNSET
@@ -93,6 +104,7 @@ class Invoice:
             self.contact_person = SevDesk.user(client)
 
         if not self.invoice_number:
+            # Query the Invoice-Number only once
             response = get_next_invoice_number.sync_detailed(
                 client=client, invoice_type="RE", use_next_number=False
             )
@@ -110,8 +122,9 @@ class Invoice:
                 foot_text += f"<li>{transaction.gateway}: {transaction.amount} EUR</li>"
             foot_text += "</ul>"
 
-        invoice_model_contact = InvoiceModelContact(self.contact.id)
+        invoice_model_contact = InvoiceModelContact(self.customer.id)
         invoice_object = SaveInvoiceInvoiceObject(
+            id=self.id,
             header=header,
             foot_text=foot_text,
             invoice_number=self.invoice_number,
@@ -133,14 +146,7 @@ class Invoice:
 
         discount_save = []
         if self.overall_discount:
-            discount_save.append(
-                SaveInvoiceDiscountSave(
-                    discount=True,
-                    text=self.overall_discount.text,
-                    percentage=self.overall_discount.percentage,
-                    value=self.overall_discount.value,
-                )
-            )
+            discount_save.append(self.overall_discount.get_api_model(client))
 
         return CreateInvoiceByFactoryJsonBody(
             invoice=invoice_object,
@@ -151,16 +157,58 @@ class Invoice:
         )
 
     @classmethod
-    def get_by_reference(cls, client: Client):
+    def get_by_reference(cls, client: Client, reference: str) -> Invoice:
         """
-        Invoices created by the API use the customer_interal_note as a reference.
-        This allows to query a specific invoice by its reference.
+        This Client makes using references (customer_interal_note) mandatory.
+        For example, Shopify-Orders can be mapped to SevDesk Invoices by using the Shopify (Legacy) ID
+
+        Make sure to not manipulate the invoice manually as this client implies some
+        restrictions (e.g. overall discount, ordercode and reference)
         """
-        # TODO use query parameter customerIntenalNote={note}
-        pass
+        response = get_invoices.sync_detailed(
+            client=client, customer_internal_note=reference
+        )
+        SevDesk.raise_for_status(
+            response, "getting invoice by reference (customer_internal_note)"
+        )
+        return response
+
+    def _update_ids(self, response: CreateInvoiceByFactoryResponse201):
+        # Update IDs
+        response = response.parsed.objects
+        self.id = response.invoice.id
+
+        if self.items:
+            for local, cloud in zip(self.items, response.invoice_pos):
+                if local.name != cloud.name:
+                    raise RuntimeError("Order of lineitems does not match.")
+                local.id = cloud.id
+
+        if self.overall_discount:
+            overall_discount = response.discount[0]
+            self.overall_discount.id = overall_discount.id
+
+    def update(self, client: Client):
+        if not self.id:
+            RuntimeError("Cannot update unknwon invoice - missing ID.")
+
+        # The Factory Endpoint can be used to update an invoice
+        response = create_invoice_by_factory.sync_detailed(
+            client=client, json_body=self.get_api_model(client)
+        )
+        SevDesk.raise_for_status(response, "creating invoice by factory")
+        self._update_ids(response)
 
     def create(self, client: Client):
         response = create_invoice_by_factory.sync_detailed(
             client=client, json_body=self.get_api_model(client)
         )
         SevDesk.raise_for_status(response, "creating invoice by factory")
+        self._update_ids(response)
+
+    def delete(self, client: Client):
+        if not self.id:
+            raise RuntimeError("Cannot delete unknwon invoice - missing ID.")
+
+        response = delete_invoice.sync_detailed(invoice_id=self.id, client=client)
+        SevDesk.raise_for_status(response, "deleting an invoice")
