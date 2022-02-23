@@ -40,8 +40,11 @@ from .get_is_invoice_partially_paid_response_200 import (
     GetIsInvoicePartiallyPaidResponse200,
 )
 from .get_next_invoice_number_response_200 import GetNextInvoiceNumberResponse200
+from .invoice_change_status_json_body import InvoiceChangeStatusJsonBody
+from .invoice_change_status_json_body_value import InvoiceChangeStatusJsonBodyValue
 from .invoice_discount_position_model import InvoiceDiscountPositionModel
 from .invoice_get_pdf_response_200 import InvoiceGetPdfResponse200
+from .invoice_get_pdf_response_200_objects import InvoiceGetPdfResponse200Objects
 from .invoice_model import InvoiceModel
 from .invoice_model_address_contact_ref import InvoiceModelAddressContactRef
 from .invoice_model_address_country import InvoiceModelAddressCountry
