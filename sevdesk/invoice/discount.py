@@ -1,10 +1,12 @@
 from __future__ import annotations
+
 from typing import Union
+
 import attrs
 
 from .. import Client
 from ..common import UNSET, Unset
-from .client.models import SaveInvoiceDiscountSave, InvoiceDiscountPositionModel
+from .client.models import InvoiceDiscountPositionModel, SaveInvoiceDiscountSave
 
 
 @attrs.define()
@@ -18,7 +20,7 @@ class Discount:
     id: Union[Unset, int] = UNSET
     "The SevDesk internal id"
 
-    def get_api_model(self, client: Client) -> SaveInvoiceDiscountSave:
+    def _get_api_model(self, client: Client) -> SaveInvoiceDiscountSave:
         return SaveInvoiceDiscountSave(
             id=self.id,
             discount=True,

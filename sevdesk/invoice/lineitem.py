@@ -30,7 +30,7 @@ class LineItem:
     id: Union[Unset, int] = UNSET
     "The SevDesk internal id"
 
-    def get_api_model(self, client: Client) -> SaveInvoiceInvoicePosObject:
+    def _get_api_model(self, client: Client) -> SaveInvoiceInvoicePosObject:
         return SaveInvoiceInvoicePosObject(
             id=self.id,
             name=self.name,
@@ -38,7 +38,7 @@ class LineItem:
             tax_rate=self.tax,
             price=self.price,
             discounted_value=self.discount.value if self.discount else UNSET,
-            unity=self.unity.get_api_model(client),
+            unity=self.unity._get_api_model(client),
             is_percentage=self.discount.percentage if self.discount else UNSET,
             text=self.text,
         )

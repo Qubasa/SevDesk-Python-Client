@@ -3,6 +3,7 @@ from __future__ import annotations
 import requests
 import attrs
 import cattrs
+import json
 
 from .. import Client
 
@@ -33,6 +34,15 @@ class SevDesk:
     @staticmethod
     def raise_for_status(response, operation: str):
         if not response.status_code == 200 and not response.status_code == 201:
+            msg = ""
+
+            try:
+                parsed = json.loads(response.content)
+                if "error" in parsed:
+                    msg = f""", message: {parsed["error"]["message"]}"""
+            except:
+                pass
+
             raise IOError(
-                f"Operation {operation} failed with status code: {response.status_code}."
+                f"Operation {operation} failed with status code: {response.status_code}{msg}."
             )

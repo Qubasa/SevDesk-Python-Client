@@ -34,7 +34,7 @@ class CommunicationWayKey(str, Enum):
     COMM_WAY_KEY_INVOICE_ADDRESS = "COMM_WAY_KEY_INVOICE_ADDRESS"
     COMM_WAY_KEY_EMPTY = "COMM_WAY_KEY_EMPTY"
 
-    def get_api_model(self, client: Client) -> CommunicationWayModelKey:
+    def _get_api_model(self, client: Client) -> CommunicationWayModelKey:
         """
         Get the API-Model for the given Communication Way Key
         """
@@ -62,7 +62,7 @@ class CommuncationWayType(Enum):
     WEB = auto()
     MOBILE = auto()
 
-    def get_api_model(self, client: Client) -> CommunicationWayModelType:
+    def _get_api_model(self, client: Client) -> CommunicationWayModelType:
         map = {
             CommuncationWayType.EMAIL: CommunicationWayModelType.EMAIL,
             CommuncationWayType.PHONE: CommunicationWayModelType.PHONE,
@@ -85,14 +85,14 @@ class CommunicationWay:
     parent: Union[Unset, Any] = UNSET
     id: Union[Unset, str] = UNSET
 
-    def get_api_model(self, client: Client) -> CommunicationWayModel:
+    def _get_api_model(self, client: Client) -> CommunicationWayModel:
         """
         Get the API Model to create or update a specific communication way
         """
         return CommunicationWayModel(
-            type=self.type_.get_api_model(client),
+            type=self.type_._get_api_model(client),
             value=self.value,
-            key=self.key.get_api_model(client),
+            key=self.key._get_api_model(client),
             contact=CommunicationWayModelContact(id=self.parent.id),
         )
 
@@ -104,7 +104,7 @@ class CommunicationWay:
             raise ValueError("Cannt create Communication Way without a parent.")
 
         response = create_communication_way.sync_detailed(
-            client=client, json_body=self.get_api_model(client)
+            client=client, json_body=self._get_api_model(client)
         )
         SevDesk.raise_for_status(response, "creating communication-way")
 
@@ -124,7 +124,7 @@ class CommunicationWay:
         response = update_communication_way.sync_detailed(
             communication_way_id=self.id,
             client=client,
-            json_body=self.get_api_model(client),
+            json_body=self._get_api_model(client),
         )
 
         SevDesk.raise_for_status(response, "updating communication-way")

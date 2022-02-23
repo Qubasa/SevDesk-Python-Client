@@ -1,7 +1,6 @@
 from operator import inv
 import os
 
-from black import Line
 from sevdesk import Client
 from sevdesk.common import Unset
 from sevdesk.contact import Customer
@@ -9,10 +8,10 @@ from sevdesk.invoice import Invoice, LineItem, Unity, Discount, InvoiceStatus
 from sevdesk.invoice.invoice import Transaction
 
 
-def test_create_invoice():
+def test_invoice():
     token = os.environ["SEVDESKTOKEN"]
     client = Client(base_url="https://my.sevdesk.de/api/v1", token=token)
-    reference = "FFFFFFFFFF"
+    reference = "FFFFFFFFFFF"
 
     # Append Invoice to Test-Customer
     customer = Customer.get_by_customer_number(client, "1000")
@@ -109,6 +108,12 @@ def test_create_invoice():
         else:
             assert isinstance(cloud_item.discount, Unset)
     assert isinstance(cloud.transactions, Unset)
+
+    # Download a PDF (which will mark invoice as send)
+    invoice.download_pdf(client)
+
+    # Reset to draft (This only works if SevDesk does not automatically enshrine invoices - refer to SevDesk Settings)
+    invoice.set_to_draft(client)
 
     # Delete the draft-invoice
     invoice.delete(client)

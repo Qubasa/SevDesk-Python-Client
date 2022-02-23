@@ -38,7 +38,7 @@ class Contact:
     invoice_address: Union[Unset, InvoiceAddress] = UNSET
     id: Union[Unset, str] = UNSET
 
-    def get_api_model(self, client: Client) -> ContactModel:
+    def _get_api_model(self, client: Client) -> ContactModel:
         return ContactModel(
             surename=self.surename,
             familyname=self.familyname,
@@ -48,7 +48,7 @@ class Contact:
 
     def create(self, client: Client):
         response = create_contact.sync_detailed(
-            client=client, json_body=self.get_api_model(client)
+            client=client, json_body=self._get_api_model(client)
         )
 
         SevDesk.raise_for_status(
@@ -85,7 +85,7 @@ class Contact:
             )
 
         response = update_contact.sync_detailed(
-            contact_id=self.id, client=client, json_body=self.get_api_model(client)
+            contact_id=self.id, client=client, json_body=self._get_api_model(client)
         )
 
         SevDesk.raise_for_status(

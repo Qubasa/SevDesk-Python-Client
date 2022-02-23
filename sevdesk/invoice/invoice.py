@@ -5,9 +5,7 @@ from enum import Enum
 from typing import List, Union
 
 import attrs
-from sevdesk.invoice.client.models.create_invoice_by_factory_response_201 import (
-    CreateInvoiceByFactoryResponse201,
-)
+
 
 from .. import Client
 from ..common import UNSET, SevUser, Unset
@@ -18,16 +16,21 @@ from .client.api.invoice import (
     delete_invoice,
     get_invoices,
     get_next_invoice_number,
+    invoice_get_pdf,
+    invoice_change_status,
 )
 from .client.api.invoice_discounts import get_discounts_by_id
 from .client.api.invoice_pos import get_invoice_pos
 from .client.models import (
     CreateInvoiceByFactoryJsonBody,
+    CreateInvoiceByFactoryResponse201,
     InvoiceModel,
     InvoiceModelContact,
     InvoiceModelContactPerson,
     InvoiceModelStatus,
     SaveInvoiceInvoiceObject,
+    InvoiceChangeStatusJsonBody,
+    InvoiceChangeStatusJsonBodyValue,
 )
 from .discount import Discount
 from .lineitem import LineItem
@@ -39,8 +42,15 @@ class InvoiceStatus(Enum):
     OPEN = InvoiceModelStatus.VALUE_2
     PAYED = InvoiceModelStatus.VALUE_3
 
-    def get_api_model(self, client: Client) -> InvoiceModelStatus:
+    def _get_api_model(self, client: Client) -> InvoiceModelStatus:
         return self.value
+
+
+@attrs.define()
+class Pdf:
+    filename: str
+    base64_encoded: bool
+    content: str
 
 
 @attrs.define()
@@ -102,7 +112,7 @@ class Invoice:
         if not self.delivery_date:
             self.delivery_date = self.invoice_date
 
-    def get_api_model(self, client: Client) -> CreateInvoiceByFactoryJsonBody:
+    def _get_api_model(self, client: Client) -> CreateInvoiceByFactoryJsonBody:
         if not self.contact_person:
             self.contact_person = SevDesk.user(client)
 
@@ -132,7 +142,7 @@ class Invoice:
             foot_text=self._foot_text,
             invoice_number=self.invoice_number,
             contact=invoice_model_contact,
-            status=self.status.get_api_model(client),
+            status=self.status._get_api_model(client),
             invoice_date=self.invoice_date,
             delivery_date=self.delivery_date,
             small_settlement=self.small_settlement,
@@ -145,11 +155,11 @@ class Invoice:
 
         invoice_pos = []
         for item in self.items:
-            invoice_pos.append(item.get_api_model(client))
+            invoice_pos.append(item._get_api_model(client))
 
         discount_save = []
         if self.overall_discount:
-            discount_save.append(self.overall_discount.get_api_model(client))
+            discount_save.append(self.overall_discount._get_api_model(client))
 
         return CreateInvoiceByFactoryJsonBody(
             invoice=invoice_object,
@@ -180,7 +190,7 @@ class Invoice:
 
         # The Factory Endpoint can be used to update an invoice
         response = create_invoice_by_factory.sync_detailed(
-            client=client, json_body=self.get_api_model(client)
+            client=client, json_body=self._get_api_model(client)
         )
         SevDesk.raise_for_status(response, "creating invoice by factory")
         self._update_ids(response)
@@ -190,7 +200,7 @@ class Invoice:
             RuntimeError("Cannot create an already known invoice - update instead?")
 
         response = create_invoice_by_factory.sync_detailed(
-            client=client, json_body=self.get_api_model(client)
+            client=client, json_body=self._get_api_model(client)
         )
         SevDesk.raise_for_status(response, "creating invoice by factory")
         self._update_ids(response)
@@ -246,6 +256,41 @@ class Invoice:
             items=items if items else UNSET,
             overall_discount=overall_discount,
         )
+
+    def download_pdf(self, client: Client) -> Pdf:
+        """
+        Download the invoice as PDF.
+        Be careful - this will mark the invoice as send!
+        """
+        if not self.id:
+            raise RuntimeError("Cannot download pdf for unknwon invoice - missing ID!")
+        response = invoice_get_pdf.sync_detailed(client=client, invoice_id=self.id)
+        SevDesk.raise_for_status(response, "downloading invoice as PDF")
+
+        pdf = response.parsed.objects
+
+        return Pdf(
+            filename=pdf.filename,
+            base64_encoded=pdf.base_64_encoded,
+            content=pdf.content,
+        )
+
+    def set_to_draft(self, client: Client):
+        """
+        If possible (invoice not enshrined), reset to draft-status
+        """
+        if not self.id:
+            raise RuntimeError("Cannot change status for unknown invoice - missing ID!")
+
+        response = invoice_change_status.sync_detailed(
+            invoice_id=self.id,
+            client=client,
+            json_body=InvoiceChangeStatusJsonBody(
+                value=InvoiceChangeStatusJsonBodyValue.VALUE_1
+            ),
+        )
+
+        SevDesk.raise_for_status(response, "change invoice status to draft")
 
     @classmethod
     def get_by_reference(cls, client: Client, reference: str) -> Union[None, Invoice]:

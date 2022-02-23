@@ -21,7 +21,7 @@ class Unity(str, Enum):
     L = "UNITY_L"
     EMPTY = "UNITY_EMPTY"
 
-    def get_api_model(self, client: Client) -> InvoicePositionModelUnity:
+    def _get_api_model(self, client: Client) -> InvoicePositionModelUnity:
         """
         Get the API-Model for the given Unity
         """

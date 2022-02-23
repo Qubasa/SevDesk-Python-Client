@@ -25,7 +25,7 @@ class AddressCategory(str, Enum):
     CATEGORY_INVOICE_ADDRESS = "CATEGORY_INVOICE_ADDRESS"
     CATEGORY_DELIVERY_ADDRESS = "CATEGORY_DELIVERY_ADDRESS"
 
-    def get_api_model(self, client: Client) -> ContactAddressCategory:
+    def _get_api_model(self, client: Client) -> ContactAddressCategory:
         cache = ApiObjectCache(client=client)
         item: ApiObject = cache.get(ApiObjectType.ADDRESS_CATEGORIES)[self]
 
@@ -50,7 +50,7 @@ class Address:
     parent: Union[Unset, Any] = UNSET
     id: Union[Unset, str] = UNSET
 
-    def get_api_model(self, client: Client) -> ContactAddress:
+    def _get_api_model(self, client: Client) -> ContactAddress:
         cache = ApiObjectCache(client=client)
         country: ApiObject = cache.get(ApiObjectType.COUNTRY)[self.country_code.lower()]
 
@@ -60,7 +60,7 @@ class Address:
             zip_=self.zip_,
             city=self.city,
             street=self.street,
-            category=self.category.get_api_model(client),
+            category=self.category._get_api_model(client),
         )
 
         if self.id:
@@ -76,7 +76,7 @@ class Address:
             raise ValueError("Cannt create Address without a parent.")
 
         response = create_contact_address.sync_detailed(
-            client=client, json_body=self.get_api_model(client)
+            client=client, json_body=self._get_api_model(client)
         )
 
         SevDesk.raise_for_status(response, "creating address")
@@ -93,7 +93,7 @@ class Address:
             raise ValueError("Address ID not set, cannot update unknown.")
 
         response = update_contact_address.sync_detailed(
-            self.id, client=client, json_body=self.get_api_model(client)
+            self.id, client=client, json_body=self._get_api_model(client)
         )
         SevDesk.raise_for_status(response, "updating address")
 
