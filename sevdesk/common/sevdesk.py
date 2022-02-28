@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-import requests
+import json
+
 import attrs
 import cattrs
-import json
+import requests
 
 from .. import Client
 

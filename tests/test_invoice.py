@@ -1,10 +1,9 @@
-from operator import inv
 import os
 
 from sevdesk import Client
 from sevdesk.common import Unset
 from sevdesk.contact import Customer
-from sevdesk.invoice import Invoice, LineItem, Unity, Discount, InvoiceStatus
+from sevdesk.invoice import Discount, Invoice, InvoiceStatus, LineItem, Unity
 from sevdesk.invoice.invoice import Transaction
 
 

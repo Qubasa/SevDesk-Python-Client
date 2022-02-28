@@ -6,31 +6,29 @@ from typing import List, Union
 
 import attrs
 
-
 from .. import Client
-from ..common import UNSET, SevUser, Unset
-from ..common.sevdesk import SevDesk
+from ..common import UNSET, Pdf, SevDesk, SevUser, Unset
 from ..contact import Contact
 from .client.api.invoice import (
     create_invoice_by_factory,
     delete_invoice,
     get_invoices,
     get_next_invoice_number,
-    invoice_get_pdf,
     invoice_change_status,
+    invoice_get_pdf,
 )
 from .client.api.invoice_discounts import get_discounts_by_id
 from .client.api.invoice_pos import get_invoice_pos
 from .client.models import (
     CreateInvoiceByFactoryJsonBody,
     CreateInvoiceByFactoryResponse201,
+    InvoiceChangeStatusJsonBody,
+    InvoiceChangeStatusJsonBodyValue,
     InvoiceModel,
     InvoiceModelContact,
     InvoiceModelContactPerson,
     InvoiceModelStatus,
     SaveInvoiceInvoiceObject,
-    InvoiceChangeStatusJsonBody,
-    InvoiceChangeStatusJsonBodyValue,
 )
 from .discount import Discount
 from .lineitem import LineItem
@@ -44,13 +42,6 @@ class InvoiceStatus(Enum):
 
     def _get_api_model(self, client: Client) -> InvoiceModelStatus:
         return self.value
-
-
-@attrs.define()
-class Pdf:
-    filename: str
-    base64_encoded: bool
-    content: str
 
 
 @attrs.define()
@@ -247,6 +238,7 @@ class Invoice:
             id=int(model.id),
             invoice_date=model.invoice_date,
             delivery_date=model.delivery_date,
+            small_settlement=model.small_settlement,
             tax_rate=float(model.tax_rate),
             tax_text=model.tax_text,
             contact_person=SevUser(id=model.contact_person.id),
