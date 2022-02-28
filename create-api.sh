@@ -27,3 +27,15 @@ fi
 
 openapi-python-client $cmd --path $cwd/openAPI/openAPI-Invoice.json --custom-template-path $cwd/openAPI/templates --config $cwd/openAPI/config-invoice.yaml --meta none
 cd $cwd
+
+# Create or update the accounting-client API
+cd ./sevdesk/accounting/
+
+if [ -d "client" ]; then
+    cmd="update"
+else 
+    cmd="generate"
+fi 
+
+openapi-python-client $cmd --path $cwd/openAPI/openAPI-Accounting.json --custom-template-path $cwd/openAPI/templates --config $cwd/openAPI/config-accounting.yaml --meta none
+cd $cwd
