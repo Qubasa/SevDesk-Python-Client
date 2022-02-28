@@ -238,7 +238,7 @@ class Invoice:
             id=int(model.id),
             invoice_date=model.invoice_date,
             delivery_date=model.delivery_date,
-            small_settlement=model.small_settlement,
+            small_settlement=bool(int(model.small_settlement)),
             tax_rate=float(model.tax_rate),
             tax_text=model.tax_text,
             contact_person=SevUser(id=model.contact_person.id),
