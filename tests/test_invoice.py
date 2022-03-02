@@ -1,10 +1,15 @@
 import os
 
-from sevdesk import Client
-from sevdesk.common import Unset
+from sevdesk import Client, Unset
 from sevdesk.contact import Customer
-from sevdesk.invoice import Discount, Invoice, InvoiceStatus, LineItem, Unity
-from sevdesk.invoice.invoice import Transaction
+from sevdesk.accounting import (
+    Invoice,
+    InvoiceStatus,
+    Transaction,
+    Discount,
+    LineItem,
+    Unity,
+)
 
 
 def test_invoice():

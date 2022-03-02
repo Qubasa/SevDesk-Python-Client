@@ -5,10 +5,10 @@ from typing import List, Union
 
 import attrs
 
-from .. import Client
-from ..common import UNSET, SevDesk, Unset
-from .client.api.accounting_type import get_accounting_types
-from .client.models import GetAccountingTypesResponse200ObjectsItem
+from .. import UNSET, Client, Unset
+from ..client.api.accounting_type import get_accounting_types
+from ..client.models import GetAccountingTypesResponse200ObjectsItem
+from ..common import SevDesk
 
 
 @attrs.define()
@@ -58,6 +58,16 @@ class AccountingType:
             types.append(AccountingType._from_model(model))
 
         return types
+
+    @staticmethod
+    def _get_by_id(client: Client, id: int) -> Union[None, AccountingType]:
+        types = AccountingType._get(client)
+
+        for accounting_type in types:
+            if int(accounting_type.id) == int(id):
+                return accounting_type
+
+        return None
 
 
 @attrs.define()

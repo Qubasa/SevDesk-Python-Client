@@ -8,9 +8,8 @@ import attrs
 import cattrs
 import requests
 
-from .. import Client
+from .. import UNSET, Client, Unset
 from .borg import Borg
-from .types import UNSET, Unset
 
 ApiObjectTypeHelper = namedtuple("ApiObjectType", ["url", "object_type", "key"])
 

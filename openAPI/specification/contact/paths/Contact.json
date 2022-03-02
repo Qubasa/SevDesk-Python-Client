@@ -1,0 +1,123 @@
+{
+    "get": {
+        "tags": [
+            "Contact"
+        ],
+        "summary": "Retrieve contacts",
+        "description": "There are a multitude of parameter which can be used to filter.<br>\r\n     A few of them are attached but\r\n     for a complete list please check out <a href='https://5677.extern.sevdesk.dev/apiOverview/index.html#/doc-contacts#filtering'>this</a> list",
+        "operationId": "getContacts",
+        "parameters": [
+            {
+                "name": "depth",
+                "in": "query",
+                "description": "Defines if both organizations <b>and</b> persons should be returned.<br>\r\n     '0' -> only organizations, '1' -> organizations and persons",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        "0",
+                        "1"
+                    ]
+                }
+            },
+            {
+                "name": "customerNumber",
+                "in": "query",
+                "description": "Retrieve all contacts with this customer number",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "embed",
+                "in": "query",
+                "description": "Get some additional information. Embed can handle multiple values, they must be separated by comma. Default ``.",
+                "required": false,
+                "style": "form",
+                "explode": false,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Successful operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "../schemas/Contact.json"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": false
+    },
+    "post": {
+        "tags": [
+            "Contact"
+        ],
+        "summary": "Create a new contact",
+        "description": "Creates a new contact. For adding addresses and communication ways, you will need to use the ContactAddress and CommunicationWay endpoints.",
+        "operationId": "createContact",
+        "requestBody": {
+            "description": "Creation data",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../schemas/Contact.json"
+                    }
+                }
+            },
+            "required": true
+        },
+        "responses": {
+            "201": {
+                "description": "Created - Returns created contact",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "$ref": "../schemas/Contact.json"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": false
+    }
+}

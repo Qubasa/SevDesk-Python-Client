@@ -1,0 +1,62 @@
+{
+    "get": {
+        "tags": [
+            "AccountingType"
+        ],
+        "summary": "Get available accounting types",
+        "operationId": "getAccountingTypes",
+        "parameters": [
+            {
+                "name": "embed",
+                "in": "query",
+                "description": "Embed additional parameters",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "useClientAccountingChart",
+                "in": "query",
+                "schema": {
+                    "type": "boolean"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "query",
+                "default": 9999,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "onlyOwn",
+                "in": "query",
+                "schema": {
+                    "type": "boolean"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Returns accounting types",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../schemas/AccountingType.json"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        }
+    }
+}

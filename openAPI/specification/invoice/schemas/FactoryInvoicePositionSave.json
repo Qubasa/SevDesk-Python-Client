@@ -1,0 +1,19 @@
+{
+    "required": [
+        "mapAll"
+    ],
+    "allOf": [
+        {
+            "$ref": "./InvoicePosition.json"
+        },
+        {
+            "properties": {
+                "mapAll": {
+                    "type": "boolean",
+                    "default": "true"
+                }
+            },
+            "type": "object"
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "get": {
+        "tags": [
+            "Invoice"
+        ],
+        "summary": "Get the next invoice number",
+        "operationId": "getNextInvoiceNumber",
+        "parameters": [
+            {
+                "name": "invoiceType",
+                "in": "query",
+                "description": "Specifies the invoice type for which you want to get the next invoice number.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "useNextNumber",
+                "in": "query",
+                "description": "Specifies if the number sequence should be increased by one.",
+                "required": true,
+                "schema": {
+                    "type": "boolean"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Returns net invoice number",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        }
+    }
+}

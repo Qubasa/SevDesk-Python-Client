@@ -1,0 +1,36 @@
+project_name_override: sev-desk-client
+package_name_override: client
+
+class_overrides:
+  DocumentInvoiceCreditNoteBaseModelAddressContactRef:
+    class_name: DocumentAddressContactRef
+  DocumentInvoiceCreditNoteBaseModelAddressCountry:
+    class_name: DocumentAddressCountry
+  DocumentInvoiceCreditNoteBaseModelContactPerson:
+    class_name: DocumentContactPerson
+  DocumentInvoiceCreditNoteBaseModelContact:
+    class_name: DocumentContact
+  DocumentInvoiceCreditNoteBaseModelCostCentre:
+    class_name: DocumentCostCentre
+  DocumentInvoiceCreditNoteBaseModelCreateUser:
+    class_name: DocumentCreateUser
+  DocumentInvoiceCreditNoteBaseModelDatevConnectOnline:
+    class_name: DocumentDatevConnectOnline
+  DocumentInvoiceCreditNoteBaseModelEntryType:
+    class_name: DocumentEntryType
+  DocumentInvoiceCreditNoteBaseModelOrigin:
+    class_name: DocumentOrigin
+  DocumentInvoiceCreditNoteBaseModelPaymentMethod:
+    class_name: DocumentPaymentMethod
+  DocumentInvoiceCreditNoteBaseModelSendType:
+    class_name: DocumentSendType
+  DocumentInvoiceCreditNoteBaseModelSevClient:
+    class_name: DocumentSevClient
+  DocumentInvoiceCreditNoteBaseModelStatus:
+    class_name: DocumentStatus
+  DocumentInvoiceCreditNoteBaseModelTaxSet:
+    class_name: DocumentTaxSet
+  DocumentInvoiceCreditNoteBaseModelTaxType:
+    class_name: DocumentTaxType
+  DocumentInvoiceCreditNoteBaseModel:
+    class_name: DocumentModel

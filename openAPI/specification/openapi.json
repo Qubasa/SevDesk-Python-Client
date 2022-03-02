@@ -1,0 +1,151 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "SevDesk API",
+        "description": "Unifying and simplifying the SevDesk OpenAPI specfication.",
+        "contact": {
+            "email": "support@sevdesk.de"
+        },
+        "version": "2.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://my.sevdesk.de/api/v1",
+            "description": "Our main application instance which most of our customers work with"
+        },
+        {
+            "url": "https://my.pebesmart.ch/api/v1",
+            "description": "Our swiss application instance, hosted and maintained by smart seven AG"
+        },
+        {
+            "url": "http://sevdesk.local/api/v1",
+            "description": "sevDesk internal local instance"
+        }
+    ],
+    "paths": {
+        "/Contact/Factory/getNextCustomerNumber": {
+            "$ref": "./contact/paths/getNextCustomerNumber.json"
+        },
+        "/Contact/Mapper/checkCustomerNumberAvailability": {
+            "$ref": "./contact/paths/checkCustomerNumberAvailability.json"
+        },
+        "/Contact": {
+            "$ref": "./contact/paths/Contact.json"
+        },
+        "/Contact/{contactId}": {
+            "$ref": "./contact/paths/getContactBytId.json"
+        },
+        "/Contact/{contactId}/delete": {
+            "$ref": "./contact/paths/deleteContactById.json"
+        },
+        "/ContactAddress":
+        {
+            "$ref": "./contact/paths/ContactAddress.json"
+        },
+        "/ContactAddress/{contactAddressId}": {
+            "$ref": "./contact/paths/ContactAddressById.json"
+        },
+        "/CommunicationWay": {
+            "$ref": "./contact/paths/CommunicationWay.json"
+        },
+        "/CommunicationWay/{communicationWayId}": {
+            "$ref": "./contact/paths/CommunicationWayById.json"
+        },
+        "/AccountingType": {
+            "$ref": "./accounting/paths/AccountingType.json"
+        },
+        "/Invoice/Factory/getNextInvoiceNumber": {
+            "$ref": "./invoice/paths/getNextInvoiceNumber.json"
+        },
+        "/Invoice/Factory/saveInvoice": {
+            "$ref": "./invoice/paths/InvoiceFactory.json"
+        },
+        "/Invoice": {
+            "$ref": "./invoice/paths/Invoice.json"
+        },
+        "/Invoice/{DocumentId}/getDiscounts": {
+            "$ref": "./invoice/paths/getInvoiceDiscounts.json"
+        },
+        "/Invoice/{DocumentId}": {
+            "$ref": "./invoice/paths/InvoiceById.json"
+        },
+        "/Invoice/{DocumentId}/getIsPartiallyPaid": {
+            "$ref": "./invoice/paths/getIsPartiallyPaid.json"
+        },
+        "/Invoice/{DocumentId}/markAsSent": {
+            "$ref": "./invoice/paths/markAsSent.json"
+        },
+        "/Invoice/{DocumentId}/cancelInvoice": {
+            "$ref": "./invoice/paths/cancelInvoice.json"
+        },
+        "/Invoice/{DocumentId}/delete": {
+            "$ref": "./invoice/paths/deleteInvoice.json"
+        },
+        "/Invoice/{DocumentId}/render": {
+            "$ref": "./invoice/paths/renderInvoice.json"
+        },
+        "/Invoice/{DocumentId}/sendViaEmail": {
+            "$ref": "./invoice/paths/sendViaEmail.json"
+        },
+        "/Invoice/{DocumentId}/changeStatus": {
+            "$ref": "./invoice/paths/changeInvoiceStatus.json"
+        },
+        "/Invoice/{DocumentId}/getPdf": {
+            "$ref": "./invoice/paths/getInvoiceAsPdf.json"
+        },
+        "/Invoice/{DocumentId}/sendBy": {
+            "$ref": "./invoice/paths/sendInvoiceBy.json"
+        },
+        "/Invoice/{DocumentId}/bookAmount": {
+            "$ref": "./invoice/paths/bookAmount.json"
+        },
+        "/InvoicePos": {
+            "$ref": "./invoice/paths/InvoicePos.json"
+        },
+        "/CreditNote/Factory/getNextCreditNoteNumber": {
+            "$ref": "./creditnote/paths/getNextCreditNoteNumber.json"
+        },
+        "/CreditNote/Factory/saveCreditNote": {
+            "$ref": "./creditnote/paths/CreditNoteFactory.json"
+        },
+        "/CreditNote": {
+            "$ref": "./creditnote/paths/CreditNote.json"
+        },
+        "/CreditNote/{DocumentId}/getDiscounts": {
+            "$ref": "./creditnote/paths/getCreditNoteDiscounts.json"
+        },
+        "/CreditNote/{DocumentId}": {
+            "$ref": "./creditnote/paths/CreditNoteById.json"
+        },
+        "/CreditNote/{DocumentId}/delete": {
+            "$ref": "./creditnote/paths/deleteCreditNote.json"
+        },
+        "/CreditNote/{DocumentId}/changeStatus": {
+            "$ref": "./creditnote/paths/changeCreditNoteStatus.json"
+        },
+        "/CreditNote/{DocumentId}/getPdf": {
+            "$ref": "./creditnote/paths/getCreditNoteAsPdf.json"
+        },
+        "/CreditNote/{DocumentId}/sendBy": {
+            "$ref": "./creditnote/paths/sendCreditNoteBy.json"
+        },
+        "/CreditNotePos": {
+            "$ref": "./creditnote/paths/CreditNotePos.json"
+        }
+    },
+    "components": {
+        "parameters": {
+            "$ref": "./parameters.json"
+        },
+        "schemas": {
+            "$ref": "./schemas.json"
+        },
+        "securitySchemes": {
+            "api_key": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}

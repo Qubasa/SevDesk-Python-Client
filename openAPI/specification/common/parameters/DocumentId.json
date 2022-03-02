@@ -1,0 +1,9 @@
+{
+    "name": "DocumentId",
+    "in": "path",
+    "description": "ID of document",
+    "required": true,
+    "schema": {
+        "type": "integer"
+    }
+}

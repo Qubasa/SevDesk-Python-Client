@@ -1,0 +1,46 @@
+{
+    "required": [
+        "discount",
+        "text",
+        "percentage",
+        "value",
+        "objectName",
+        "mapAll"
+    ],
+    "properties": {
+        "id": {
+            "description": "The invoice position id",
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true
+        },
+        "discount": {
+            "description": "Defines if this is a discount or a surcharge",
+            "type": "boolean",
+            "example": "true"
+        },
+        "text": {
+            "description": "A text for your discount",
+            "type": "string"
+        },
+        "percentage": {
+            "description": "Defines if this is a percentage or an absolute discount",
+            "type": "boolean"
+        },
+        "value": {
+            "description": "Value of the discount",
+            "type": "number"
+        },
+        "objectName": {
+            "description": "Object name of the discount",
+            "type": "string",
+            "default": "Discounts"
+        },
+        "mapAll": {
+            "description": "Internal param",
+            "type": "boolean",
+            "default": "true"
+        }
+    },
+    "type": "object"
+}

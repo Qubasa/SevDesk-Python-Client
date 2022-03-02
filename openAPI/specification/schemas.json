@@ -1,0 +1,68 @@
+{
+    "Contact": {
+        "$ref": "./contact/schemas/Contact.json"
+    },
+    "ContactAddress": {
+        "$ref": "./contact/schemas/ContactAddress.json"
+    },
+    "CommunicationWay": {
+        "$ref": "./contact/schemas/CommunicationWay.json"
+    },
+    "AccountingContact": {
+        "$ref": "./contact/schemas/AccountingContact.json"
+    },
+    "FactoryInvoice": {
+        "$ref": "./invoice/schemas/FactoryInvoice.json"
+    },
+    "FactoryInvoicePositionDelete": {
+        "$ref": "./invoice/schemas/FactoryInvoicePositionDelete.json"
+    },
+    "FactoryInvoicePositionSave": {
+        "$ref": "./invoice/schemas/FactoryInvoicePositionSave.json"
+    },
+    "Invoice": {
+        "$ref": "./invoice/schemas/Invoice.json"
+    },
+    "InvoicePosition": {
+        "$ref": "./invoice/schemas/InvoicePosition.json"
+    },
+    "DiscountPosition": {
+        "$ref": "./common/schemas/DiscountPosition.json"
+    },
+    "Document": {
+        "$ref": "./common/schemas/Document.json"
+    },
+    "Email": {
+        "$ref": "./common/schemas/Email.json"
+    },
+    "FactoryDiscountDelete": {
+        "$ref": "./common/schemas/FactoryDiscountDelete.json"
+    },
+    "FactoryDiscountSave": {
+        "$ref": "./common/schemas/FactoryDiscountSave.json"
+    },
+    "Position": {
+        "$ref": "./common/schemas/Position.json"
+    },
+    "PositionDelete": {
+        "$ref": "./common/schemas/PositionDelete.json"
+    },
+    "StaticCountry": {
+        "$ref": "./common/schemas/StaticCountry.json"
+    },
+    "CreditNote": {
+        "$ref": "./creditnote/schemas/CreditNote.json"
+    },
+    "CreditNotePosition": {
+        "$ref": "./creditnote/schemas/CreditNotePosition.json"
+    },
+    "FactoryCreditNote": {
+        "$ref": "./creditnote/schemas/FactoryCreditNote.json"
+    },
+    "FactoryCreditNotePositionDelete": {
+        "$ref": "./creditnote/schemas/FactoryCreditNotePositionDelete.json"
+    },
+    "FactoryCreditNotePositionSave": {
+        "$ref": "./creditnote/schemas/FactoryCreditNotePositionSave.json"
+    }
+}

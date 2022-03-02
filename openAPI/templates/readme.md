@@ -1,0 +1,2 @@
+# Overwriting default templates
+The SevDesk API has some requirements not covered by the default code generation templates. Hence, some minor adjustments are made to make sure that generated code is compatible with the SevDesk API.

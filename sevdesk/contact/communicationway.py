@@ -5,19 +5,19 @@ from typing import Any, Union
 
 import attrs
 
-from ..common import UNSET, ApiObject, ApiObjectCache, ApiObjectType, SevDesk, Unset
-from .client import AuthenticatedClient as Client
-from .client.api.communication_way import (
+from .. import UNSET, Client, Unset
+from ..client.api.communication_way import (
     create_communication_way,
     delete_communication_way,
     update_communication_way,
 )
-from .client.models.communication_way_model import (
+from ..client.models.communication_way_model import (
     CommunicationWayModel,
     CommunicationWayModelKey,
     CommunicationWayModelType,
 )
-from .client.models.communication_way_model_contact import CommunicationWayModelContact
+from ..client.models.communication_way_model_contact import CommunicationWayModelContact
+from ..common import ApiObject, ApiObjectCache, ApiObjectType, SevDesk
 
 
 class CommunicationWayKey(str, Enum):

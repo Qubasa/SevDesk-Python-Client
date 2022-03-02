@@ -1,0 +1,165 @@
+{
+    "get": {
+        "tags": [
+            "Invoice"
+        ],
+        "summary": "Retrieve invoices",
+        "description": "There are a multitude of parameter which can be used to filter. A few of them are attached but for a complete list please check out docs.",
+        "operationId": "getInvoices",
+        "parameters": [
+            {
+                "name": "status",
+                "in": "query",
+                "description": "Status of the invoices",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        "100",
+                        "200",
+                        "1000"
+                    ]
+                }
+            },
+            {
+                "name": "invoiceNumber",
+                "in": "query",
+                "description": "Retrieve all invoices with this invoice number",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "startDate",
+                "in": "query",
+                "description": "Retrieve all invoices with a date equal or higher",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "endDate",
+                "in": "query",
+                "description": "Retrieve all invoices with a date equal or lower",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "contact[id]",
+                "in": "query",
+                "description": "Retrieve all invoices with this contact. Must be provided with contact[objectName]",
+                "required": false,
+                "explode": false,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "contact[objectName]",
+                "in": "query",
+                "description": "Only required if contact[id] was provided. 'Contact' should be used as value.",
+                "required": false,
+                "explode": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "customerInternalNote",
+                "in": "query",
+                "description": "Retrieve an invoice with the given customer internal note.",
+                "required": false,
+                "explode": false,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Successful operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "../schemas/Invoice.json"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": false
+    },
+    "post": {
+        "tags": [
+            "Invoice"
+        ],
+        "summary": "Create a new invoice",
+        "description": "You can still create invoices by using this request, however, this endpoint does not allow the simultaneous creation of invoice positions. It only creates the invoice object! Please use the 'saveInvoice' endpoint for creating invoices together with positions, discounts, etc., in one request. Support for users integrating with this endpoint may be limited.",
+        "operationId": "createInvoice",
+        "requestBody": {
+            "description": "Creation data. Please be aware, that you need to provide at least all required parameter of the invoice model!",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../schemas/Invoice.json"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "201": {
+                "description": "Created - Returns created invoice",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "../schemas/Invoice.json"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": true
+    }
+}

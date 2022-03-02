@@ -1,0 +1,89 @@
+{
+    "put": {
+        "tags": [
+            "ContactAddress"
+        ],
+        "summary": "Update an existing contact address",
+        "description": "Update a contact address",
+        "operationId": "updateContactAddress",
+        "parameters": [
+            {
+                "name": "contactAddressId",
+                "in": "path",
+                "description": "ID of contact address to update",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        ],
+        "requestBody": {
+            "description": "Update data",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../schemas/ContactAddress.json"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Updated - returns updated contact address",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "$ref": "../schemas/ContactAddress.json"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "400": {
+            "description": "Bad request"
+        },
+        "401": {
+            "description": "Authentication required"
+        },
+        "500": {
+            "description": "Server Error"
+        }
+    },
+    "delete": {
+        "tags": [
+            "ContactAddress"
+        ],
+        "summary": "Delete an existing contact address",
+        "operationId": "deleteContactAddress",
+        "parameters": [
+            {
+                "name": "contactAddressId",
+                "in": "path",
+                "description": "ID of contact address to update",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Updated - returns updated contact address"
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        }
+    }
+}

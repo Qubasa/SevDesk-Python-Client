@@ -3,22 +3,20 @@ from __future__ import annotations
 from typing import Union
 
 import attrs
-from sevdesk.contact.address import AddressCategory
-from sevdesk.contact.client.models.communication_way_model_type import (
-    CommunicationWayModelType,
-)
 
-from .. import Client
-from ..common import UNSET, ApiObjectCache, ApiObjectType, SevDesk, Unset
-from . import CommunicationWayKey, DeliveryAddress, Email, InvoiceAddress, Phone
-from .client.api.contact import (
+from .. import UNSET, Client, Unset
+from ..client.api.contact import (
     create_contact,
     delete_contact,
     get_contact_by_id,
     get_contacts,
     update_contact,
 )
-from .client.models import ContactModel, ContactModelCategory, GetContactsDepth
+from ..client.models import ContactModel, ContactModelCategory, GetContactsDepth
+from ..client.models.communication_way_model_type import CommunicationWayModelType
+from ..common import ApiObjectCache, ApiObjectType, SevDesk
+from .address import AddressCategory, DeliveryAddress, InvoiceAddress
+from .communicationway import CommunicationWayKey, Email, Phone
 
 
 @attrs.define()
@@ -130,6 +128,30 @@ class Contact:
             response, f"deleting contact {self.surename} {self.familyname}"
         )
 
+    def get_invoice_address_string(self) -> str:
+        address = []
+        name = ""
+        if self.surename:
+            name += f"{self.surename} "
+        if self.familyname:
+            name += f"{self.familyname}"
+        if name:
+            address.append(name)
+
+        if self.invoice_address:
+            if self.invoice_address.street:
+                address.append(f"{self.invoice_address.street}")
+
+            city = ""
+            if self.invoice_address.zip_:
+                city += f"{self.invoice_address.zip_} "
+            if self.invoice_address.city:
+                city += f"{self.invoice_address.city}"
+            if city:
+                address.append(city)
+
+        return "\n".join(address)
+
     @classmethod
     def _from_contact_model(
         cls, client: Client, contact_model: ContactModel
@@ -170,7 +192,7 @@ class Contact:
 
             if category == AddressCategory.CATEGORY_INVOICE_ADDRESS:
                 if not invoice_address:
-                    invoice_address = DeliveryAddress(
+                    invoice_address = InvoiceAddress(
                         street=address.street,
                         zip_=address.zip_,
                         city=address.city,

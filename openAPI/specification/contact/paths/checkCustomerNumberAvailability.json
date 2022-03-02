@@ -1,0 +1,49 @@
+{
+    "get": {
+        "tags": [
+            "Contact"
+        ],
+        "summary": "Check if a customer number is available",
+        "description": "Checks if a given customer number is available or already used.",
+        "operationId": "checkCustomerNumberAvailability",
+        "parameters": [
+            {
+                "name": "customerNumber",
+                "in": "query",
+                "description": "The customer number to be checked.",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Returns whether given customer number is available.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": false
+    }
+}

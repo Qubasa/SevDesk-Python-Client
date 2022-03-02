@@ -1,0 +1,19 @@
+{
+    "description": "Country of the contact address. For all countries, send a GET to /StaticCountry",
+    "required": [
+        "id",
+        "objectName"
+    ],
+    "properties": {
+        "id": {
+            "description": "Unique identifier of the country",
+            "type": "integer"
+        },
+        "objectName": {
+            "description": "Model name, which is 'StaticCountry'",
+            "type": "string",
+            "default": "StaticCountry"
+        }
+    },
+    "type": "object"
+}

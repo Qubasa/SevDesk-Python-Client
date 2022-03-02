@@ -1,0 +1,47 @@
+{
+    "post": {
+        "tags": [
+            "ContactAddress"
+        ],
+        "summary": "Create a new contact address",
+        "description": "Creates a new contact address.",
+        "operationId": "createContactAddress",
+        "requestBody": {
+            "description": "Creation data",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../schemas/ContactAddress.json"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "201": {
+                "description": "Created - Returns created contact address",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "$ref": "../schemas/ContactAddress.json"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": false
+    }
+}

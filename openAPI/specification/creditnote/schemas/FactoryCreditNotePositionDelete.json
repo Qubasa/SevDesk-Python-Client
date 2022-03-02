@@ -1,0 +1,20 @@
+{
+    "allOf": [
+        {
+            "$ref": "../../common/schemas/PositionDelete.json"
+        },
+        {
+            "required": [
+                "objectName"
+            ],
+            "properties": {
+                "objectName": {
+                    "description": "Object name of position",
+                    "type": "string",
+                    "default": "CreditNotePos"
+                }
+            },
+            "type": "object"
+        }
+    ]
+}

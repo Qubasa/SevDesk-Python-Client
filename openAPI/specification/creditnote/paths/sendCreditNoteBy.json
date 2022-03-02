@@ -1,0 +1,81 @@
+{
+    "put": {
+        "tags": [
+            "CreditNote"
+        ],
+        "operationId": "creditNoteSendBy",
+        "summary": "Mark document as sent",
+        "description": "Marks a document as sent by a chosen send type.",
+        "parameters": [
+            {
+                    "name": "DocumentId",
+    "in": "path",
+    "description": "ID of document",
+    "required": true,
+    "schema": {
+        "type": "integer"
+    }
+            }
+        ],
+        "requestBody": {
+            "description": "Specify the send type",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "required": [
+                            "sendType",
+                            "sendDraft"
+                        ],
+                        "properties": {
+                            "sendType": {
+                                "description": "Specifies the way in which the document was sent to the customer. Accepts 'VPR' (print), 'VP' (postal), 'VM' (mail) and 'VPDF' (downloaded pfd).",
+                                "type": "string",
+                                "enum": [
+                                    "VPR",
+                                    "VP",
+                                    "VM",
+                                    "VPDF"
+                                ]
+                            },
+                            "sendDraft": {
+                                "description": "Specify if the should be enshrined after marking it as sent.",
+                                "type": "boolean"
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Successful operation - Returns changed document log entry",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "description": "The invoice object which was marked as sent.",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "../schemas/CreditNote.json"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        }
+    }
+}

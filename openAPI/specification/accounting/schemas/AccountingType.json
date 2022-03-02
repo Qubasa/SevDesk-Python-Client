@@ -1,0 +1,76 @@
+{
+    "type": "object",
+    "properties": {
+        "objects": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "objectName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "skr03": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "skr04": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "skrAt": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "skrCh": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "skrGr": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "translationCode": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "parent": {
+                        "type": "object",
+                        "nullable": true,
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "string",
+                                "nullable": true
+                            }
+                        }
+                    },
+                    "accountingSystemNumber": {
+                        "type": "object",
+                        "nullable": true,
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "number": {
+                                "type": "string",
+                                "nullable": true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

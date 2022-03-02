@@ -1,0 +1,116 @@
+{
+    "get": {
+        "tags": [
+            "CreditNote"
+        ],
+        "summary": "Retrieve credit-notes",
+        "operationId": "getCreditNotes",
+        "parameters": [
+            {
+                "name": "status",
+                "in": "query",
+                "description": "Status of the credit-notes",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        "100",
+                        "200",
+                        "1000"
+                    ]
+                }
+            },
+            {
+                "name": "creditNoteNumber",
+                "in": "query",
+                "description": "Retrieve all credit notes with this credit note number",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "startDate",
+                "in": "query",
+                "description": "Retrieve all credit notes with a date equal or higher",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "endDate",
+                "in": "query",
+                "description": "Retrieve all credit notes with a date equal or lower",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "contact[id]",
+                "in": "query",
+                "description": "Retrieve all credit notes with this contact. Must be provided with contact[objectName]",
+                "required": false,
+                "explode": false,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "contact[objectName]",
+                "in": "query",
+                "description": "Only required if contact[id] was provided. 'Contact' should be used as value.",
+                "required": false,
+                "explode": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "customerInternalNote",
+                "in": "query",
+                "description": "Retrieve an credit notes with the given customer internal note.",
+                "required": false,
+                "explode": false,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Successful operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "../schemas/CreditNote.json"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": false
+    }
+}

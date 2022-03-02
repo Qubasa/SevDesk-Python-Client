@@ -1,0 +1,51 @@
+{
+    "put": {
+        "tags": [
+            "Invoice"
+        ],
+        "summary": "Mark an invoice as sent",
+        "description": "Marks an invoice as sent. This endpoint should not be used any more as it bypasses the normal sending flow.",
+        "operationId": "markInvoiceAsSent",
+        "parameters": [
+            {
+                    "name": "DocumentId",
+    "in": "path",
+    "description": "ID of document",
+    "required": true,
+    "schema": {
+        "type": "integer"
+    }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Successful operation - Returns changed invoice",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "../schemas/Invoice.json"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": true
+    }
+}

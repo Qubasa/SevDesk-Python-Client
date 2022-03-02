@@ -1,8 +1,7 @@
 import os
 
-from sevdesk import Client
+from sevdesk import Client, Unset
 from sevdesk.accounting import AccountingCategories
-from sevdesk.common import Unset
 
 
 def test_categories():

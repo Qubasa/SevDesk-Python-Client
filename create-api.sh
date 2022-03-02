@@ -1,8 +1,10 @@
 cwd="$PWD"
 cmd=""
 
-# Create or update the contact-client API
-cd ./sevdesk/contact/
+# Build final OpenAPI document
+swagger-cli bundle $cwd/OpenAPI/specification/openapi.json --outfile $cwd/build/openapi.json --type json
+
+cd ./sevdesk/
 
 if [ -d "client" ]; then
     cmd="update"
@@ -10,32 +12,5 @@ else
     cmd="generate"
 fi 
 
-openapi-python-client $cmd --path $cwd/openAPI/openAPI-Contact.json --custom-template-path $cwd/openAPI/templates --config $cwd/openAPI/config-contact.yaml --meta none
-cd $cwd
-
-# Copy client to common as the client-code is shared between all instances
-cp $cwd/sevdesk/contact/client/client.py $cwd/sevdesk/
-
-# Create or update the invoice-client API
-cd ./sevdesk/invoice/
-
-if [ -d "client" ]; then
-    cmd="update"
-else 
-    cmd="generate"
-fi 
-
-openapi-python-client $cmd --path $cwd/openAPI/openAPI-Invoice.json --custom-template-path $cwd/openAPI/templates --config $cwd/openAPI/config-invoice.yaml --meta none
-cd $cwd
-
-# Create or update the accounting-client API
-cd ./sevdesk/accounting/
-
-if [ -d "client" ]; then
-    cmd="update"
-else 
-    cmd="generate"
-fi 
-
-openapi-python-client $cmd --path $cwd/openAPI/openAPI-Accounting.json --custom-template-path $cwd/openAPI/templates --config $cwd/openAPI/config-accounting.yaml --meta none
-cd $cwd
+# Create python-client using templates and config
+openapi-python-client $cmd --path $cwd/build/openapi.json --custom-template-path $cwd/openAPI/templates --config $cwd/openAPI/configuration/client.yaml --meta none

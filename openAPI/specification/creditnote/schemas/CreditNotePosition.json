@@ -1,0 +1,38 @@
+{
+    "allOf": [
+        {
+            "$ref": "../../common/schemas/Position.json"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "objectName": {
+                    "description": "The invoice position object name",
+                    "type": "string",
+                    "readOnly": true,
+                    "nullable": false,
+                    "default": "CreditNotePos"
+                },
+                "creditNote": {
+                    "description": "The invoice to which the position belongs.",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the credit-note",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'CreditNote'",
+                            "type": "string"
+                        }
+                    },
+                    "type": "object",
+                    "readOnly": true
+                }
+            }
+        }
+    ]
+}

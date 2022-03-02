@@ -1,0 +1,38 @@
+{
+    "allOf": [
+        {
+            "$ref": "../../common/schemas/Position.json"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "objectName": {
+                    "description": "The invoice position object name",
+                    "type": "string",
+                    "readOnly": true,
+                    "nullable": false,
+                    "default": "InvoicePos"
+                },
+                "invoice": {
+                    "description": "The invoice to which the position belongs.",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the invoice",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'Invoice'",
+                            "type": "string"
+                        }
+                    },
+                    "type": "object",
+                    "readOnly": true
+                }
+            }
+        }
+    ]
+}

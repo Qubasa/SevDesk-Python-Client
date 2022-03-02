@@ -1,0 +1,18 @@
+{
+    "required": [
+        "id",
+        "objectName"
+    ],
+    "properties": {
+        "id": {
+            "description": "ID of discount to delete",
+            "type": "integer"
+        },
+        "objectName": {
+            "description": "Object name of discount",
+            "type": "string",
+            "default": "Discounts"
+        }
+    },
+    "type": "object"
+}

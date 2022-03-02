@@ -1,0 +1,131 @@
+{
+    "put": {
+        "tags": [
+            "Invoice"
+        ],
+        "summary": "Book an invoice",
+        "description": "This endpoint can be used to book invoices. Invoices are booked on payment accounts where (bank) transactions are located and might be linked to the transactions by using this endpoint. For more detailed information about booking invoices, please refer to docs.",
+        "operationId": "bookInvoice",
+        "parameters": [
+            {
+                    "name": "DocumentId",
+    "in": "path",
+    "description": "ID of document",
+    "required": true,
+    "schema": {
+        "type": "integer"
+    }
+            }
+        ],
+        "requestBody": {
+            "description": "Booking data",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "required": [
+                            "amount",
+                            "date",
+                            "type",
+                            "checkAccount"
+                        ],
+                        "properties": {
+                            "amount": {
+                                "description": "Amount which should be booked. Can also be a partial amount.",
+                                "type": "number"
+                            },
+                            "date": {
+                                "description": "The booking date. Most likely the current date.",
+                                "type": "integer"
+                            },
+                            "type": {
+                                "description": "Define a type for the booking. The following type abbreviations are available (abbreviation <-> meaning). N <-> Normal booking / partial booking, CB <-> Reduced amount due to discount (skonto), CF <-> Reduced/Higher amount due to currency fluctuations, O <-> Reduced/Higher amount due to other reasons, OF <-> Higher amount due to reminder charges, MTC <-> Reduced amount due to the monetary traffic costs",
+                                "type": "string",
+                                "enum": [
+                                    "N",
+                                    "CB",
+                                    "CF",
+                                    "O",
+                                    "OF",
+                                    "MTC"
+                                ]
+                            },
+                            "checkAccount": {
+                                "description": "The check account on which should be booked.",
+                                "required": [
+                                    "id",
+                                    "objectName"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "description": "The id of the check account on which should be booked.",
+                                        "type": "integer"
+                                    },
+                                    "objectName": {
+                                        "description": "Internal object name which is 'CheckAccount'.",
+                                        "type": "string",
+                                        "example": "CheckAccount"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "checkAccountTransaction": {
+                                "description": "The check account transaction on which should be booked. The transaction will be linked to the invoice.",
+                                "required": [
+                                    "id",
+                                    "objectName"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "description": "The id of the check account transaction on which should be booked.",
+                                        "type": "integer"
+                                    },
+                                    "objectName": {
+                                        "description": "Internal object name which is 'CheckAccountTransaction'.",
+                                        "type": "string",
+                                        "example": "CheckAccountTransaction"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "createFeed": {
+                                "description": "Determines if a feed is created for the booking process.",
+                                "type": "boolean"
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Successful operation - Returns changed invoice log entry",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "description": "TODO: Document InvoiceLog and enter scheme here",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        }
+    }
+}

@@ -1,0 +1,99 @@
+{
+    "allOf": [
+        {
+            "$ref": "../../common/schemas/Document.json"
+        },
+        {
+            "required": [
+                "creditNoteDate",
+                "creditNoteType",
+                "bookingCategory"
+            ],
+            "properties": {
+                "refSrcInvoice": {
+                    "description": "The invoice from which the underachievement originates - for booking category UNDERACHIEVEMENT",
+                    "type": "object",
+                    "nullable": true,
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the credit-note",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'CreditNote'",
+                            "type": "string",
+                            "default": "Invoice"
+                        }
+                    }
+                },
+                "accountingType": {
+                    "description": "The account on which this credit note should be booked - for booking category ACCOUNTING_TYPE",
+                    "type": "object",
+                    "nullable": true,
+                    "properties": {
+                        "id": {
+                            "description": "Unique identifier of the credit-note",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Model name, which is 'CreditNote'",
+                            "type": "string",
+                            "default": "AccountingType"
+                        }
+                    }
+                },
+                "bookingCategory": {
+                    "description": "The credit note booking category",
+                    "type": "string",
+                    "enum": [
+                        "PROVISION",
+                        "ROYALTY_ASSIGNED",
+                        "ROYALTY_UNASSIGNED",
+                        "UNDERACHIEVEMENT",
+                        "ACCOUNTING_TYPE"
+                    ],
+                    "nullable": false
+                },
+                "objectName": {
+                    "description": "The document object name",
+                    "type": "string",
+                    "readOnly": true,
+                    "nullable": false,
+                    "default": "CreditNote"
+                },
+                "creditNoteNumber": {
+                    "description": "The credit note number",
+                    "type": "string",
+                    "example": "GU-1000",
+                    "nullable": true
+                },
+                "taxNumber": {
+                    "description": "The TAX number of receiving customer",
+                    "type": "string",
+                    "nullable": true
+                },
+                "vatNumber": {
+                    "description": "The VAT number of receiving customer",
+                    "type": "string",
+                    "nullable": true
+                },
+                "creditNoteDate": {
+                    "description": "Needs to be provided as timestamp or dd.mm.yyyy",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "01.01.20",
+                    "nullable": false
+                },
+                "creditNoteType": {
+                    "type": "string",
+                    "default": "CN",
+                    "enum": [
+                        "CN"
+                    ],
+                    "nullable": false
+                }
+            },
+            "type": "object"
+        }
+    ]
+}

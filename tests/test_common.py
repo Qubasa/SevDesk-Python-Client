@@ -1,14 +1,10 @@
 import os
 from enum import Enum
 
-from sevdesk import Client, __version__
-from sevdesk.common import UNSET, ApiObjectCache, ApiObjectType
-from sevdesk.invoice import Unity
-
-
-class AddressType(str, Enum):
-    CATEGORY_INVOICE_ADDRESS = "CATEGORY_INVOICE_ADDRESS"
-    CATEGORY_DELIVERY_ADDRESS = "CATEGORY_DELIVERY_ADDRESS"
+from sevdesk import Client, __version__, UNSET
+from sevdesk.common import ApiObjectCache, ApiObjectType
+from sevdesk.contact.address import AddressCategory
+from sevdesk.accounting import Unity
 
 
 def test_version():
@@ -31,7 +27,7 @@ def test_api_object_cache():
 
     # This should not throw
     addr_catg = cache_1.get(ApiObjectType.ADDRESS_CATEGORIES)
-    addr_catg[AddressType.CATEGORY_DELIVERY_ADDRESS]
+    addr_catg[AddressCategory.CATEGORY_DELIVERY_ADDRESS]
     assert len(addr_catg) != 0
 
     # Get Unities

@@ -7,6 +7,7 @@ import cattrs
 import requests
 
 from .. import Client
+from ..client.types import Response
 
 
 @attrs.define()
@@ -33,7 +34,7 @@ class SevDesk:
         return SevUser.from_json(objects)
 
     @staticmethod
-    def raise_for_status(response, operation: str):
+    def raise_for_status(response: Response, operation: str):
         if not response.status_code == 200 and not response.status_code == 201:
             msg = ""
 

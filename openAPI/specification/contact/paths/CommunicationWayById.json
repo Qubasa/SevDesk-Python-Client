@@ -1,0 +1,88 @@
+{
+    "put": {
+        "tags": [
+            "CommunicationWay"
+        ],
+        "description": "Update an existing communication way",
+        "operationId": "updateCommunicationWay",
+        "parameters": [
+            {
+                "name": "communicationWayId",
+                "in": "path",
+                "description": "ID of communication way to update",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        ],
+        "requestBody": {
+            "description": "Creation data",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../schemas/CommunicationWay.json"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Created - Returns created contact communication way",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "$ref": "../schemas/CommunicationWay.json"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        }
+    },
+    "delete": {
+        "tags": [
+            "CommunicationWay"
+        ],
+        "description": "Deletes a communication way",
+        "operationId": "deleteCommunicationWay",
+        "parameters": [
+            {
+                "name": "communicationWayId",
+                "in": "path",
+                "description": "Id of communication way resource to delete",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Succesfully deleted communication way."
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        }
+    }
+}

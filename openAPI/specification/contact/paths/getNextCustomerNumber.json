@@ -1,0 +1,38 @@
+{
+    "get": {
+        "tags": [
+            "Contact"
+        ],
+        "summary": "Get next free customer number",
+        "description": "Retrieves the next available customer number. Avoids duplicates.",
+        "operationId": "getNextCustomerNumber",
+        "responses": {
+            "200": {
+                "description": "Returns next available customer number",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "description": "Next available customer number",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": false
+    }
+}

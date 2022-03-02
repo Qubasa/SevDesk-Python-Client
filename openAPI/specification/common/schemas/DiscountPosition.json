@@ -1,0 +1,24 @@
+{
+    "title": "discount position model",
+    "properties": {
+        "id": {
+            "description": "The discount id",
+            "type": "integer",
+            "readOnly": true,
+            "nullable": false
+        },
+        "text": {
+            "type": "string",
+            "nullable": true
+        },
+        "percentage": {
+            "type": "boolean",
+            "nullable": true
+        },
+        "value": {
+            "type": "number",
+            "nullable": true
+        }
+    },
+    "type": "object"
+}

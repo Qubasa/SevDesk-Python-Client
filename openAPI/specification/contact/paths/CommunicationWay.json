@@ -1,0 +1,138 @@
+{
+    "get": {
+        "tags": [
+            "CommunicationWay"
+        ],
+        "summary": "Retrieve communication ways",
+        "description": "Returns all communication ways which have been added up until now. Filters can be added.",
+        "operationId": "getCommunicationWays",
+        "parameters": [
+            {
+                "name": "contact[id]",
+                "in": "query",
+                "description": "ID of contact for which you want the communication ways.",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "contact[objectName]",
+                "in": "query",
+                "description": "Object name. Only needed if you also defined the ID of a contact.",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "string",
+                    "default": "Contact"
+                }
+            },
+            {
+                "name": "type",
+                "in": "query",
+                "description": "Type of the communication ways you want to get.",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "PHONE",
+                        "EMAIL",
+                        "WEB",
+                        "MOBILE"
+                    ]
+                }
+            },
+            {
+                "name": "main",
+                "in": "query",
+                "description": "Define if you only want the main communication way.",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "integer",
+                    "enum": [
+                        "0",
+                        "1"
+                    ]
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Successful operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "../schemas/CommunicationWay.json"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": false
+    },
+    "post": {
+        "tags": [
+            "CommunicationWay"
+        ],
+        "summary": "Create a new contact communication way",
+        "description": "Creates a new contact communication way.",
+        "operationId": "createCommunicationWay",
+        "requestBody": {
+            "description": "Creation data",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../schemas/CommunicationWay.json"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "201": {
+                "description": "Created - Returns created contact communication way",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "objects": {
+                                    "$ref": "../schemas/CommunicationWay.json"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        },
+        "deprecated": false
+    }
+}

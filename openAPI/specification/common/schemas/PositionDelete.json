@@ -1,0 +1,12 @@
+{
+    "required": [
+        "id"
+    ],
+    "properties": {
+        "id": {
+            "description": "ID of position to delete",
+            "type": "integer"
+        }
+    },
+    "type": "object"
+}

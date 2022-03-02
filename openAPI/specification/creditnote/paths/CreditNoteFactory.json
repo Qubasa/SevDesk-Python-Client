@@ -1,0 +1,126 @@
+{
+    "post": {
+        "tags": [
+            "creditNote"
+        ],
+        "summary": "Create a new creditNote",
+        "operationId": "createCreditNoteByFactory",
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "required": [
+                            "creditNote",
+                            "creditNotePosSave",
+                            "creditNotePosDelete",
+                            "discountSave",
+                            "discountDelete"
+                        ],
+                        "properties": {
+                            "creditNote": {
+                                "description": "The credit note you want to create",
+                                "type": "object",
+                                "$ref": "../schemas/FactoryCreditNote.json"
+                            },
+                            "creditNotePosSave": {
+                                "description": "The credit note positions you want to create. If you don't have any, set to null.",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "../schemas/FactoryCreditNotePositionSave.json"
+                                },
+                                "nullable": true
+                            },
+                            "creditNotePosDelete": {
+                                "description": "The credit note positions you want to delete. If you don't have any, set to null.",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "../schemas/FactoryCreditNotePositionDelete.json"
+                                },
+                                "default": null,
+                                "nullable": true
+                            },
+                            "discountSave": {
+                                "description": "The discounts you want to create. If you don't have any, set to null.",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "../../common/schemas/FactoryDiscountSave.json"
+                                },
+                                "default": null,
+                                "nullable": true
+                            },
+                            "discountDelete": {
+                                "description": "The discounts you want to delete. If you don't have any, set to null.",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "../../common/schemas/FactoryDiscountDelete.json"
+                                },
+                                "default": null,
+                                "nullable": true
+                            },
+                            "takeDefaultAddress": {
+                                "description": "Defines if the address of the supplied contact is automatically filled into the credit-note.",
+                                "type": "boolean",
+                                "default": "false"
+                            },
+                            "forCashRegister": {
+                                "description": "If the Credit Note is for the cash register change to true, otherwise leave at false.",
+                                "type": "boolean",
+                                "default": "false"
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "201": {
+                "description": "Created - Returns created creditNote",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "objects": {
+                                    "type": "object",
+                                    "properties": {
+                                        "creditNote": {
+                                            "description": "The created credit note",
+                                            "type": "object",
+                                            "$ref": "../schemas/CreditNote.json"
+                                        },
+                                        "creditNotePos": {
+                                            "description": "The created credit note positions",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "../schemas/CreditNotePosition.json"
+                                            },
+                                            "nullable": true
+                                        },
+                                        "discount": {
+                                            "description": "The created credit note discounts",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "../../common/schemas/DiscountPosition.json"
+                                            },
+                                            "nullable": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        }
+    }
+}

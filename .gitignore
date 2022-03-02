@@ -175,3 +175,6 @@ cython_debug/
 
 # Environment-File
 .env
+
+### Other ###
+.DS_Store

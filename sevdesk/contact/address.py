@@ -5,19 +5,20 @@ from typing import Any, Union
 
 import attrs
 
-from .. import Client
-from ..common import UNSET, ApiObject, ApiObjectCache, ApiObjectType, SevDesk, Unset
-from .client.api.contact_address import (
+from .. import UNSET, Client, Unset
+from ..client.api.contact_address import (
     create_contact_address,
     delete_contact_address,
     update_contact_address,
 )
-from .client.models import (
+from ..client.models import (
     ContactAddress,
     ContactAddressCategory,
     ContactAddressContact,
     ContactAddressCountry,
+    StaticCountry,
 )
+from ..common import ApiObject, ApiObjectCache, ApiObjectType, SevDesk
 
 
 class AddressCategory(str, Enum):
@@ -67,6 +68,12 @@ class Address:
             address.id = self.id
 
         return address
+
+    def _get_static_country(self, client: Client) -> StaticCountry:
+        cache = ApiObjectCache(client=client)
+        country: ApiObject = cache.get(ApiObjectType.COUNTRY)[self.country_code.lower()]
+
+        return StaticCountry(id=country.id)
 
     def create(self, client: Client):
         """

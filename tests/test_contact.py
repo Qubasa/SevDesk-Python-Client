@@ -1,9 +1,14 @@
 import os
 
-from sevdesk import Client
-from sevdesk.common import Unset
-from sevdesk.contact import Customer, DeliveryAddress, Email, InvoiceAddress, Phone
-from sevdesk.contact.communicationway import CommunicationWayKey
+from sevdesk import Client, Unset
+from sevdesk.contact import (
+    Customer,
+    DeliveryAddress,
+    Email,
+    InvoiceAddress,
+    Phone,
+    CommunicationWayKey,
+)
 
 
 def test_get_customer_by_id():

@@ -1,0 +1,123 @@
+{
+    "post": {
+        "tags": [
+            "Invoice"
+        ],
+        "summary": "Create a new invoice",
+        "description": "This endpoint offers you the following functionality. 1) Create invoices together with positions and discounts 2) Delete positions while adding new ones 3) Delete or add discounts, or both at the same time 4)Automatically fill the address of the supplied contact into the invoice address. To make your own request sample slimmer, you can omit all parameters which are not required and nullable. However, for a valid and logical bookkeeping document, you will also need some of them to ensure that all the necessary data is in the invoice.",
+        "operationId": "createInvoiceByFactory",
+        "requestBody": {
+            "description": "Creation data. Please be aware, that you need to provide at least all required parameter of the invoice model!",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "required": [
+                            "invoice",
+                            "invoicePosSave",
+                            "invoicePosDelete",
+                            "discountSave",
+                            "discountDelete"
+                        ],
+                        "properties": {
+                            "invoice": {
+                                "description": "The invoice you want to create",
+                                "type": "object",
+                                "$ref": "../schemas/FactoryInvoice.json"
+                            },
+                            "invoicePosSave": {
+                                "description": "The invoice positions you want to create. If you don't have any, set to null.",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "../schemas/FactoryInvoicePositionSave.json"
+                                },
+                                "nullable": true
+                            },
+                            "invoicePosDelete": {
+                                "description": "The invoice positions you want to delete. If you don't have any, set to null.",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "../schemas/FactoryInvoicePositionDelete.json"
+                                },
+                                "default": null,
+                                "nullable": true
+                            },
+                            "discountSave": {
+                                "description": "The discounts you want to create. If you don't have any, set to null.",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "../../common/schemas/FactoryDiscountSave.json"
+                                },
+                                "default": null,
+                                "nullable": true
+                            },
+                            "discountDelete": {
+                                "description": "The discounts you want to delete. If you don't have any, set to null.",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "../../common/schemas/FactoryDiscountDelete.json"
+                                },
+                                "default": null,
+                                "nullable": true
+                            },
+                            "takeDefaultAddress": {
+                                "description": "Defines if the address of the supplied contact is automatically filled into the invoice.",
+                                "type": "boolean",
+                                "default": "false"
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "201": {
+                "description": "Created - Returns created invoice",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "objects": {
+                                    "type": "object",
+                                    "properties": {
+                                        "invoice": {
+                                            "description": "The created invoice",
+                                            "type": "object",
+                                            "$ref": "../schemas/Invoice.json"
+                                        },
+                                        "invoicePos": {
+                                            "description": "The created invoice positions",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "../schemas/InvoicePosition.json"
+                                            },
+                                            "nullable": true
+                                        },
+                                        "discount": {
+                                            "description": "The created invoice discounts",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "../../common/schemas/DiscountPosition.json"
+                                            },
+                                            "nullable": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Bad request"
+            },
+            "401": {
+                "description": "Authentication required"
+            },
+            "500": {
+                "description": "Server Error"
+            }
+        }
+    }
+}
