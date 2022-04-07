@@ -25,6 +25,7 @@ from ..client.models import (
     DocumentModelContact,
     DocumentModelContactPerson,
     DocumentModelStatus,
+    DocumentModelTaxType,
     FactoryDiscountSave,
     FactoryInvoice,
     FactoryInvoicePositionSave,
@@ -67,6 +68,8 @@ class Invoice:
     "A Shopify Client could use the reference to store the Shopify API ID"
     status: InvoiceStatus = InvoiceStatus.DRAFT
     "Invoice-Status"
+    head_text: Union[Unset, str] = UNSET
+    "The head text"
     items: Union[Unset, List[LineItem]] = UNSET
     "Invoice-Items"
     transactions: Union[Unset, List[Transaction]] = UNSET
@@ -76,6 +79,8 @@ class Invoice:
     invoice_date: Union[Unset, datetime] = UNSET
     "Invoice timestamp. If not set, datetime.now() will be called on initialisation of the invoice object."
     delivery_date: Union[Unset, datetime] = UNSET
+    "Delivery date until timestamp"
+    delivery_date_until: Union[Unset, None, datetime] = UNSET
     "Delivery timestamp. If not set, invoice_date will be used as delivery_date."
     small_settlement: bool = False
     "Defines if the client uses the small settlement scheme. If yes, the invoice must not contain any vat."
@@ -85,6 +90,8 @@ class Invoice:
     # TODO Make an environment-variable parameter
     tax_text: Union[Unset, str] = UNSET
     "Default tax-text, will be automatically set to Mehrwertssteuer {tax_rate}%"
+    tax_type: Union[Unset, DocumentModelTaxType] = UNSET
+    "TODO"
     contact_person: Union[Unset, SevUser] = UNSET
     "The contact person. If not given, the SevUser corresponding to the API-Token will be used"
     invoice_number: Union[Unset, str] = UNSET
@@ -146,6 +153,7 @@ class Invoice:
         invoice_object = FactoryInvoice(
             id=self.id,
             header=self.header,
+            head_text=self.head_text,
             foot_text=self._foot_text,
             invoice_number=self.invoice_number,
             contact=invoice_model_contact,
@@ -154,10 +162,12 @@ class Invoice:
             status=self.status._get_api_model(client),
             invoice_date=self.invoice_date,
             delivery_date=self.delivery_date,
+            delivery_date_until=self.delivery_date_until,
             small_settlement=self.small_settlement,
             contact_person=DocumentModelContactPerson(self.contact_person.id),
             tax_rate=self.tax_rate,
             tax_text=self.tax_text,
+            tax_type=self.tax_type,
             customer_internal_note=self.reference,
             show_net=not self.gross,
         )
