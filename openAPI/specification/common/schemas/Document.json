@@ -543,8 +543,9 @@
         },
         "deliveryDateUntil": {
             "description": "If the delivery date should be a time range, another timestamp can be provided in this attribute to define a range from timestamp used in deliveryDate attribute to the timestamp used here.",
-            "type": "integer",
-            "default": null,
+            "type": "string",
+            "format": "date-time",
+            "example": "01.01.20",
             "nullable": true
         },
         "datevConnectOnline": {

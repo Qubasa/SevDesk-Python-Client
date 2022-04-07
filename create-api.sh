@@ -2,7 +2,7 @@ cwd="$PWD"
 cmd=""
 
 # Build final OpenAPI document
-swagger-cli bundle $cwd/OpenAPI/specification/openapi.json --outfile $cwd/build/openapi.json --type json
+swagger-cli bundle $cwd/openAPI/specification/openapi.json --outfile $cwd/build/openapi.json --type json
 
 cd ./sevdesk/
 
