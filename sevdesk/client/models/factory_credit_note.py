@@ -112,9 +112,9 @@ class FactoryCreditNote:
         enshrined (Union[Unset, None, datetime.datetime]): Defines if and when document was enshrined. Enshrined
             documents can not be manipulated.
         send_type (Union[Unset, None, DocumentModelSendType]): Type which was used to send the document.
-        delivery_date_until (Union[Unset, None, int]): If the delivery date should be a time range, another timestamp
-            can be provided in this attribute to define a range from timestamp used in deliveryDate attribute to the
-            timestamp used here.
+        delivery_date_until (Union[Unset, None, datetime.datetime]): If the delivery date should be a time range,
+            another timestamp can be provided in this attribute to define a range from timestamp used in deliveryDate
+            attribute to the timestamp used here. Example: 01.01.20.
         datev_connect_online (Union[Unset, None, DocumentModelDatevConnectOnline]): Internal attribute
         send_payment_received_notification_date (Union[Unset, None, int]): Internal attribute
         ref_src_invoice (Union[Unset, None, CreditNoteRefSrcInvoice]): The invoice from which the underachievement
@@ -191,7 +191,7 @@ class FactoryCreditNote:
     show_net: Union[Unset, bool] = True
     enshrined: Union[Unset, None, datetime.datetime] = UNSET
     send_type: Union[Unset, None, DocumentModelSendType] = UNSET
-    delivery_date_until: Union[Unset, None, int] = UNSET
+    delivery_date_until: Union[Unset, None, datetime.datetime] = UNSET
     datev_connect_online: Union[Unset, None, DocumentModelDatevConnectOnline] = UNSET
     send_payment_received_notification_date: Union[Unset, None, int] = UNSET
     ref_src_invoice: Union[Unset, None, CreditNoteRefSrcInvoice] = UNSET
@@ -322,7 +322,14 @@ class FactoryCreditNote:
         if not isinstance(self.send_type, Unset):
             send_type = self.send_type.value if self.send_type else None
 
-        delivery_date_until = self.delivery_date_until
+        delivery_date_until: Union[Unset, None, str] = UNSET
+        if not isinstance(self.delivery_date_until, Unset):
+            delivery_date_until = (
+                self.delivery_date_until.isoformat()
+                if self.delivery_date_until
+                else None
+            )
+
         datev_connect_online: Union[Unset, None, Dict[str, Any]] = UNSET
         if not isinstance(self.datev_connect_online, Unset):
             datev_connect_online = (
@@ -718,7 +725,14 @@ class FactoryCreditNote:
         else:
             send_type = DocumentModelSendType(_send_type)
 
-        delivery_date_until = d.pop("deliveryDateUntil", UNSET)
+        _delivery_date_until = d.pop("deliveryDateUntil", UNSET)
+        delivery_date_until: Union[Unset, None, datetime.datetime]
+        if _delivery_date_until is None:
+            delivery_date_until = None
+        elif isinstance(_delivery_date_until, Unset):
+            delivery_date_until = UNSET
+        else:
+            delivery_date_until = isoparse(_delivery_date_until)
 
         _datev_connect_online = d.pop("datevConnectOnline", UNSET)
         datev_connect_online: Union[Unset, None, DocumentModelDatevConnectOnline]
