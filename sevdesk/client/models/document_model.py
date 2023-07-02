@@ -1,25 +1,32 @@
 import datetime
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 from dateutil.parser import isoparse
 
-from ..models.document_model_address_contact_ref import DocumentModelAddressContactRef
-from ..models.document_model_address_country import DocumentModelAddressCountry
-from ..models.document_model_contact import DocumentModelContact
-from ..models.document_model_contact_person import DocumentModelContactPerson
-from ..models.document_model_cost_centre import DocumentModelCostCentre
-from ..models.document_model_create_user import DocumentModelCreateUser
-from ..models.document_model_datev_connect_online import DocumentModelDatevConnectOnline
-from ..models.document_model_entry_type import DocumentModelEntryType
-from ..models.document_model_origin import DocumentModelOrigin
-from ..models.document_model_payment_method import DocumentModelPaymentMethod
 from ..models.document_model_send_type import DocumentModelSendType
-from ..models.document_model_sev_client import DocumentModelSevClient
 from ..models.document_model_status import DocumentModelStatus
-from ..models.document_model_tax_set import DocumentModelTaxSet
 from ..models.document_model_tax_type import DocumentModelTaxType
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.document_model_address_contact_ref import (
+        DocumentModelAddressContactRef,
+    )
+    from ..models.document_model_address_country import DocumentModelAddressCountry
+    from ..models.document_model_contact import DocumentModelContact
+    from ..models.document_model_contact_person import DocumentModelContactPerson
+    from ..models.document_model_cost_centre import DocumentModelCostCentre
+    from ..models.document_model_create_user import DocumentModelCreateUser
+    from ..models.document_model_datev_connect_online import (
+        DocumentModelDatevConnectOnline,
+    )
+    from ..models.document_model_entry_type import DocumentModelEntryType
+    from ..models.document_model_origin import DocumentModelOrigin
+    from ..models.document_model_payment_method import DocumentModelPaymentMethod
+    from ..models.document_model_sev_client import DocumentModelSevClient
+    from ..models.document_model_tax_set import DocumentModelTaxSet
+
 
 T = TypeVar("T", bound="DocumentModel")
 
@@ -111,11 +118,11 @@ class DocumentModel:
         send_payment_received_notification_date (Union[Unset, None, int]): Internal attribute
     """
 
-    contact: DocumentModelContact
+    contact: "DocumentModelContact"
     delivery_date: datetime.datetime
     status: DocumentModelStatus
     small_settlement: bool
-    contact_person: DocumentModelContactPerson
+    contact_person: "DocumentModelContactPerson"
     tax_rate: float
     tax_text: str
     discount: int = 0
@@ -124,7 +131,7 @@ class DocumentModel:
     id: Union[Unset, None, int] = UNSET
     create: Union[Unset, datetime.datetime] = UNSET
     update: Union[Unset, datetime.datetime] = UNSET
-    sev_client: Union[Unset, DocumentModelSevClient] = UNSET
+    sev_client: Union[Unset, "DocumentModelSevClient"] = UNSET
     header: Union[Unset, None, str] = UNSET
     head_text: Union[Unset, None, str] = UNSET
     foot_text: Union[Unset, None, str] = UNSET
@@ -134,23 +141,23 @@ class DocumentModel:
     address_street: Union[Unset, None, str] = UNSET
     address_zip: Union[Unset, None, str] = UNSET
     address_city: Union[Unset, None, str] = UNSET
-    address_country: Union[Unset, DocumentModelAddressCountry] = UNSET
+    address_country: Union[Unset, "DocumentModelAddressCountry"] = UNSET
     pay_date: Union[Unset, None, datetime.datetime] = UNSET
-    create_user: Union[Unset, DocumentModelCreateUser] = UNSET
+    create_user: Union[Unset, "DocumentModelCreateUser"] = UNSET
     dunning_level: Union[Unset, None, int] = UNSET
     address_parent_name: Union[Unset, None, str] = UNSET
-    address_contact_ref: Union[Unset, None, DocumentModelAddressContactRef] = UNSET
-    payment_method: Union[Unset, DocumentModelPaymentMethod] = UNSET
-    cost_centre: Union[Unset, DocumentModelCostCentre] = UNSET
+    address_contact_ref: Union[Unset, None, "DocumentModelAddressContactRef"] = UNSET
+    payment_method: Union[Unset, "DocumentModelPaymentMethod"] = UNSET
+    cost_centre: Union[Unset, "DocumentModelCostCentre"] = UNSET
     send_date: Union[Unset, None, datetime.datetime] = UNSET
-    origin: Union[Unset, None, DocumentModelOrigin] = UNSET
+    origin: Union[Unset, None, "DocumentModelOrigin"] = UNSET
     reminder_total: Union[Unset, None, float] = UNSET
     reminder_debit: Union[Unset, None, float] = UNSET
     reminder_deadline: Union[Unset, None, int] = UNSET
     reminder_charge: Union[Unset, None, float] = UNSET
     address_parent_name_2: Union[Unset, None, str] = UNSET
     address_name_2: Union[Unset, None, str] = UNSET
-    tax_set: Union[Unset, None, DocumentModelTaxSet] = UNSET
+    tax_set: Union[Unset, None, "DocumentModelTaxSet"] = UNSET
     address_gender: Union[Unset, None, str] = UNSET
     account_end_date: Union[Unset, None, int] = UNSET
     address: Union[Unset, None, str] = UNSET
@@ -166,13 +173,13 @@ class DocumentModel:
     sum_tax_accounting: Union[Unset, float] = UNSET
     sum_gross_accounting: Union[Unset, float] = UNSET
     paid_amount: Union[Unset, None, float] = UNSET
-    entry_type: Union[Unset, None, DocumentModelEntryType] = UNSET
+    entry_type: Union[Unset, None, "DocumentModelEntryType"] = UNSET
     customer_internal_note: Union[Unset, None, str] = UNSET
     show_net: Union[Unset, bool] = True
     enshrined: Union[Unset, None, datetime.datetime] = UNSET
     send_type: Union[Unset, None, DocumentModelSendType] = UNSET
     delivery_date_until: Union[Unset, None, datetime.datetime] = UNSET
-    datev_connect_online: Union[Unset, None, DocumentModelDatevConnectOnline] = UNSET
+    datev_connect_online: Union[Unset, None, "DocumentModelDatevConnectOnline"] = UNSET
     send_payment_received_notification_date: Union[Unset, None, int] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
@@ -438,6 +445,23 @@ class DocumentModel:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.document_model_address_contact_ref import (
+            DocumentModelAddressContactRef,
+        )
+        from ..models.document_model_address_country import DocumentModelAddressCountry
+        from ..models.document_model_contact import DocumentModelContact
+        from ..models.document_model_contact_person import DocumentModelContactPerson
+        from ..models.document_model_cost_centre import DocumentModelCostCentre
+        from ..models.document_model_create_user import DocumentModelCreateUser
+        from ..models.document_model_datev_connect_online import (
+            DocumentModelDatevConnectOnline,
+        )
+        from ..models.document_model_entry_type import DocumentModelEntryType
+        from ..models.document_model_origin import DocumentModelOrigin
+        from ..models.document_model_payment_method import DocumentModelPaymentMethod
+        from ..models.document_model_sev_client import DocumentModelSevClient
+        from ..models.document_model_tax_set import DocumentModelTaxSet
+
         d = src_dict.copy()
         contact = DocumentModelContact.from_dict(d.pop("contact"))
 

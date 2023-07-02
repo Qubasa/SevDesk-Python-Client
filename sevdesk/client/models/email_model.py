@@ -1,12 +1,15 @@
 import datetime
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 from dateutil.parser import isoparse
 
-from ..models.email_model_object import EmailModelObject
-from ..models.email_model_sev_client import EmailModelSevClient
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.email_model_object import EmailModelObject
+    from ..models.email_model_sev_client import EmailModelSevClient
+
 
 T = TypeVar("T", bound="EmailModel")
 
@@ -38,9 +41,9 @@ class EmailModel:
     object_name: Union[Unset, str] = UNSET
     create: Union[Unset, datetime.datetime] = UNSET
     update: Union[Unset, datetime.datetime] = UNSET
-    object_: Union[Unset, None, EmailModelObject] = UNSET
+    object_: Union[Unset, None, "EmailModelObject"] = UNSET
     text: Union[Unset, None, str] = UNSET
-    sev_client: Union[Unset, EmailModelSevClient] = UNSET
+    sev_client: Union[Unset, "EmailModelSevClient"] = UNSET
     cc: Union[Unset, None, str] = UNSET
     bcc: Union[Unset, None, str] = UNSET
     arrived: Union[Unset, None, datetime.datetime] = UNSET
@@ -109,6 +112,9 @@ class EmailModel:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.email_model_object import EmailModelObject
+        from ..models.email_model_sev_client import EmailModelSevClient
+
         d = src_dict.copy()
         from_ = d.pop("from")
 

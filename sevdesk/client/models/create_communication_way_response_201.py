@@ -1,9 +1,12 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.communication_way_model import CommunicationWayModel
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.communication_way_model import CommunicationWayModel
+
 
 T = TypeVar("T", bound="CreateCommunicationWayResponse201")
 
@@ -15,7 +18,7 @@ class CreateCommunicationWayResponse201:
         objects (Union[Unset, CommunicationWayModel]): Contact communication way model
     """
 
-    objects: Union[Unset, CommunicationWayModel] = UNSET
+    objects: Union[Unset, "CommunicationWayModel"] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -33,6 +36,8 @@ class CreateCommunicationWayResponse201:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.communication_way_model import CommunicationWayModel
+
         d = src_dict.copy()
         _objects = d.pop("objects", UNSET)
         objects: Union[Unset, CommunicationWayModel]

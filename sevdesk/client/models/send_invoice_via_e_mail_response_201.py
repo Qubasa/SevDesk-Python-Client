@@ -1,9 +1,12 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.email_model import EmailModel
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.email_model import EmailModel
+
 
 T = TypeVar("T", bound="SendInvoiceViaEMailResponse201")
 
@@ -12,10 +15,10 @@ T = TypeVar("T", bound="SendInvoiceViaEMailResponse201")
 class SendInvoiceViaEMailResponse201:
     """
     Attributes:
-        objects (Union[Unset, List[EmailModel]]):
+        objects (Union[Unset, List['EmailModel']]):
     """
 
-    objects: Union[Unset, List[EmailModel]] = UNSET
+    objects: Union[Unset, List["EmailModel"]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -37,6 +40,8 @@ class SendInvoiceViaEMailResponse201:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.email_model import EmailModel
+
         d = src_dict.copy()
         objects = []
         _objects = d.pop("objects", UNSET)

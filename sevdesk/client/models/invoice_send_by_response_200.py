@@ -1,9 +1,12 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.invoice import Invoice
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.invoice import Invoice
+
 
 T = TypeVar("T", bound="InvoiceSendByResponse200")
 
@@ -12,10 +15,10 @@ T = TypeVar("T", bound="InvoiceSendByResponse200")
 class InvoiceSendByResponse200:
     """
     Attributes:
-        objects (Union[Unset, List[Invoice]]): The invoice object which was marked as sent.
+        objects (Union[Unset, List['Invoice']]): The invoice object which was marked as sent.
     """
 
-    objects: Union[Unset, List[Invoice]] = UNSET
+    objects: Union[Unset, List["Invoice"]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -37,6 +40,8 @@ class InvoiceSendByResponse200:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.invoice import Invoice
+
         d = src_dict.copy()
         objects = []
         _objects = d.pop("objects", UNSET)

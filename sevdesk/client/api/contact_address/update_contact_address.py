@@ -1,7 +1,9 @@
+from http import HTTPStatus
 from typing import Any, Dict, Optional
 
 import httpx
 
+from ... import errors
 from ...client import Client
 from ...models.contact_address import ContactAddress
 from ...models.update_contact_address_response_200 import (
@@ -31,28 +33,32 @@ def _get_kwargs(
         "headers": headers,
         "cookies": cookies,
         "timeout": client.get_timeout(),
+        "follow_redirects": client.follow_redirects,
         "json": json_json_body,
     }
 
 
 def _parse_response(
-    *, response: httpx.Response
+    *, client: Client, response: httpx.Response
 ) -> Optional[UpdateContactAddressResponse200]:
-    if response.status_code == 200:
+    if response.status_code == HTTPStatus.OK:
         response_200 = UpdateContactAddressResponse200.from_dict(response.json())
 
         return response_200
-    return None
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
 
 
 def _build_response(
-    *, response: httpx.Response
+    *, client: Client, response: httpx.Response
 ) -> Response[UpdateContactAddressResponse200]:
     return Response(
-        status_code=response.status_code,
+        status_code=HTTPStatus(response.status_code),
         content=response.content,
         headers=response.headers,
-        parsed=_parse_response(response=response),
+        parsed=_parse_response(client=client, response=response),
     )
 
 
@@ -70,6 +76,10 @@ def sync_detailed(
         contact_address_id (int):
         json_body (ContactAddress): ContactAddress model
 
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
     Returns:
         Response[UpdateContactAddressResponse200]
     """
@@ -85,7 +95,7 @@ def sync_detailed(
         **kwargs,
     )
 
-    return _build_response(response=response)
+    return _build_response(client=client, response=response)
 
 
 def sync(
@@ -102,8 +112,12 @@ def sync(
         contact_address_id (int):
         json_body (ContactAddress): ContactAddress model
 
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
     Returns:
-        Response[UpdateContactAddressResponse200]
+        UpdateContactAddressResponse200
     """
 
     return sync_detailed(
@@ -127,6 +141,10 @@ async def asyncio_detailed(
         contact_address_id (int):
         json_body (ContactAddress): ContactAddress model
 
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
     Returns:
         Response[UpdateContactAddressResponse200]
     """
@@ -140,7 +158,7 @@ async def asyncio_detailed(
     async with httpx.AsyncClient(verify=client.verify_ssl) as _client:
         response = await _client.request(**kwargs)
 
-    return _build_response(response=response)
+    return _build_response(client=client, response=response)
 
 
 async def asyncio(
@@ -157,8 +175,12 @@ async def asyncio(
         contact_address_id (int):
         json_body (ContactAddress): ContactAddress model
 
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
     Returns:
-        Response[UpdateContactAddressResponse200]
+        UpdateContactAddressResponse200
     """
 
     return (

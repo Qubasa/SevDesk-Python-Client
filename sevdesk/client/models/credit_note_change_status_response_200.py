@@ -8,27 +8,23 @@ if TYPE_CHECKING:
     from ..models.credit_note import CreditNote
 
 
-T = TypeVar("T", bound="GetCreditNotesResponse200")
+T = TypeVar("T", bound="CreditNoteChangeStatusResponse200")
 
 
 @attr.s(auto_attribs=True)
-class GetCreditNotesResponse200:
+class CreditNoteChangeStatusResponse200:
     """
     Attributes:
-        objects (Union[Unset, List['CreditNote']]):
+        objects (Union[Unset, CreditNote]):
     """
 
-    objects: Union[Unset, List["CreditNote"]] = UNSET
+    objects: Union[Unset, "CreditNote"] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        objects: Union[Unset, List[Dict[str, Any]]] = UNSET
+        objects: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.objects, Unset):
-            objects = []
-            for objects_item_data in self.objects:
-                objects_item = objects_item_data.to_dict()
-
-                objects.append(objects_item)
+            objects = self.objects.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -43,19 +39,19 @@ class GetCreditNotesResponse200:
         from ..models.credit_note import CreditNote
 
         d = src_dict.copy()
-        objects = []
         _objects = d.pop("objects", UNSET)
-        for objects_item_data in _objects or []:
-            objects_item = CreditNote.from_dict(objects_item_data)
+        objects: Union[Unset, CreditNote]
+        if isinstance(_objects, Unset):
+            objects = UNSET
+        else:
+            objects = CreditNote.from_dict(_objects)
 
-            objects.append(objects_item)
-
-        get_credit_notes_response_200 = cls(
+        credit_note_change_status_response_200 = cls(
             objects=objects,
         )
 
-        get_credit_notes_response_200.additional_properties = d
-        return get_credit_notes_response_200
+        credit_note_change_status_response_200.additional_properties = d
+        return credit_note_change_status_response_200
 
     @property
     def additional_keys(self) -> List[str]:

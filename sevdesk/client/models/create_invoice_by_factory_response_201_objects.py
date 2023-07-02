@@ -1,11 +1,14 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.discount_position_model import DiscountPositionModel
-from ..models.invoice import Invoice
-from ..models.invoice_position import InvoicePosition
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.discount_position_model import DiscountPositionModel
+    from ..models.invoice import Invoice
+    from ..models.invoice_position import InvoicePosition
+
 
 T = TypeVar("T", bound="CreateInvoiceByFactoryResponse201Objects")
 
@@ -15,13 +18,13 @@ class CreateInvoiceByFactoryResponse201Objects:
     """
     Attributes:
         invoice (Union[Unset, Invoice]):
-        invoice_pos (Union[Unset, None, List[InvoicePosition]]): The created invoice positions
-        discount (Union[Unset, None, List[DiscountPositionModel]]): The created invoice discounts
+        invoice_pos (Union[Unset, None, List['InvoicePosition']]): The created invoice positions
+        discount (Union[Unset, None, List['DiscountPositionModel']]): The created invoice discounts
     """
 
-    invoice: Union[Unset, Invoice] = UNSET
-    invoice_pos: Union[Unset, None, List[InvoicePosition]] = UNSET
-    discount: Union[Unset, None, List[DiscountPositionModel]] = UNSET
+    invoice: Union[Unset, "Invoice"] = UNSET
+    invoice_pos: Union[Unset, None, List["InvoicePosition"]] = UNSET
+    discount: Union[Unset, None, List["DiscountPositionModel"]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -65,6 +68,10 @@ class CreateInvoiceByFactoryResponse201Objects:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.discount_position_model import DiscountPositionModel
+        from ..models.invoice import Invoice
+        from ..models.invoice_position import InvoicePosition
+
         d = src_dict.copy()
         _invoice = d.pop("invoice", UNSET)
         invoice: Union[Unset, Invoice]

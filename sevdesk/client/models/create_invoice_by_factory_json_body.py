@@ -1,13 +1,16 @@
-from typing import Any, Dict, List, Optional, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
-from ..models.factory_discount_delete import FactoryDiscountDelete
-from ..models.factory_discount_save import FactoryDiscountSave
-from ..models.factory_invoice import FactoryInvoice
-from ..models.factory_invoice_position_delete import FactoryInvoicePositionDelete
-from ..models.factory_invoice_position_save import FactoryInvoicePositionSave
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.factory_discount_delete import FactoryDiscountDelete
+    from ..models.factory_discount_save import FactoryDiscountSave
+    from ..models.factory_invoice import FactoryInvoice
+    from ..models.factory_invoice_position_delete import FactoryInvoicePositionDelete
+    from ..models.factory_invoice_position_save import FactoryInvoicePositionSave
+
 
 T = TypeVar("T", bound="CreateInvoiceByFactoryJsonBody")
 
@@ -17,23 +20,23 @@ class CreateInvoiceByFactoryJsonBody:
     """
     Attributes:
         invoice (FactoryInvoice):
-        invoice_pos_save (Optional[List[FactoryInvoicePositionSave]]): The invoice positions you want to create. If you
-            don't have any, set to null.
-        invoice_pos_delete (Optional[List[FactoryInvoicePositionDelete]]): The invoice positions you want to delete. If
+        invoice_pos_save (Optional[List['FactoryInvoicePositionSave']]): The invoice positions you want to create. If
             you don't have any, set to null.
-        discount_save (Optional[List[FactoryDiscountSave]]): The discounts you want to create. If you don't have any,
+        invoice_pos_delete (Optional[List['FactoryInvoicePositionDelete']]): The invoice positions you want to delete.
+            If you don't have any, set to null.
+        discount_save (Optional[List['FactoryDiscountSave']]): The discounts you want to create. If you don't have any,
             set to null.
-        discount_delete (Optional[List[FactoryDiscountDelete]]): The discounts you want to delete. If you don't have
+        discount_delete (Optional[List['FactoryDiscountDelete']]): The discounts you want to delete. If you don't have
             any, set to null.
         take_default_address (Union[Unset, bool]): Defines if the address of the supplied contact is automatically
             filled into the invoice. Default: True.
     """
 
-    invoice: FactoryInvoice
-    invoice_pos_save: Optional[List[FactoryInvoicePositionSave]]
-    invoice_pos_delete: Optional[List[FactoryInvoicePositionDelete]]
-    discount_save: Optional[List[FactoryDiscountSave]]
-    discount_delete: Optional[List[FactoryDiscountDelete]]
+    invoice: "FactoryInvoice"
+    invoice_pos_save: Optional[List["FactoryInvoicePositionSave"]]
+    invoice_pos_delete: Optional[List["FactoryInvoicePositionDelete"]]
+    discount_save: Optional[List["FactoryDiscountSave"]]
+    discount_delete: Optional[List["FactoryDiscountDelete"]]
     take_default_address: Union[Unset, bool] = True
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
@@ -96,6 +99,14 @@ class CreateInvoiceByFactoryJsonBody:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.factory_discount_delete import FactoryDiscountDelete
+        from ..models.factory_discount_save import FactoryDiscountSave
+        from ..models.factory_invoice import FactoryInvoice
+        from ..models.factory_invoice_position_delete import (
+            FactoryInvoicePositionDelete,
+        )
+        from ..models.factory_invoice_position_save import FactoryInvoicePositionSave
+
         d = src_dict.copy()
         invoice = FactoryInvoice.from_dict(d.pop("invoice"))
 

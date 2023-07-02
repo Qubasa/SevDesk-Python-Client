@@ -1,9 +1,12 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.contact_model import ContactModel
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.contact_model import ContactModel
+
 
 T = TypeVar("T", bound="GetContactsResponse200")
 
@@ -12,10 +15,10 @@ T = TypeVar("T", bound="GetContactsResponse200")
 class GetContactsResponse200:
     """
     Attributes:
-        objects (Union[Unset, List[ContactModel]]):
+        objects (Union[Unset, List['ContactModel']]):
     """
 
-    objects: Union[Unset, List[ContactModel]] = UNSET
+    objects: Union[Unset, List["ContactModel"]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -37,6 +40,8 @@ class GetContactsResponse200:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.contact_model import ContactModel
+
         d = src_dict.copy()
         objects = []
         _objects = d.pop("objects", UNSET)

@@ -1,14 +1,19 @@
 import datetime
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 from dateutil.parser import isoparse
 
-from ..models.communication_way_model_contact import CommunicationWayModelContact
-from ..models.communication_way_model_key import CommunicationWayModelKey
-from ..models.communication_way_model_sev_client import CommunicationWayModelSevClient
 from ..models.communication_way_model_type import CommunicationWayModelType
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.communication_way_model_contact import CommunicationWayModelContact
+    from ..models.communication_way_model_key import CommunicationWayModelKey
+    from ..models.communication_way_model_sev_client import (
+        CommunicationWayModelSevClient,
+    )
+
 
 T = TypeVar("T", bound="CommunicationWayModel")
 
@@ -35,14 +40,14 @@ class CommunicationWayModel:
 
     type: CommunicationWayModelType
     value: str
-    key: CommunicationWayModelKey
+    key: "CommunicationWayModelKey"
     id: Union[Unset, int] = UNSET
     object_name: Union[Unset, str] = UNSET
     create: Union[Unset, datetime.datetime] = UNSET
     update: Union[Unset, datetime.datetime] = UNSET
-    contact: Union[Unset, CommunicationWayModelContact] = UNSET
+    contact: Union[Unset, "CommunicationWayModelContact"] = UNSET
     main: Union[Unset, None, bool] = UNSET
-    sev_client: Union[Unset, CommunicationWayModelSevClient] = UNSET
+    sev_client: Union[Unset, "CommunicationWayModelSevClient"] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -98,6 +103,14 @@ class CommunicationWayModel:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.communication_way_model_contact import (
+            CommunicationWayModelContact,
+        )
+        from ..models.communication_way_model_key import CommunicationWayModelKey
+        from ..models.communication_way_model_sev_client import (
+            CommunicationWayModelSevClient,
+        )
+
         d = src_dict.copy()
         type = CommunicationWayModelType(d.pop("type"))
 

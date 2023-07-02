@@ -1,17 +1,20 @@
 import datetime
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 from dateutil.parser import isoparse
 
-from ..models.communication_way_model import CommunicationWayModel
-from ..models.contact_address import ContactAddress
-from ..models.contact_model_category import ContactModelCategory
-from ..models.contact_model_parent import ContactModelParent
-from ..models.contact_model_sev_client import ContactModelSevClient
-from ..models.contact_model_tax_set import ContactModelTaxSet
 from ..models.contact_model_tax_type import ContactModelTaxType
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.communication_way_model import CommunicationWayModel
+    from ..models.contact_address import ContactAddress
+    from ..models.contact_model_category import ContactModelCategory
+    from ..models.contact_model_parent import ContactModelParent
+    from ..models.contact_model_sev_client import ContactModelSevClient
+    from ..models.contact_model_tax_set import ContactModelTaxSet
+
 
 T = TypeVar("T", bound="ContactModel")
 
@@ -22,8 +25,8 @@ class ContactModel:
     Attributes:
         category (ContactModelCategory): Category of the contact.<br> For more information, see <a
             href='https://my.sevdesk.de/apiOverview/index.html#/doc-contacts#types'>here</a>.
-        addresses (Union[Unset, List[ContactAddress]]): Optional addresses added if embed contains addresses
-        communication_ways (Union[Unset, List[CommunicationWayModel]]): Optional communication ways added if embed
+        addresses (Union[Unset, List['ContactAddress']]): Optional addresses added if embed contains addresses
+        communication_ways (Union[Unset, List['CommunicationWayModel']]): Optional communication ways added if embed
             contains communicationWays
         id (Union[Unset, int]): The contact id
         object_name (Union[Unset, str]): The contact object name
@@ -69,23 +72,23 @@ class ContactModel:
             absolute value (false).
     """
 
-    category: ContactModelCategory
-    addresses: Union[Unset, List[ContactAddress]] = UNSET
-    communication_ways: Union[Unset, List[CommunicationWayModel]] = UNSET
+    category: "ContactModelCategory"
+    addresses: Union[Unset, List["ContactAddress"]] = UNSET
+    communication_ways: Union[Unset, List["CommunicationWayModel"]] = UNSET
     id: Union[Unset, int] = UNSET
     object_name: Union[Unset, str] = UNSET
     create: Union[Unset, datetime.datetime] = UNSET
     update: Union[Unset, datetime.datetime] = UNSET
     name: Union[Unset, None, str] = UNSET
     customer_number: Union[Unset, None, str] = UNSET
-    parent: Union[Unset, None, ContactModelParent] = UNSET
+    parent: Union[Unset, None, "ContactModelParent"] = UNSET
     surename: Union[Unset, None, str] = UNSET
     familyname: Union[Unset, None, str] = UNSET
     titel: Union[Unset, None, str] = UNSET
     description: Union[Unset, None, str] = UNSET
     academic_title: Union[Unset, None, str] = UNSET
     gender: Union[Unset, None, str] = UNSET
-    sev_client: Union[Unset, ContactModelSevClient] = UNSET
+    sev_client: Union[Unset, "ContactModelSevClient"] = UNSET
     name2: Union[Unset, None, str] = UNSET
     birthday: Union[Unset, None, datetime.date] = UNSET
     vat_number: Union[Unset, None, str] = UNSET
@@ -98,7 +101,7 @@ class ContactModel:
     tax_office: Union[Unset, None, str] = UNSET
     exempt_vat: Union[Unset, None, bool] = UNSET
     tax_type: Union[Unset, None, ContactModelTaxType] = UNSET
-    tax_set: Union[Unset, None, ContactModelTaxSet] = UNSET
+    tax_set: Union[Unset, None, "ContactModelTaxSet"] = UNSET
     default_discount_amount: Union[Unset, None, float] = UNSET
     default_discount_percentage: Union[Unset, None, bool] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -247,6 +250,13 @@ class ContactModel:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.communication_way_model import CommunicationWayModel
+        from ..models.contact_address import ContactAddress
+        from ..models.contact_model_category import ContactModelCategory
+        from ..models.contact_model_parent import ContactModelParent
+        from ..models.contact_model_sev_client import ContactModelSevClient
+        from ..models.contact_model_tax_set import ContactModelTaxSet
+
         d = src_dict.copy()
         category = ContactModelCategory.from_dict(d.pop("category"))
 

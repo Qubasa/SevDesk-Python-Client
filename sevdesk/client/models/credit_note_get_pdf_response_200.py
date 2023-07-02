@@ -1,11 +1,14 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.credit_note_get_pdf_response_200_objects import (
-    CreditNoteGetPdfResponse200Objects,
-)
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.credit_note_get_pdf_response_200_objects import (
+        CreditNoteGetPdfResponse200Objects,
+    )
+
 
 T = TypeVar("T", bound="CreditNoteGetPdfResponse200")
 
@@ -17,7 +20,7 @@ class CreditNoteGetPdfResponse200:
         objects (Union[Unset, CreditNoteGetPdfResponse200Objects]):
     """
 
-    objects: Union[Unset, CreditNoteGetPdfResponse200Objects] = UNSET
+    objects: Union[Unset, "CreditNoteGetPdfResponse200Objects"] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -35,6 +38,10 @@ class CreditNoteGetPdfResponse200:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.credit_note_get_pdf_response_200_objects import (
+            CreditNoteGetPdfResponse200Objects,
+        )
+
         d = src_dict.copy()
         _objects = d.pop("objects", UNSET)
         objects: Union[Unset, CreditNoteGetPdfResponse200Objects]

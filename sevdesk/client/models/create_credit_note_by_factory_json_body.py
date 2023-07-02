@@ -1,13 +1,18 @@
-from typing import Any, Dict, List, Optional, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Type, TypeVar, Union
 
 import attr
 
-from ..models.factory_credit_note import FactoryCreditNote
-from ..models.factory_credit_note_position_delete import FactoryCreditNotePositionDelete
-from ..models.factory_credit_note_position_save import FactoryCreditNotePositionSave
-from ..models.factory_discount_delete import FactoryDiscountDelete
-from ..models.factory_discount_save import FactoryDiscountSave
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.factory_credit_note import FactoryCreditNote
+    from ..models.factory_credit_note_position_delete import (
+        FactoryCreditNotePositionDelete,
+    )
+    from ..models.factory_credit_note_position_save import FactoryCreditNotePositionSave
+    from ..models.factory_discount_delete import FactoryDiscountDelete
+    from ..models.factory_discount_save import FactoryDiscountSave
+
 
 T = TypeVar("T", bound="CreateCreditNoteByFactoryJsonBody")
 
@@ -17,13 +22,13 @@ class CreateCreditNoteByFactoryJsonBody:
     """
     Attributes:
         credit_note (FactoryCreditNote):
-        credit_note_pos_save (Optional[List[FactoryCreditNotePositionSave]]): The credit note positions you want to
+        credit_note_pos_save (Optional[List['FactoryCreditNotePositionSave']]): The credit note positions you want to
             create. If you don't have any, set to null.
-        credit_note_pos_delete (Optional[List[FactoryCreditNotePositionDelete]]): The credit note positions you want to
-            delete. If you don't have any, set to null.
-        discount_save (Optional[List[FactoryDiscountSave]]): The discounts you want to create. If you don't have any,
+        credit_note_pos_delete (Optional[List['FactoryCreditNotePositionDelete']]): The credit note positions you want
+            to delete. If you don't have any, set to null.
+        discount_save (Optional[List['FactoryDiscountSave']]): The discounts you want to create. If you don't have any,
             set to null.
-        discount_delete (Optional[List[FactoryDiscountDelete]]): The discounts you want to delete. If you don't have
+        discount_delete (Optional[List['FactoryDiscountDelete']]): The discounts you want to delete. If you don't have
             any, set to null.
         take_default_address (Union[Unset, bool]): Defines if the address of the supplied contact is automatically
             filled into the credit-note. Default: True.
@@ -31,11 +36,11 @@ class CreateCreditNoteByFactoryJsonBody:
             leave at false. Default: True.
     """
 
-    credit_note: FactoryCreditNote
-    credit_note_pos_save: Optional[List[FactoryCreditNotePositionSave]]
-    credit_note_pos_delete: Optional[List[FactoryCreditNotePositionDelete]]
-    discount_save: Optional[List[FactoryDiscountSave]]
-    discount_delete: Optional[List[FactoryDiscountDelete]]
+    credit_note: "FactoryCreditNote"
+    credit_note_pos_save: Optional[List["FactoryCreditNotePositionSave"]]
+    credit_note_pos_delete: Optional[List["FactoryCreditNotePositionDelete"]]
+    discount_save: Optional[List["FactoryDiscountSave"]]
+    discount_delete: Optional[List["FactoryDiscountDelete"]]
     take_default_address: Union[Unset, bool] = True
     for_cash_register: Union[Unset, bool] = True
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -102,6 +107,16 @@ class CreateCreditNoteByFactoryJsonBody:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.factory_credit_note import FactoryCreditNote
+        from ..models.factory_credit_note_position_delete import (
+            FactoryCreditNotePositionDelete,
+        )
+        from ..models.factory_credit_note_position_save import (
+            FactoryCreditNotePositionSave,
+        )
+        from ..models.factory_discount_delete import FactoryDiscountDelete
+        from ..models.factory_discount_save import FactoryDiscountSave
+
         d = src_dict.copy()
         credit_note = FactoryCreditNote.from_dict(d.pop("creditNote"))
 

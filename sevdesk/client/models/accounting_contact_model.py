@@ -1,12 +1,17 @@
 import datetime
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 from dateutil.parser import isoparse
 
-from ..models.accounting_contact_model_contact import AccountingContactModelContact
-from ..models.accounting_contact_model_sev_client import AccountingContactModelSevClient
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.accounting_contact_model_contact import AccountingContactModelContact
+    from ..models.accounting_contact_model_sev_client import (
+        AccountingContactModelSevClient,
+    )
+
 
 T = TypeVar("T", bound="AccountingContactModel")
 
@@ -28,13 +33,13 @@ class AccountingContactModel:
         creditor_number (Union[Unset, None, int]): Creditor number of the accounting contact.
     """
 
-    contact: AccountingContactModelContact
+    contact: "AccountingContactModelContact"
     id: Union[Unset, int] = UNSET
     object_name: Union[Unset, str] = UNSET
     create: Union[Unset, datetime.datetime] = UNSET
     update: Union[Unset, datetime.datetime] = UNSET
     contact_name: Union[Unset, None, str] = UNSET
-    sev_client: Union[Unset, AccountingContactModelSevClient] = UNSET
+    sev_client: Union[Unset, "AccountingContactModelSevClient"] = UNSET
     debitor_number: Union[Unset, None, int] = UNSET
     creditor_number: Union[Unset, None, int] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -88,6 +93,13 @@ class AccountingContactModel:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.accounting_contact_model_contact import (
+            AccountingContactModelContact,
+        )
+        from ..models.accounting_contact_model_sev_client import (
+            AccountingContactModelSevClient,
+        )
+
         d = src_dict.copy()
         contact = AccountingContactModelContact.from_dict(d.pop("contact"))
 

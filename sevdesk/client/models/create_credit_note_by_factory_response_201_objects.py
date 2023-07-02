@@ -1,11 +1,14 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.credit_note import CreditNote
-from ..models.credit_note_position import CreditNotePosition
-from ..models.discount_position_model import DiscountPositionModel
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.credit_note import CreditNote
+    from ..models.credit_note_position import CreditNotePosition
+    from ..models.discount_position_model import DiscountPositionModel
+
 
 T = TypeVar("T", bound="CreateCreditNoteByFactoryResponse201Objects")
 
@@ -15,13 +18,13 @@ class CreateCreditNoteByFactoryResponse201Objects:
     """
     Attributes:
         credit_note (Union[Unset, CreditNote]):
-        credit_note_pos (Union[Unset, None, List[CreditNotePosition]]): The created credit note positions
-        discount (Union[Unset, None, List[DiscountPositionModel]]): The created credit note discounts
+        credit_note_pos (Union[Unset, None, List['CreditNotePosition']]): The created credit note positions
+        discount (Union[Unset, None, List['DiscountPositionModel']]): The created credit note discounts
     """
 
-    credit_note: Union[Unset, CreditNote] = UNSET
-    credit_note_pos: Union[Unset, None, List[CreditNotePosition]] = UNSET
-    discount: Union[Unset, None, List[DiscountPositionModel]] = UNSET
+    credit_note: Union[Unset, "CreditNote"] = UNSET
+    credit_note_pos: Union[Unset, None, List["CreditNotePosition"]] = UNSET
+    discount: Union[Unset, None, List["DiscountPositionModel"]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -65,6 +68,10 @@ class CreateCreditNoteByFactoryResponse201Objects:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.credit_note import CreditNote
+        from ..models.credit_note_position import CreditNotePosition
+        from ..models.discount_position_model import DiscountPositionModel
+
         d = src_dict.copy()
         _credit_note = d.pop("creditNote", UNSET)
         credit_note: Union[Unset, CreditNote]

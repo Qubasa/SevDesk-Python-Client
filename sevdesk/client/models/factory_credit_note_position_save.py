@@ -1,14 +1,17 @@
 import datetime
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 from dateutil.parser import isoparse
 
-from ..models.credit_note_position_credit_note import CreditNotePositionCreditNote
-from ..models.position_model_part import PositionModelPart
-from ..models.position_model_sev_client import PositionModelSevClient
-from ..models.position_model_unity import PositionModelUnity
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.credit_note_position_credit_note import CreditNotePositionCreditNote
+    from ..models.position_model_part import PositionModelPart
+    from ..models.position_model_sev_client import PositionModelSevClient
+    from ..models.position_model_unity import PositionModelUnity
+
 
 T = TypeVar("T", bound="FactoryCreditNotePositionSave")
 
@@ -51,18 +54,18 @@ class FactoryCreditNotePositionSave:
         credit_note (Union[Unset, CreditNotePositionCreditNote]): The invoice to which the position belongs.
     """
 
-    unity: PositionModelUnity
+    unity: "PositionModelUnity"
     tax_rate: float
     map_all: bool = True
     id: Union[Unset, int] = UNSET
     create: Union[Unset, None, datetime.datetime] = UNSET
     update: Union[Unset, None, datetime.datetime] = UNSET
-    part: Union[Unset, PositionModelPart] = UNSET
+    part: Union[Unset, "PositionModelPart"] = UNSET
     quantity: Union[Unset, None, float] = UNSET
     price: Union[Unset, None, float] = UNSET
     name: Union[Unset, None, float] = UNSET
     priority: Union[Unset, int] = 100
-    sev_client: Union[Unset, PositionModelSevClient] = UNSET
+    sev_client: Union[Unset, "PositionModelSevClient"] = UNSET
     position_number: Union[Unset, None, int] = UNSET
     text: Union[Unset, None, str] = UNSET
     discounted_value: Union[Unset, None, float] = UNSET
@@ -79,7 +82,7 @@ class FactoryCreditNotePositionSave:
     price_gross: Union[Unset, None, float] = UNSET
     price_tax: Union[Unset, None, float] = UNSET
     object_name: Union[Unset, str] = "CreditNotePos"
-    credit_note: Union[Unset, CreditNotePositionCreditNote] = UNSET
+    credit_note: Union[Unset, "CreditNotePositionCreditNote"] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -194,6 +197,13 @@ class FactoryCreditNotePositionSave:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.credit_note_position_credit_note import (
+            CreditNotePositionCreditNote,
+        )
+        from ..models.position_model_part import PositionModelPart
+        from ..models.position_model_sev_client import PositionModelSevClient
+        from ..models.position_model_unity import PositionModelUnity
+
         d = src_dict.copy()
         unity = PositionModelUnity.from_dict(d.pop("unity"))
 

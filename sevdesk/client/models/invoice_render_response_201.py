@@ -1,11 +1,14 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.invoice_render_response_201_objects_item import (
-    InvoiceRenderResponse201ObjectsItem,
-)
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.invoice_render_response_201_objects_item import (
+        InvoiceRenderResponse201ObjectsItem,
+    )
+
 
 T = TypeVar("T", bound="InvoiceRenderResponse201")
 
@@ -14,10 +17,10 @@ T = TypeVar("T", bound="InvoiceRenderResponse201")
 class InvoiceRenderResponse201:
     """
     Attributes:
-        objects (Union[Unset, List[InvoiceRenderResponse201ObjectsItem]]):
+        objects (Union[Unset, List['InvoiceRenderResponse201ObjectsItem']]):
     """
 
-    objects: Union[Unset, List[InvoiceRenderResponse201ObjectsItem]] = UNSET
+    objects: Union[Unset, List["InvoiceRenderResponse201ObjectsItem"]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -39,6 +42,10 @@ class InvoiceRenderResponse201:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.invoice_render_response_201_objects_item import (
+            InvoiceRenderResponse201ObjectsItem,
+        )
+
         d = src_dict.copy()
         objects = []
         _objects = d.pop("objects", UNSET)

@@ -1,14 +1,17 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.get_accounting_types_response_200_objects_item_accounting_system_number import (
-    GetAccountingTypesResponse200ObjectsItemAccountingSystemNumber,
-)
-from ..models.get_accounting_types_response_200_objects_item_parent import (
-    GetAccountingTypesResponse200ObjectsItemParent,
-)
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.get_accounting_types_response_200_objects_item_accounting_system_number import (
+        GetAccountingTypesResponse200ObjectsItemAccountingSystemNumber,
+    )
+    from ..models.get_accounting_types_response_200_objects_item_parent import (
+        GetAccountingTypesResponse200ObjectsItemParent,
+    )
+
 
 T = TypeVar("T", bound="GetAccountingTypesResponse200ObjectsItem")
 
@@ -39,9 +42,9 @@ class GetAccountingTypesResponse200ObjectsItem:
     skr_ch: Union[Unset, None, str] = UNSET
     skr_gr: Union[Unset, None, str] = UNSET
     translation_code: Union[Unset, None, str] = UNSET
-    parent: Union[Unset, None, GetAccountingTypesResponse200ObjectsItemParent] = UNSET
+    parent: Union[Unset, None, "GetAccountingTypesResponse200ObjectsItemParent"] = UNSET
     accounting_system_number: Union[
-        Unset, None, GetAccountingTypesResponse200ObjectsItemAccountingSystemNumber
+        Unset, None, "GetAccountingTypesResponse200ObjectsItemAccountingSystemNumber"
     ] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
@@ -97,6 +100,13 @@ class GetAccountingTypesResponse200ObjectsItem:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.get_accounting_types_response_200_objects_item_accounting_system_number import (
+            GetAccountingTypesResponse200ObjectsItemAccountingSystemNumber,
+        )
+        from ..models.get_accounting_types_response_200_objects_item_parent import (
+            GetAccountingTypesResponse200ObjectsItemParent,
+        )
+
         d = src_dict.copy()
         id = d.pop("id", UNSET)
 

@@ -1,11 +1,14 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.get_accounting_types_response_200_objects_item import (
-    GetAccountingTypesResponse200ObjectsItem,
-)
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.get_accounting_types_response_200_objects_item import (
+        GetAccountingTypesResponse200ObjectsItem,
+    )
+
 
 T = TypeVar("T", bound="GetAccountingTypesResponse200")
 
@@ -14,10 +17,10 @@ T = TypeVar("T", bound="GetAccountingTypesResponse200")
 class GetAccountingTypesResponse200:
     """
     Attributes:
-        objects (Union[Unset, List[GetAccountingTypesResponse200ObjectsItem]]):
+        objects (Union[Unset, List['GetAccountingTypesResponse200ObjectsItem']]):
     """
 
-    objects: Union[Unset, List[GetAccountingTypesResponse200ObjectsItem]] = UNSET
+    objects: Union[Unset, List["GetAccountingTypesResponse200ObjectsItem"]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -39,6 +42,10 @@ class GetAccountingTypesResponse200:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.get_accounting_types_response_200_objects_item import (
+            GetAccountingTypesResponse200ObjectsItem,
+        )
+
         d = src_dict.copy()
         objects = []
         _objects = d.pop("objects", UNSET)

@@ -1,14 +1,17 @@
 import datetime
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 from dateutil.parser import isoparse
 
-from ..models.contact_address_category import ContactAddressCategory
-from ..models.contact_address_contact import ContactAddressContact
-from ..models.contact_address_country import ContactAddressCountry
-from ..models.contact_address_sev_client import ContactAddressSevClient
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.contact_address_category import ContactAddressCategory
+    from ..models.contact_address_contact import ContactAddressContact
+    from ..models.contact_address_country import ContactAddressCountry
+    from ..models.contact_address_sev_client import ContactAddressSevClient
+
 
 T = TypeVar("T", bound="ContactAddress")
 
@@ -37,8 +40,8 @@ class ContactAddress:
         name4 (Union[Unset, None, str]): Fourth name in address
     """
 
-    contact: ContactAddressContact
-    country: ContactAddressCountry
+    contact: "ContactAddressContact"
+    country: "ContactAddressCountry"
     id: Union[Unset, int] = UNSET
     object_name: Union[Unset, str] = UNSET
     create: Union[Unset, datetime.datetime] = UNSET
@@ -46,9 +49,9 @@ class ContactAddress:
     street: Union[Unset, None, str] = UNSET
     zip_: Union[Unset, None, str] = UNSET
     city: Union[Unset, None, str] = UNSET
-    category: Union[Unset, None, ContactAddressCategory] = UNSET
+    category: Union[Unset, None, "ContactAddressCategory"] = UNSET
     name: Union[Unset, None, str] = UNSET
-    sev_client: Union[Unset, ContactAddressSevClient] = UNSET
+    sev_client: Union[Unset, "ContactAddressSevClient"] = UNSET
     name2: Union[Unset, str] = UNSET
     name3: Union[Unset, None, str] = UNSET
     name4: Union[Unset, None, str] = UNSET
@@ -124,6 +127,11 @@ class ContactAddress:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.contact_address_category import ContactAddressCategory
+        from ..models.contact_address_contact import ContactAddressContact
+        from ..models.contact_address_country import ContactAddressCountry
+        from ..models.contact_address_sev_client import ContactAddressSevClient
+
         d = src_dict.copy()
         contact = ContactAddressContact.from_dict(d.pop("contact"))
 

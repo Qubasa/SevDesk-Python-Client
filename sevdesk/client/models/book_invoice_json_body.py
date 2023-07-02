@@ -1,15 +1,18 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.book_invoice_json_body_check_account import (
-    BookInvoiceJsonBodyCheckAccount,
-)
-from ..models.book_invoice_json_body_check_account_transaction import (
-    BookInvoiceJsonBodyCheckAccountTransaction,
-)
 from ..models.book_invoice_json_body_type import BookInvoiceJsonBodyType
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.book_invoice_json_body_check_account import (
+        BookInvoiceJsonBodyCheckAccount,
+    )
+    from ..models.book_invoice_json_body_check_account_transaction import (
+        BookInvoiceJsonBodyCheckAccountTransaction,
+    )
+
 
 T = TypeVar("T", bound="BookInvoiceJsonBody")
 
@@ -33,9 +36,9 @@ class BookInvoiceJsonBody:
     amount: float
     date: int
     type: BookInvoiceJsonBodyType
-    check_account: BookInvoiceJsonBodyCheckAccount
+    check_account: "BookInvoiceJsonBodyCheckAccount"
     check_account_transaction: Union[
-        Unset, BookInvoiceJsonBodyCheckAccountTransaction
+        Unset, "BookInvoiceJsonBodyCheckAccountTransaction"
     ] = UNSET
     create_feed: Union[Unset, bool] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -72,6 +75,13 @@ class BookInvoiceJsonBody:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.book_invoice_json_body_check_account import (
+            BookInvoiceJsonBodyCheckAccount,
+        )
+        from ..models.book_invoice_json_body_check_account_transaction import (
+            BookInvoiceJsonBodyCheckAccountTransaction,
+        )
+
         d = src_dict.copy()
         amount = d.pop("amount")
 

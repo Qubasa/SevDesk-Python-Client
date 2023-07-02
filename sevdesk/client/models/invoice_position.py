@@ -1,14 +1,17 @@
 import datetime
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
 
 import attr
 from dateutil.parser import isoparse
 
-from ..models.invoice_position_invoice import InvoicePositionInvoice
-from ..models.position_model_part import PositionModelPart
-from ..models.position_model_sev_client import PositionModelSevClient
-from ..models.position_model_unity import PositionModelUnity
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.invoice_position_invoice import InvoicePositionInvoice
+    from ..models.position_model_part import PositionModelPart
+    from ..models.position_model_sev_client import PositionModelSevClient
+    from ..models.position_model_unity import PositionModelUnity
+
 
 T = TypeVar("T", bound="InvoicePosition")
 
@@ -50,17 +53,17 @@ class InvoicePosition:
         invoice (Union[Unset, InvoicePositionInvoice]): The invoice to which the position belongs.
     """
 
-    unity: PositionModelUnity
+    unity: "PositionModelUnity"
     tax_rate: float
     id: Union[Unset, int] = UNSET
     create: Union[Unset, None, datetime.datetime] = UNSET
     update: Union[Unset, None, datetime.datetime] = UNSET
-    part: Union[Unset, PositionModelPart] = UNSET
+    part: Union[Unset, "PositionModelPart"] = UNSET
     quantity: Union[Unset, None, float] = UNSET
     price: Union[Unset, None, float] = UNSET
     name: Union[Unset, None, float] = UNSET
     priority: Union[Unset, int] = 100
-    sev_client: Union[Unset, PositionModelSevClient] = UNSET
+    sev_client: Union[Unset, "PositionModelSevClient"] = UNSET
     position_number: Union[Unset, None, int] = UNSET
     text: Union[Unset, None, str] = UNSET
     discounted_value: Union[Unset, None, float] = UNSET
@@ -77,7 +80,7 @@ class InvoicePosition:
     price_gross: Union[Unset, None, float] = UNSET
     price_tax: Union[Unset, None, float] = UNSET
     object_name: Union[Unset, str] = "InvoicePos"
-    invoice: Union[Unset, InvoicePositionInvoice] = UNSET
+    invoice: Union[Unset, "InvoicePositionInvoice"] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -190,6 +193,11 @@ class InvoicePosition:
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
+        from ..models.invoice_position_invoice import InvoicePositionInvoice
+        from ..models.position_model_part import PositionModelPart
+        from ..models.position_model_sev_client import PositionModelSevClient
+        from ..models.position_model_unity import PositionModelUnity
+
         d = src_dict.copy()
         unity = PositionModelUnity.from_dict(d.pop("unity"))
 
