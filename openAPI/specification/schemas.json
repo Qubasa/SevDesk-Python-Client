@@ -1,4 +1,22 @@
 {
+    "CheckAccount": {
+        "$ref": "./banking/schemas/CheckAccount.json"
+    },
+    "CheckAccountResponse": {
+        "$ref": "./banking/schemas/CheckAccountResponse.json"
+    },
+    "CheckAccountTransaction" : {
+        "$ref": "./banking/schemas/CheckAccountTransaction.json"
+    },
+    "CheckAccountTransactionResponse": {
+        "$ref": "./banking/schemas/CheckAccountTransactionResponse.json"
+    },
+    "CheckAccountTransactionUpdate": {
+        "$ref": "./banking/schemas/CheckAccountTransactionUpdate.json"
+    },
+    "CheckAccountUpdate": {
+        "$ref": "./banking/schemas/CheckAccountUpdate.json"
+    },
     "Contact": {
         "$ref": "./contact/schemas/Contact.json"
     },

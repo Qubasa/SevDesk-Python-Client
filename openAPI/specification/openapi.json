@@ -23,6 +23,21 @@
         }
     ],
     "paths": {
+        "/CheckAccount": {
+            "$ref": "./banking/paths/CheckAccount.json"
+        },
+        "/CheckAccount/{checkAccountId}": {
+          "$ref": "./banking/paths/getCheckAccountById.json"
+        },
+        "/CheckAccount/{checkAccountId}/getBalanceAtDate": {
+          "$ref": "./banking/paths/getBalanceAtDate.json"
+        },
+        "/CheckAccountTransaction": {
+          "$ref": "./banking/paths/CheckAccountTransaction.json"
+        },
+        "/CheckAccountTransaction/{checkAccountTransactionId}": {
+          "$ref": "./banking/paths/getCheckAccountTransactionById.json"
+        },
         "/Contact/Factory/getNextCustomerNumber": {
             "$ref": "./contact/paths/getNextCustomerNumber.json"
         },

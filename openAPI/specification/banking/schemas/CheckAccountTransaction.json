@@ -1,0 +1,147 @@
+{
+  "title": "CheckAccountTransaction model",
+  "description": "CheckAccountTransaction model. Responsible for the transactions on payment accounts.",
+  "type": "object",
+  "required": [
+    "valueDate",
+    "checkAccount",
+    "amount",
+    "status",
+    "payeePayerName"
+  ],
+  "properties": {
+    "id": {
+      "description": "The check account transaction id",
+      "type": "integer",
+      "readOnly": true
+    },
+    "objectName": {
+      "description": "The check account transaction object name",
+      "type": "string",
+      "readOnly": true
+    },
+    "create": {
+      "description": "Date of check account transaction creation",
+      "type": "string",
+      "format": "date-time",
+      "readOnly": true
+    },
+    "update": {
+      "description": "Date of last check account transaction update",
+      "type": "string",
+      "format": "date-time",
+      "readOnly": true
+    },
+    "sevClient": {
+      "description": "Client to which check account transaction belongs. Will be filled automatically",
+      "required": ["id", "objectName"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the client",
+          "type": "integer"
+        },
+        "objectName": {
+          "description": "Model name, which is 'SevClient'",
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "readOnly": true
+    },
+    "valueDate": {
+      "description": "Date the check account transaction was booked",
+      "type": "string",
+      "format": "date-time",
+      "example": "01.01.2022",
+      "nullable": false
+    },
+    "entryDate": {
+      "description": "Date the check account transaction was imported",
+      "type": "string",
+      "format": "date-time",
+      "example": "01.01.2022",
+      "nullable": false
+    },
+    "paymtPurpose": {
+      "description": "the purpose of the transaction",
+      "type": "string",
+      "example": "salary"
+    },
+    "amount": {
+      "description": "Amount of the transaction",
+      "type": "number",
+      "format": "float",
+      "example": 100,
+      "nullable": false
+    },
+    "payeePayerName": {
+      "description": "Name of the payee/payer",
+      "type": "string",
+      "example": "Cercei Lannister",
+      "nullable": false
+    },
+    "checkAccount": {
+      "description": "The check account to which the transaction belongs",
+      "required": ["id", "objectName"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the check account",
+          "type": "integer"
+        },
+        "objectName": {
+          "description": "Model name, which is 'CheckAccount'",
+          "type": "string",
+          "default": "CheckAccount"
+        }
+      },
+      "type": "object",
+      "nullable": false
+    },
+    "status": {
+      "description": "Status of the check account transaction.<br>\r\n     100 <-> Created<br>\r\n     200 <-> Linked<br>\r\n     300 <-> Private<br>\r\n     400 <-> Booked",
+      "type": "integer",
+      "nullable": false,
+      "enum": [100, 200, 300, 400]
+    },
+    "enshrined": {
+      "description": "Defines if the transaction has been enshrined and can not be changed any more.",
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "sourceTransaction": {
+      "description": "The check account transaction serving as the source of the rebooking",
+      "required": ["id", "objectName"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the check account transaction",
+          "type": "integer"
+        },
+        "objectName": {
+          "description": "Model name, which is 'CheckAccountTransaction'",
+          "type": "string",
+          "default": "CheckAccountTransaction"
+        }
+      },
+      "type": "object",
+      "nullable": true
+    },
+    "targetTransaction": {
+      "description": "The check account transaction serving as the target of the rebooking",
+      "required": ["id", "objectName"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the check account transaction",
+          "type": "integer"
+        },
+        "objectName": {
+          "description": "Model name, which is 'CheckAccountTransaction'",
+          "type": "string",
+          "default": "CheckAccountTransaction"
+        }
+      },
+      "type": "object",
+      "nullable": true
+    }
+  }
+}

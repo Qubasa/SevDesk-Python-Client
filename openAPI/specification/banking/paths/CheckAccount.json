@@ -1,0 +1,83 @@
+{
+  "get": {
+    "tags": ["CheckAccount"],
+    "summary": "Retrieve check accounts",
+    "description": "Retrieve all check accounts",
+    "operationId": "getCheckAccounts",
+    "responses": {
+      "200": {
+        "description": "Successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "objects": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../schemas/CheckAccountResponse.json"
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "401": {
+        "description": "Authentication required"
+      },
+      "500": {
+        "description": "Server error"
+      }
+    },
+    "deprecated": false
+  },
+  "post": {
+    "tags": ["CheckAccount"],
+    "summary": "Create a new check account",
+    "description": "Creates a new banking account on which transactions can be created.",
+    "operationId": "createCheckAccount",
+    "requestBody": {
+      "description": "Creation data. Please be aware, that you need to provide at least all required parameter\r\n    of the CheckAccount model!",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../schemas/CheckAccount.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Created - Returns created check account",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "objects": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../schemas/CheckAccountResponse.json"
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "401": {
+        "description": "Authentication required"
+      },
+      "500": {
+        "description": "Server error"
+      }
+    }
+  }
+}

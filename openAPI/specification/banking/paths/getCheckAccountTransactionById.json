@@ -1,0 +1,145 @@
+{
+  "get": {
+    "tags": ["CheckAccountTransaction"],
+    "summary": "Find check account transaction by ID",
+    "description": "Retrieve an existing check account transaction",
+    "operationId": "getCheckAccountTransactionById",
+    "parameters": [
+      {
+        "name": "checkAccountTransactionId",
+        "in": "path",
+        "description": "ID of check account transaction",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "objects": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../schemas/CheckAccountTransactionResponse.json"
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "401": {
+        "description": "Authentication required"
+      },
+      "500": {
+        "description": "Server error"
+      }
+    },
+    "deprecated": false
+  },
+  "put": {
+    "tags": ["CheckAccountTransaction"],
+    "summary": "Update an existing check account transaction",
+    "description": "Update a check account transaction",
+    "operationId": "updateCheckAccountTransaction",
+    "parameters": [
+      {
+        "name": "checkAccountTransactionId",
+        "in": "path",
+        "description": "ID of check account to update transaction",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      }
+    ],
+    "requestBody": {
+      "description": "Update data",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../schemas/CheckAccountTransactionUpdate.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Successful operation - Returns changed check account resource",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../schemas/CheckAccountTransactionResponse.json"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "401": {
+        "description": "Authentication required"
+      },
+      "500": {
+        "description": "Server error"
+      }
+    }
+  },
+  "delete": {
+    "tags": ["CheckAccountTransaction"],
+    "summary": "Deletes a check account transaction",
+    "operationId": "deleteCheckAccountTransaction",
+    "parameters": [
+      {
+        "name": "checkAccountTransactionId",
+        "in": "path",
+        "description": "Id of check account transaction to delete",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successful operation - check account transaction deleted",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "objects": {
+                  "type": "array",
+                  "items": {
+                    "default": null
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "401": {
+        "description": "Authentication required"
+      },
+      "409": {
+        "description": "Conflict"
+      },
+      "500": {
+        "description": "Server error"
+      }
+    }
+  }
+}

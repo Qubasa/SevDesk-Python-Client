@@ -1,0 +1,57 @@
+{
+  "get": {
+    "tags": ["CheckAccount"],
+    "summary": "Get the balance at a given date",
+    "description": "Get the balance, calculated as the sum of all transactions sevDesk knows, up to and including the given date. Note that this balance does not have to be the actual bank account balance, e.g. if sevDesk did not import old transactions.",
+    "operationId": "getBalanceAtDate",
+    "parameters": [
+      {
+        "name": "checkAccountId",
+        "in": "path",
+        "description": "ID of check account",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      {
+        "name": "date",
+        "in": "query",
+        "required": true,
+        "description": "Only consider transactions up to this date at 23:59:59",
+        "schema": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "objects": {
+                  "type": "string",
+                  "format": "float",
+                  "example": "105.56"
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "401": {
+        "description": "Authentication required"
+      },
+      "500": {
+        "description": "Server error"
+      }
+    }
+  }
+}

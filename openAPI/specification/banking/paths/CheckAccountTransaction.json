@@ -1,0 +1,169 @@
+{
+  "get": {
+    "tags": ["CheckAccountTransaction"],
+    "summary": "Retrieve transactions",
+    "description": "Retrieve all transactions depending on the filters defined in the query.",
+    "operationId": "getTransactions",
+    "parameters": [
+      {
+        "name": "checkAccount[id]",
+        "in": "query",
+        "description": "Retrieve all transactions on this check account. Must be provided with checkAccount[objectName]",
+        "required": false,
+        "explode": false,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      {
+        "name": "checkAccount[objectName]",
+        "in": "query",
+        "description": "Only required if checkAccount[id] was provided. 'CheckAccount' should be used as value.",
+        "required": false,
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isBooked",
+        "in": "query",
+        "description": "Only retrieve booked transactions",
+        "required": false,
+        "explode": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "paymtPurpose",
+        "in": "query",
+        "description": "Only retrieve transactions with this payment purpose",
+        "required": false,
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "startDate",
+        "in": "query",
+        "description": "Only retrieve transactions from this date on",
+        "required": false,
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      {
+        "name": "endDate",
+        "in": "query",
+        "description": "Only retrieve transactions up to this date",
+        "required": false,
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      {
+        "name": "payeePayerName",
+        "in": "query",
+        "description": "Only retrieve transactions with this payee / payer",
+        "required": false,
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onlyCredit",
+        "in": "query",
+        "description": "Only retrieve credit transactions",
+        "required": false,
+        "explode": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onlyDebit",
+        "in": "query",
+        "description": "Only retrieve debit transactions",
+        "required": false,
+        "explode": false,
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "objects": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../schemas/CheckAccountTransactionResponse.json"
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "401": {
+        "description": "Authentication required"
+      },
+      "500": {
+        "description": "Server error"
+      }
+    },
+    "deprecated": false
+  },
+  "post": {
+    "tags": ["CheckAccountTransaction"],
+    "summary": "Create a new transaction",
+    "description": "Creates a new transaction on a check account.",
+    "operationId": "createTransaction",
+    "requestBody": {
+      "description": "Creation data. Please be aware, that you need to provide at least all required parameter\r\n    of the CheckAccountTransaction model!",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../schemas/CheckAccountTransaction.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Created - Returns created transaction",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../schemas/CheckAccountTransactionResponse.json"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "401": {
+        "description": "Authentication required"
+      },
+      "500": {
+        "description": "Server error"
+      }
+    }
+  }
+}

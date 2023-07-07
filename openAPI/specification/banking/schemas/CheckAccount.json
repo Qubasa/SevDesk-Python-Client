@@ -1,0 +1,98 @@
+{
+  "title": "CheckAccount model",
+  "description": "CheckAccount model. Responsible for the payment accounts.",
+  "required": ["name", "type", "currency", "status"],
+  "properties": {
+    "id": {
+      "description": "The check account id",
+      "type": "integer",
+      "readOnly": true,
+      "nullable": false
+    },
+    "objectName": {
+      "description": "The check account object name",
+      "type": "string",
+      "readOnly": true,
+      "nullable": false
+    },
+    "create": {
+      "description": "Date of check account creation",
+      "type": "string",
+      "format": "date-time",
+      "readOnly": true
+    },
+    "update": {
+      "description": "Date of last check account update",
+      "type": "string",
+      "format": "date-time",
+      "readOnly": true
+    },
+    "sevClient": {
+      "description": "Client to which check account belongs. Will be filled automatically",
+      "required": ["id", "objectName"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the client",
+          "type": "integer"
+        },
+        "objectName": {
+          "description": "Model name, which is 'SevClient'",
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "readOnly": true
+    },
+    "name": {
+      "description": "Name of the check account",
+      "type": "string",
+      "example": "Iron Bank",
+      "nullable": false
+    },
+    "type": {
+      "description": "The type of the check account. Account with a CSV or MT940 import are regarded as online.<br>\r\n     Apart from that, created check accounts over the API need to be offline, as online accounts with an active connection\r\n     to a bank application can not be managed over the API.",
+      "type": "string",
+      "enum": ["online", "offline"],
+      "example": "online",
+      "nullable": false
+    },
+    "importType": {
+      "description": "Import type. Transactions can be imported by this method on the check account.",
+      "type": "string",
+      "enum": ["CSV", "MT940", null],
+      "example": "CSV",
+      "nullable": true
+    },
+    "currency": {
+      "description": "The currency of the check account.",
+      "type": "string",
+      "example": "EUR",
+      "nullable": false
+    },
+    "defaultAccount": {
+      "description": "Defines if this check account is the default account.",
+      "type": "integer",
+      "default": 0,
+      "enum": [0, 1]
+    },
+    "status": {
+      "description": "Status of the check account. 0 <-> Archived - 100 <-> Active",
+      "type": "integer",
+      "default": 100,
+      "enum": [0, 100],
+      "nullable": false
+    },
+    "bankServer": {
+      "description": "Bank server of check account",
+      "type": "string",
+      "readOnly": true
+    },
+    "autoMapTransactions": {
+      "description": "Defines if transactions on this account are automatically mapped to invoice and vouchers when imported if possible.",
+      "type": "integer",
+      "default": 1,
+      "nullable": true
+    }
+  },
+  "type": "object"
+}
