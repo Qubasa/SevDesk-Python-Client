@@ -13,8 +13,10 @@ from ..client.api.communication_way import (
 )
 from ..client.models.communication_way_model import (
     CommunicationWayModel,
-    CommunicationWayModelKey,
     CommunicationWayModelType,
+)
+from ..client.models.communication_way_model_key import (
+    CommunicationWayModelKey,
 )
 from ..client.models.communication_way_model_contact import CommunicationWayModelContact
 from ..common import ApiObject, ApiObjectCache, ApiObjectType, SevDesk
