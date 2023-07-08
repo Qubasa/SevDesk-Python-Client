@@ -1,15 +1,11 @@
-from enum import Enum
+from enum import IntEnum
 
 
-class CheckAccountTransactionModelStatus(str, Enum):
-    VALUE_0 = "100"
-    VALUE_1 = "200"
-    VALUE_2 = "300"
-    VALUE_3 = "350"
-    VALUE_4 = "400"
-
-    # The SevDesk API might use "0" for null-enums
-    NULL = "0"
+class CheckAccountTransactionModelStatus(IntEnum):
+    VALUE_100 = 100
+    VALUE_200 = 200
+    VALUE_300 = 300
+    VALUE_400 = 400
 
     def __str__(self) -> str:
         return str(self.value)

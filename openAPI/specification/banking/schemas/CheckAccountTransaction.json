@@ -99,9 +99,9 @@
     },
     "status": {
       "description": "Status of the check account transaction.<br>\r\n     100 <-> Created<br>\r\n     200 <-> Linked<br>\r\n     300 <-> Private<br>\r\n     400 <-> Booked",
-      "type": "string",
+      "type": "integer",
       "nullable": false,
-      "enum": ["100", "200", "300", "350", "400"]
+      "enum": [100, 200, 300, 400]
     },
     "enshrined": {
       "description": "Defines if the transaction has been enshrined and can not be changed any more.",
