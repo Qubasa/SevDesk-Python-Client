@@ -15,20 +15,16 @@ T = TypeVar("T", bound="CreateCheckAccountResponse201")
 class CreateCheckAccountResponse201:
     """
     Attributes:
-        objects (Union[Unset, List['CheckAccountResponseModel']]):
+        objects (Union[Unset, CheckAccountResponseModel]): CheckAccount model. Responsible for the payment accounts.
     """
 
-    objects: Union[Unset, List["CheckAccountResponseModel"]] = UNSET
+    objects: Union[Unset, "CheckAccountResponseModel"] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        objects: Union[Unset, List[Dict[str, Any]]] = UNSET
+        objects: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.objects, Unset):
-            objects = []
-            for objects_item_data in self.objects:
-                objects_item = objects_item_data.to_dict()
-
-                objects.append(objects_item)
+            objects = self.objects.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -43,12 +39,12 @@ class CreateCheckAccountResponse201:
         from ..models.check_account_response_model import CheckAccountResponseModel
 
         d = src_dict.copy()
-        objects = []
         _objects = d.pop("objects", UNSET)
-        for objects_item_data in _objects or []:
-            objects_item = CheckAccountResponseModel.from_dict(objects_item_data)
-
-            objects.append(objects_item)
+        objects: Union[Unset, CheckAccountResponseModel]
+        if isinstance(_objects, Unset):
+            objects = UNSET
+        else:
+            objects = CheckAccountResponseModel.from_dict(_objects)
 
         create_check_account_response_201 = cls(
             objects=objects,

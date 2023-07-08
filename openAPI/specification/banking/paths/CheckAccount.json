@@ -58,10 +58,7 @@
             "schema": {
               "properties": {
                 "objects": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "../schemas/CheckAccountResponse.json"
-                  }
+                  "$ref": "../schemas/CheckAccountResponse.json"
                 }
               },
               "type": "object"
