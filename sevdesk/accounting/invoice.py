@@ -79,6 +79,8 @@ class Invoice:
     "Internal parameter of the invoice ID. Will be set when creted."
     payment_method: Union[Unset, int] = UNSET
     "Payment method. If not set, the default payment method of the customer will be used."
+    currency: str = "EUR"
+    "Currency of the invoice. If not set, EUR will be used."
     invoice_date: Union[Unset, datetime] = UNSET
     "Invoice timestamp. If not set, datetime.now() will be called on initialisation of the invoice object."
     delivery_date: Union[Unset, datetime] = UNSET
@@ -173,6 +175,7 @@ class Invoice:
             tax_type=self.tax_type,
             customer_internal_note=self.reference,
             show_net=not self.gross,
+            currency=self.currency,
         )
         if self.payment_method:
             invoice_object.payment_method = DocumentModelPaymentMethod(id=self.payment_method)
