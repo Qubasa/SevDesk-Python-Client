@@ -15,6 +15,7 @@ def _get_kwargs(
     client: Client,
     depth: Union[Unset, None, GetContactsDepth] = UNSET,
     customer_number: Union[Unset, None, str] = UNSET,
+    name: Union[Unset, None, str] = UNSET,
     embed: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
     url = "{}/Contact".format(client.base_url)
@@ -30,6 +31,8 @@ def _get_kwargs(
     params["depth"] = json_depth
 
     params["customerNumber"] = customer_number
+
+    params["name"] = name
 
     params["embed"] = embed
 
@@ -84,6 +87,7 @@ def sync_detailed(
     client: Client,
     depth: Union[Unset, None, GetContactsDepth] = UNSET,
     customer_number: Union[Unset, None, str] = UNSET,
+    name: Union[Unset, None, str] = UNSET,
     embed: Union[Unset, None, str] = UNSET,
 ) -> Response[Union[Any, GetContactsResponse200]]:
     """Retrieve contacts
@@ -96,6 +100,7 @@ def sync_detailed(
     Args:
         depth (Union[Unset, None, GetContactsDepth]):
         customer_number (Union[Unset, None, str]):
+        name (Union[Unset, None, str]):
         embed (Union[Unset, None, str]):
 
     Raises:
@@ -110,6 +115,7 @@ def sync_detailed(
         client=client,
         depth=depth,
         customer_number=customer_number,
+        name=name,
         embed=embed,
     )
 
@@ -126,6 +132,7 @@ def sync(
     client: Client,
     depth: Union[Unset, None, GetContactsDepth] = UNSET,
     customer_number: Union[Unset, None, str] = UNSET,
+    name: Union[Unset, None, str] = UNSET,
     embed: Union[Unset, None, str] = UNSET,
 ) -> Optional[Union[Any, GetContactsResponse200]]:
     """Retrieve contacts
@@ -138,6 +145,7 @@ def sync(
     Args:
         depth (Union[Unset, None, GetContactsDepth]):
         customer_number (Union[Unset, None, str]):
+        name (Union[Unset, None, str]):
         embed (Union[Unset, None, str]):
 
     Raises:
@@ -152,6 +160,7 @@ def sync(
         client=client,
         depth=depth,
         customer_number=customer_number,
+        name=name,
         embed=embed,
     ).parsed
 
@@ -161,6 +170,7 @@ async def asyncio_detailed(
     client: Client,
     depth: Union[Unset, None, GetContactsDepth] = UNSET,
     customer_number: Union[Unset, None, str] = UNSET,
+    name: Union[Unset, None, str] = UNSET,
     embed: Union[Unset, None, str] = UNSET,
 ) -> Response[Union[Any, GetContactsResponse200]]:
     """Retrieve contacts
@@ -173,6 +183,7 @@ async def asyncio_detailed(
     Args:
         depth (Union[Unset, None, GetContactsDepth]):
         customer_number (Union[Unset, None, str]):
+        name (Union[Unset, None, str]):
         embed (Union[Unset, None, str]):
 
     Raises:
@@ -187,6 +198,7 @@ async def asyncio_detailed(
         client=client,
         depth=depth,
         customer_number=customer_number,
+        name=name,
         embed=embed,
     )
 
@@ -201,6 +213,7 @@ async def asyncio(
     client: Client,
     depth: Union[Unset, None, GetContactsDepth] = UNSET,
     customer_number: Union[Unset, None, str] = UNSET,
+    name: Union[Unset, None, str] = UNSET,
     embed: Union[Unset, None, str] = UNSET,
 ) -> Optional[Union[Any, GetContactsResponse200]]:
     """Retrieve contacts
@@ -213,6 +226,7 @@ async def asyncio(
     Args:
         depth (Union[Unset, None, GetContactsDepth]):
         customer_number (Union[Unset, None, str]):
+        name (Union[Unset, None, str]):
         embed (Union[Unset, None, str]):
 
     Raises:
@@ -228,6 +242,7 @@ async def asyncio(
             client=client,
             depth=depth,
             customer_number=customer_number,
+            name=name,
             embed=embed,
         )
     ).parsed

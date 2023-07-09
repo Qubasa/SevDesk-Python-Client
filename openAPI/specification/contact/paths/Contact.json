@@ -32,6 +32,16 @@
                 }
             },
             {
+                "name": "name",
+                "in": "query",
+                "description": "Retrieve all contacts with this name",
+                "required": false,
+                "explode": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
                 "name": "embed",
                 "in": "query",
                 "description": "Get some additional information. Embed can handle multiple values, they must be separated by comma. Default ``.",
