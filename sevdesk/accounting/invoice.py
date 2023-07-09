@@ -31,6 +31,7 @@ from ..client.models import (
     FactoryInvoicePositionSave,
     InvoiceChangeStatusJsonBody,
     InvoiceChangeStatusJsonBodyValue,
+    DocumentModelPaymentMethod,
 )
 from ..common import SevDesk, SevUser
 from ..contact import Contact
@@ -76,6 +77,8 @@ class Invoice:
     "Payment transacitons. Will be added to the footer of the invoice."
     id: Union[Unset, str] = UNSET
     "Internal parameter of the invoice ID. Will be set when creted."
+    payment_method: Union[Unset, int] = UNSET
+    "Payment method. If not set, the default payment method of the customer will be used."
     invoice_date: Union[Unset, datetime] = UNSET
     "Invoice timestamp. If not set, datetime.now() will be called on initialisation of the invoice object."
     delivery_date: Union[Unset, datetime] = UNSET
@@ -171,6 +174,8 @@ class Invoice:
             customer_internal_note=self.reference,
             show_net=not self.gross,
         )
+        if self.payment_method:
+            invoice_object.payment_method = DocumentModelPaymentMethod(id=self.payment_method)
 
         invoice_pos = []
         item: LineItem
