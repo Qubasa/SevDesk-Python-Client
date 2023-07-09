@@ -1,0 +1,81 @@
+{
+  "get": {
+    "tags": ["Contact"],
+    "summary": "Find contacts by custom field value",
+    "description": "Returns an array of contacts having a certain custom field value set.",
+    "operationId": "findContactsByCustomFieldValue",
+    "parameters": [
+      {
+        "name": "value",
+        "in": "query",
+        "description": "The value to be checked.",
+        "required": true,
+        "explode": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "customFieldSetting[id]",
+        "in": "query",
+        "description": "ID of ContactCustomFieldSetting for which the value has to be checked.",
+        "required": false,
+        "explode": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "customFieldSetting[objectName]",
+        "in": "query",
+        "description": "Object name. Only needed if you also defined the ID of a ContactCustomFieldSetting.",
+        "required": false,
+        "explode": true,
+        "schema": {
+          "type": "string",
+          "example": "ContactCustomFieldSetting"
+        }
+      },
+      {
+        "name": "customFieldName",
+        "in": "query",
+        "description": "The ContactCustomFieldSetting name, if no ContactCustomFieldSetting is provided.",
+        "required": true,
+        "explode": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Array of contacts having a certain custom field value set.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "objects": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "../schemas/ContactResponse.json"
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "401": {
+        "description": "Authentication required"
+      },
+      "500": {
+        "description": "Server Error"
+      }
+    },
+    "deprecated": false
+  }
+}

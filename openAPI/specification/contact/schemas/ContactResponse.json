@@ -1,0 +1,256 @@
+{
+  "title": "ContactResponse model",
+  "description": "Contact model",
+  "properties": {
+    "id": {
+      "description": "The contact id",
+      "type": "string",
+      "example": "0",
+      "readOnly": true
+    },
+    "objectName": {
+      "description": "The contact object name",
+      "type": "string",
+      "example": "Contact",
+      "readOnly": true
+    },
+    "create": {
+      "description": "Date of contact creation",
+      "type": "string",
+      "format": "date-time",
+      "readOnly": true
+    },
+    "update": {
+      "description": "Date of last contact update",
+      "type": "string",
+      "format": "date-time",
+      "readOnly": true
+    },
+    "name": {
+      "description": "The organization name.<br>\nBe aware that the type of contact will depend on this attribute.<br>\nIf it holds a value, the contact will be regarded as an organization.",
+      "type": "string",
+      "example": "string",
+      "readOnly": true
+    },
+    "status": {
+      "description": "Defines the status of the contact. 100 <-> Lead - 500 <-> Pending - 1000 <-> Active.",
+      "type": "string",
+      "example": "100",
+      "readOnly": true
+    },
+    "customerNumber": {
+      "description": "The customer number",
+      "type": "string",
+      "example": "Customer-1337",
+      "readOnly": true
+    },
+    "parent": {
+      "description": "The parent contact to which this contact belongs. Must be an organization.",
+      "required": ["id", "objectName"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the parent contact",
+          "type": "string",
+          "example": "0"
+        },
+        "objectName": {
+          "description": "Model name, which is 'Contact'",
+          "type": "string",
+          "example": "Contact"
+        }
+      },
+      "type": "object",
+      "readOnly": true
+    },
+    "surename": {
+      "description": "The <b>first</b> name of the contact.<br>\nYeah... not quite right in literally every way. We know.<br>\nNot to be used for organizations.",
+      "type": "string",
+      "example": "John",
+      "readOnly": true
+    },
+    "familyname": {
+      "description": "The last name of the contact.<br>\nNot to be used for organizations.",
+      "type": "string",
+      "example": "Snow",
+      "readOnly": true
+    },
+    "titel": {
+      "description": "A non-academic title for the contact.\nNot to be used for organizations.",
+      "type": "string",
+      "example": "Commander",
+      "readOnly": true
+    },
+    "category": {
+      "description": "Category of the contact.<br> For more information,\r\n     see <a href='https://my.sevdesk.de/apiOverview/index.html#/doc-contacts#types'>here</a>.",
+      "required": ["id", "objectName"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the category",
+          "type": "string",
+          "example": "3"
+        },
+        "objectName": {
+          "description": "Model name, which is 'Category'",
+          "type": "string",
+          "example": "Category"
+        }
+      },
+      "type": "object",
+      "readOnly": true
+    },
+    "description": {
+      "description": "A description for the contact.",
+      "type": "string",
+      "example": "Rightful king of the seven kingdoms",
+      "readOnly": true
+    },
+    "academicTitle": {
+      "description": "A academic title for the contact.\nNot to be used for organizations.",
+      "type": "string",
+      "readOnly": true
+    },
+    "gender": {
+      "description": "Gender of the contact.<br>\nNot to be used for organizations.",
+      "type": "string",
+      "readOnly": true
+    },
+    "sevClient": {
+      "description": "Client to which contact belongs. Will be filled automatically",
+      "required": ["id", "objectName"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the client",
+          "type": "integer",
+          "example": "0"
+        },
+        "objectName": {
+          "description": "Model name, which is 'SevClient'",
+          "type": "string",
+          "example": "SevClient"
+        }
+      },
+      "type": "object",
+      "readOnly": true
+    },
+    "name2": {
+      "description": "Second name of the contact.<br>\nNot to be used for organizations.",
+      "type": "string",
+      "example": "Targaryen",
+      "readOnly": true
+    },
+    "birthday": {
+      "description": "Birthday of the contact.<br>\nNot to be used for organizations.",
+      "type": "string",
+      "format": "date",
+      "readOnly": true
+    },
+    "vatNumber": {
+      "description": "Vat number of the contact.",
+      "type": "string",
+      "readOnly": true
+    },
+    "bankAccount": {
+      "description": "Bank account number (IBAN) of the contact.",
+      "type": "string",
+      "readOnly": true
+    },
+    "bankNumber": {
+      "description": "Bank number of the bank used by the contact.",
+      "type": "string",
+      "readOnly": true
+    },
+    "defaultCashbackTime": {
+      "description": "Absolute time in days which the contact has to pay his invoices and subsequently get a cashback.",
+      "type": "string",
+      "example": "string",
+      "readOnly": true
+    },
+    "defaultCashbackPercent": {
+      "description": "Percentage of the invoice sum the contact gets back if he payed invoices in time.",
+      "type": "string",
+      "format": "float",
+      "example": "string",
+      "readOnly": true
+    },
+    "defaultTimeToPay": {
+      "description": "The payment goal in days which is set for every invoice of the contact.",
+      "type": "string",
+      "example": "string",
+      "readOnly": true
+    },
+    "taxNumber": {
+      "description": "The tax number of the contact.",
+      "type": "string",
+      "readOnly": true
+    },
+    "taxOffice": {
+      "description": "The tax office of the contact (only for greek customers).",
+      "type": "string",
+      "example": "string",
+      "readOnly": true
+    },
+    "exemptVat": {
+      "description": "Defines if the contact is freed from paying vat.",
+      "type": "string",
+      "example": "false",
+      "readOnly": true
+    },
+    "taxType": {
+      "description": "Defines which tax regulation the contact is using.",
+      "type": "string",
+      "enum": ["default", "eu", "noteu", "custom", "ss"],
+      "readOnly": true
+    },
+    "taxSet": {
+      "description": "Tax set which is used in every invoice of the contact.",
+      "required": ["id", "objectName"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the tax set",
+          "type": "string",
+          "example": "0"
+        },
+        "objectName": {
+          "description": "Model name, which is 'TaxSet'",
+          "type": "string",
+          "example": "TaxSet"
+        }
+      },
+      "type": "object",
+      "readOnly": true
+    },
+    "defaultDiscountAmount": {
+      "description": "The default discount the contact gets for every invoice.<br>\nDepending on defaultDiscountPercentage attribute, in percent or absolute value.",
+      "type": "string",
+      "format": "float",
+      "example": "string",
+      "readOnly": true
+    },
+    "defaultDiscountPercentage": {
+      "description": "Defines if the discount is a percentage (true) or an absolute value (false).",
+      "type": "string",
+      "example": "false",
+      "readOnly": true
+    },
+    "buyerReference": {
+      "description": "Buyer reference of the contact.",
+      "example": "string",
+      "type": "string",
+      "readOnly": true
+    },
+    "governmentAgency": {
+      "description": "Defines whether the contact is a government agency (true) or not (false).",
+      "type": "string",
+      "example": "false",
+      "readOnly": true
+    },
+    "additionalInformation": {
+      "description": "Additional information stored for the contact.",
+      "type": "string",
+      "example": "string",
+      "readOnly": true,
+      "deprecated": true
+    }
+  },
+  "type": "object"
+}

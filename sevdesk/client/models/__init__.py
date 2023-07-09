@@ -96,6 +96,12 @@ from .contact_model_parent import ContactModelParent
 from .contact_model_sev_client import ContactModelSevClient
 from .contact_model_tax_set import ContactModelTaxSet
 from .contact_model_tax_type import ContactModelTaxType
+from .contact_response_model import ContactResponseModel
+from .contact_response_model_category import ContactResponseModelCategory
+from .contact_response_model_parent import ContactResponseModelParent
+from .contact_response_model_sev_client import ContactResponseModelSevClient
+from .contact_response_model_tax_set import ContactResponseModelTaxSet
+from .contact_response_model_tax_type import ContactResponseModelTaxType
 from .create_check_account_response_201 import CreateCheckAccountResponse201
 from .create_communication_way_response_201 import CreateCommunicationWayResponse201
 from .create_contact_address_response_201 import CreateContactAddressResponse201
@@ -164,6 +170,9 @@ from .factory_discount_save import FactoryDiscountSave
 from .factory_invoice import FactoryInvoice
 from .factory_invoice_position_delete import FactoryInvoicePositionDelete
 from .factory_invoice_position_save import FactoryInvoicePositionSave
+from .find_contacts_by_custom_field_value_response_200 import (
+    FindContactsByCustomFieldValueResponse200,
+)
 from .get_accounting_types_response_200 import GetAccountingTypesResponse200
 from .get_accounting_types_response_200_objects_item import (
     GetAccountingTypesResponse200ObjectsItem,
@@ -298,6 +307,12 @@ __all__ = (
     "ContactModelSevClient",
     "ContactModelTaxSet",
     "ContactModelTaxType",
+    "ContactResponseModel",
+    "ContactResponseModelCategory",
+    "ContactResponseModelParent",
+    "ContactResponseModelSevClient",
+    "ContactResponseModelTaxSet",
+    "ContactResponseModelTaxType",
     "CreateCheckAccountResponse201",
     "CreateCommunicationWayResponse201",
     "CreateContactAddressResponse201",
@@ -356,6 +371,7 @@ __all__ = (
     "FactoryInvoice",
     "FactoryInvoicePositionDelete",
     "FactoryInvoicePositionSave",
+    "FindContactsByCustomFieldValueResponse200",
     "GetAccountingTypesResponse200",
     "GetAccountingTypesResponse200ObjectsItem",
     "GetAccountingTypesResponse200ObjectsItemAccountingSystemNumber",

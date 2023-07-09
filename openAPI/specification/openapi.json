@@ -27,16 +27,19 @@
             "$ref": "./banking/paths/CheckAccount.json"
         },
         "/CheckAccount/{checkAccountId}": {
-          "$ref": "./banking/paths/getCheckAccountById.json"
+            "$ref": "./banking/paths/getCheckAccountById.json"
         },
         "/CheckAccount/{checkAccountId}/getBalanceAtDate": {
-          "$ref": "./banking/paths/getBalanceAtDate.json"
+            "$ref": "./banking/paths/getBalanceAtDate.json"
         },
         "/CheckAccountTransaction": {
-          "$ref": "./banking/paths/CheckAccountTransaction.json"
+            "$ref": "./banking/paths/CheckAccountTransaction.json"
         },
         "/CheckAccountTransaction/{checkAccountTransactionId}": {
-          "$ref": "./banking/paths/getCheckAccountTransactionById.json"
+            "$ref": "./banking/paths/getCheckAccountTransactionById.json"
+        },
+        "/Contact/Factory/findContactsByCustomFieldValue": {
+            "$ref": "./contact/paths/findContactsByCustomFieldValue.json"
         },
         "/Contact/Factory/getNextCustomerNumber": {
             "$ref": "./contact/paths/getNextCustomerNumber.json"

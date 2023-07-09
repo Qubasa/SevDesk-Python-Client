@@ -17,6 +17,9 @@
     "CheckAccountUpdate": {
         "$ref": "./banking/schemas/CheckAccountUpdate.json"
     },
+    "ContactResponse": {
+        "$ref": "./contact/schemas/ContactResponse.json"
+    },
     "Contact": {
         "$ref": "./contact/schemas/Contact.json"
     },
