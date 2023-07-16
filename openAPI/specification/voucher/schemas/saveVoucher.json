@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "required": ["voucher", "voucherPos"],
+  "properties": {
+    "voucher": {
+      "$ref": "./Model_Voucher.json"
+    },
+    "voucherPosSave": {
+      "type": "array",
+      "items": {
+        "$ref": "./Model_VoucherPos.json"
+      }
+    },
+    "voucherPosDelete": {
+      "required": ["id", "objectName"],
+      "properties": {
+        "id": {
+          "description": "Id of voucher position",
+          "type": "integer"
+        },
+        "objectName": {
+          "description": "Object name of voucher position",
+          "type": "string"
+        }
+      },
+      "default": null
+    },
+    "filename": {
+      "description": "Filename of a previously upload file which should be attached.",
+      "type": "string"
+    }
+  }
+}

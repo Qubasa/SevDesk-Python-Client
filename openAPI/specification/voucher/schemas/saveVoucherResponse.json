@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "voucher": {
+      "$ref": "./Model_VoucherResponse.json"
+    },
+    "voucherPos": {
+      "type": "array",
+      "items": {
+        "$ref": "./Model_VoucherPosResponse.json"
+      }
+    },
+    "filename": {
+      "description": "Filename of a previously upload file which should be attached.",
+      "type": "string",
+      "format": "binary"
+    }
+  }
+}

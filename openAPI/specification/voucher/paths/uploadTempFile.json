@@ -1,0 +1,80 @@
+{
+  "post": {
+    "tags": ["Voucher"],
+    "summary": "Upload voucher file",
+    "description": "To attach a document to a voucher, you will need to upload it first for later use.<br> To do this, you can use this request.<br> When you successfully uploaded the file, you will get a sevDesk internal filename in the response.<br> The filename will be a hash generated from your uploaded file. You will need it in the next request!<br> After you got the just mentioned filename, you can enter it as a value for the filename parameter of the saveVoucher request.<br> If you provided all necessary parameters and kept all of them in the right order, the file will be attached to your voucher.",
+    "operationId": "voucherUploadFile",
+    "requestBody": {
+      "description": "File to upload",
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "properties": {
+              "file": {
+                "description": "The file to upload",
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "type": "object"
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "A pdf file",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "objects": {
+                  "type": "object",
+                  "properties": {
+                    "pages": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "mimeType": {
+                      "type": "string",
+                      "example": "image/jpg"
+                    },
+                    "originMimeType": {
+                      "type": "string",
+                      "example": "application/pdf"
+                    },
+                    "filename": {
+                      "type": "string",
+                      "example": "f019bec36c65f5a0e7d2c63cc33f0681.pdf"
+                    },
+                    "contentHash": {
+                      "type": "string",
+                      "example": "1998dea8c6e9e489139caf896690641c0ea065ce5770b51cf2a4d10797f99685"
+                    },
+                    "content": {
+                      "type": "array",
+                      "items": {
+                        "example": null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request"
+      },
+      "401": {
+        "description": "Authentication required"
+      },
+      "500": {
+        "description": "Server Error"
+      }
+    },
+    "deprecated": false
+  }
+}

@@ -149,6 +149,12 @@
         },
         "/CreditNotePos": {
             "$ref": "./creditnote/paths/CreditNotePos.json"
+        },
+        "/Voucher/Factory/saveVoucher": {
+            "$ref": "./voucher/paths/saveVoucher.json"
+        },
+        "/Voucher/Factory/uploadTempFile": {
+            "$ref": "./voucher/paths/uploadTempFile.json"
         }
     },
     "components": {

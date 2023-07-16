@@ -85,5 +85,23 @@
     },
     "FactoryCreditNotePositionSave": {
         "$ref": "./creditnote/schemas/FactoryCreditNotePositionSave.json"
+    },
+    "Model_Voucher": {
+        "$ref": "./voucher/schemas/Model_Voucher.json"
+    },
+    "Model_VoucherPos": {
+        "$ref": "./voucher/schemas/Model_VoucherPos.json"
+    },
+    "Model_VoucherPosResponse": {
+        "$ref": "./voucher/schemas/Model_VoucherPosResponse.json"
+    },
+    "Model_VoucherResponse": {
+        "$ref": "./voucher/schemas/Model_VoucherResponse.json"
+    },
+    "saveVoucherResponse": {
+        "$ref": "./voucher/schemas/saveVoucherResponse.json"
+    },
+    "validationError": {
+        "$ref": "./voucher/schemas/validationError.json"
     }
 }

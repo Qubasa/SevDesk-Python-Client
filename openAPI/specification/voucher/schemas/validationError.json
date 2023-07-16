@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "exceptionUUID": {
+          "type": "string",
+          "description": "An identifier of this exact problem that can be given to the support team."
+        }
+      }
+    }
+  }
+}
