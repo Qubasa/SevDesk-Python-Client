@@ -245,7 +245,7 @@ class CheckAccountTransactionResponseModel:
 
         _enshrined = d.pop("enshrined", UNSET)
         enshrined: Union[Unset, datetime.datetime]
-        if isinstance(_enshrined, Unset):
+        if isinstance(_enshrined, Unset) or _enshrined is None:
             enshrined = UNSET
         else:
             enshrined = isoparse(_enshrined)

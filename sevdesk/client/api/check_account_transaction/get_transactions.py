@@ -13,6 +13,7 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     client: Client,
+    offset: int = 0,
     check_accountid: Union[Unset, None, int] = UNSET,
     check_accountobject_name: Union[Unset, None, str] = UNSET,
     is_booked: Union[Unset, None, bool] = UNSET,
@@ -36,6 +37,8 @@ def _get_kwargs(
     params["isBooked"] = is_booked
 
     params["paymtPurpose"] = paymt_purpose
+
+    params["offset"] = offset
 
     json_start_date: Union[Unset, None, str] = UNSET
     if not isinstance(start_date, Unset):
@@ -104,6 +107,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: Client,
+    offset: int,
     check_accountid: Union[Unset, None, int] = UNSET,
     check_accountobject_name: Union[Unset, None, str] = UNSET,
     is_booked: Union[Unset, None, bool] = UNSET,
@@ -139,6 +143,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         client=client,
+        offset=offset,
         check_accountid=check_accountid,
         check_accountobject_name=check_accountobject_name,
         is_booked=is_booked,
@@ -161,6 +166,7 @@ def sync_detailed(
 def sync(
     *,
     client: Client,
+    offset: int = 0,
     check_accountid: Union[Unset, None, int] = UNSET,
     check_accountobject_name: Union[Unset, None, str] = UNSET,
     is_booked: Union[Unset, None, bool] = UNSET,
@@ -196,6 +202,7 @@ def sync(
 
     return sync_detailed(
         client=client,
+        offset=offset,
         check_accountid=check_accountid,
         check_accountobject_name=check_accountobject_name,
         is_booked=is_booked,
